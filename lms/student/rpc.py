@@ -78,8 +78,6 @@ class RPC(object):
 
         student_dto = request.get_type('ns5:StudentDTO')
 
-        pytest.set_trace()
-
         student = student_dto(
             AdmissionDate=data.convert_to_post().get('AdmissionDate'),
             BranchId=data.convert_to_post().get('BranchId'),
@@ -129,18 +127,13 @@ class RPC(object):
         #     studentListDTO=
         # )
 
-        pytest.set_trace()
-
         try:
             response = request.service.Save(
                 passport=self._passport,
                 studentListDTO=array_student_dto(student)
             )
 
-            pytest.set_trace()
         except Exception as e:
             raise e
-
-        pytest.set_trace()
 
         return response

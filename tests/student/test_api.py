@@ -21,9 +21,9 @@ class StudentTestCaseBase(unittest.TestCase):
         self.fake = Factory.create('pt_BR')
 
 
-class StudentGetAllTestCase(StudentTestCaseBase):
+class StudentTestCase(StudentTestCaseBase):
     """
-    Testes para buscar todos os estudantes
+    Testes para o serviço Student
     """
 
     def test_erro_parametro_get_all(self):
@@ -36,7 +36,10 @@ class StudentGetAllTestCase(StudentTestCaseBase):
             paginate = {}
             self.api.get_all(paginate)
 
-        assert u'Não existe uma instancia para os dados da paginação' in excinfo.value
+        self.assertEqual(
+            'Não existe uma instancia para os dados da paginação',
+            excinfo.value.message
+        )
 
     def test_get_all(self):
 
@@ -45,9 +48,6 @@ class StudentGetAllTestCase(StudentTestCaseBase):
         students = self.api.get_all(paginate)
 
         self.assertEqual(students[0].email, 'webaula@webaula.com.br')
-
-
-class StudentSaveTestCase(StudentTestCaseBase):
 
     def test_save(self):
         """
@@ -65,7 +65,3 @@ class StudentSaveTestCase(StudentTestCaseBase):
         result = self.api.save(data)
 
         self.assertEqual(result, False)
-
-
-# if __name__ == '__main__':
-#     unittest.main()
