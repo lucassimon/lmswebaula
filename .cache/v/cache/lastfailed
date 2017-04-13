@@ -1,4 +1,0 @@
-{
-  "tests/student/test_api.py::StudentGetAllTestCase::test_get_all": true, 
-  "tests/student/test_api.py::StudentSaveTestCase::test_save": true
-}

@@ -143,12 +143,53 @@ class StudentDTO(object):
 
         self._status = value
 
+    @property
+    def password(self):
+        return self._password
+
+    @password.setter
+    def password(self, value):
+
+        self._password = value
+
     def convert_to_post(self):
 
         return {
-            'Name': self.name,
-            'Email': self.email,
-            'CPF': self.cpf,
+            'AdmissionDate': self._admission_date,
+            'BranchId': self._branch_id,
+            'CEP': self._cep,
+            'CPF': self._cpf,
+            'Celular': self._celular,
+            'City': self._city,
+            'Company': self._company,
+            'Complement': self._complement,
+            'DDD': self._ddd,
+            'DateOfBirth': datetime.datetime(1985, 12, 4, 0, 0),
+            'DateOfRegistration': datetime.datetime(2005, 7, 4, 14, 55, 16),
+            'DepartmentId': self._department_id,
+            'District': self._district,
+            'Email': self._email,
+            'ForeingStudent': False,
+            'JobId': self._job_id,
+            'LMSBranchId': self._lms_branch_id,
+            'LMSDepartmentId': self._lms_department_id,
+            'LMSJobId': self._lms_job_id,
+            'LMSMaritalStatusId': self._lms_marital_status_id,
+            'LMSSchoolingId': self._lms_schooling_id,
+            'LMSStudentId': self._lms_schooling_id,
+            'LMSTeamId': self._lms_team_id,
+            'Login': self._email,
+            'MaritalStatusId': self._marital_status_id,
+            'Name': self._name,
+            'NickName': self._nick_name,
+            'Number': self._number,
+            'Password': self._password,
+            'Registration': self._registration,
+            'SchoolingId': self._schooling_id,
+            'Sex': self._sex,
+            'StateAbbreviation': self._state_abbreviation,
+            'StudentId': self._student_id,
+            'TeamId': self._team_id
         }
 
 
