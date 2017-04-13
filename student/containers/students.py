@@ -6,7 +6,7 @@ from lmswebaula.core.containers.response import (
 )
 
 
-class StudentRQ(object):
+class SaveStudentRQ(object):
 
     _lms_student_id = ''
     _student_id = ''
