@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 
-from lmswebaula.core.containers.response import (
+from lmswebaula.lms.core.containers.response import (
     ContainerResponse, ErrorListResponse
 )
 
 
-class SaveStudentRQ(object):
+class Student(object):
 
     _lms_student_id = ''
     _student_id = ''
@@ -34,14 +35,4 @@ class SaveStudentRQ(object):
     _company = ''
 
     def __init__(self):
-        pass
-
-
-class StudentRS(ContainerResponse):
-
-    _student = None
-    _errors = []
-
-    def __init__(self):
-
         pass

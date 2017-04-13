@@ -1,0 +1,7 @@
+-r requirements.txt
+ipdb
+pytest
+pytest-cov
+pytest-runner
+pdbpp
+Faker
