@@ -8,11 +8,11 @@ from datetime import datetime
 
 from faker import Factory
 
-from lmswebaula.lms.student.api import API
-from lmswebaula.lms.student.containers import *
+from lmswebaula.lms.course.api import API
+from lmswebaula.lms.course.containers import *
 
 
-class StudentTestCaseBase(unittest.TestCase):
+class CourseTestCaseBase(unittest.TestCase):
 
     def setUp(self):
 
@@ -21,7 +21,7 @@ class StudentTestCaseBase(unittest.TestCase):
         self.fake = Factory.create('pt_BR')
 
 
-class StudentTestCase(StudentTestCaseBase):
+class CourseTestCase(CourseTestCaseBase):
     """
     Testes para o serviço Student
     """
@@ -45,23 +45,8 @@ class StudentTestCase(StudentTestCaseBase):
 
         paginate = GetAllRQ(page=1, page_size=1)
 
-        students = self.api.get_all(paginate)
+        courses = self.api.get_all(paginate)
 
-        self.assertEqual(students[0].email, 'webaula@webaula.com.br')
+        pytest.set_trace();
 
-    def test_save(self):
-        """
-        Erro ao salvar um estudante
-        """
-
-        data = StudentDTO(
-            cpf=self.fake.cpf(),
-            email=self.fake.email(),
-            login=self.fake.email(),
-            name=u'Teste {}'.format(self.fake.name()),
-            sex='M',
-        )
-
-        # result = self.api.save(data)
-
-        self.assertEqual(False, False)
+        self.assertEqual(True, False)
