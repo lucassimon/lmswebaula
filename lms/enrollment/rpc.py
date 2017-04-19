@@ -5,7 +5,7 @@ import pytest
 import datetime
 
 from zeep import Client
-from lmswebaula.lms.student.containers import *
+from lmswebaula.lms.enrollment.containers import *
 
 import logging.config
 
@@ -43,10 +43,22 @@ class RPC(object):
         self._login = login
         self._passport = passport
 
-    def get_all(self, paginate):
+    def enrollment_course(self, data_rq):
 
-        pass
+        if not isinstance(data_rq, EnrollmentCourseRQ):
+            raise ValueError(
+                "Não existe uma instância para os dados da matricula"
+            )
 
-    def save(self, data):
+        request = Client(self._login.url)
 
-        pass
+        try:
+            response = request.service.EnrollmentCourse(
+                passport=self._passport,
+                lmsStudentId=data_rq.lms_student_id,
+                lmsClassId=data_rq.lms_class_id
+            )
+        except Exception as e:
+            raise e
+
+        return response
