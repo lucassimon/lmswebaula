@@ -5,18 +5,14 @@ import pytest
 
 from lmswebaula.lms.core.containers.login import LoginRQ
 
-from lmswebaula.lms.student.containers import *
+from lmswebaula.lms.course.containers import *
 
-from lmswebaula.lms.student.rpc import (
-    RPC as StudentRPC
+from lmswebaula.lms.course.rpc import (
+    RPC as CourseRPC
 )
 
-from lmswebaula.lms.student.containers.students import (
-    StudentRS
-)
-
-from lmswebaula.lms.student.parse import (
-    StudentParse
+from lmswebaula.lms.course.parse import (
+    CourseParse
 )
 
 
@@ -36,7 +32,7 @@ class API(object):
 
         login = LoginRQ(passport, url=self.ENDPOINT)
 
-        self.rpc = StudentRPC(
+        self.rpc = CourseRPC(
             login=login,
             passport=passport
         )
@@ -66,11 +62,18 @@ class API(object):
 
         # tratar os dados
 
-        courses = CourseParse.get_all(response)
+        data = CourseParse.get_all(response)
 
         # Retornar o course response
 
-        return courses
+        data_rs = GetAllCourseRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg'],
+            data=data
+        )
+
+        return data_rs
 
     def save(self, student_rq):
         """
