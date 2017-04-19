@@ -85,72 +85,28 @@ class RPC(object):
 
     def save(self, data):
 
-        if not isinstance(data, StudentDTO):
+        if not isinstance(data, SaveRQ):
             raise ValueError(
                 "Não existe dados para o estudante"
             )
 
         request = Client(self._login.url)
 
-        save_type = request.get_element('ns0:Save')
-
-        array_student_dto = request.get_type('ns5:ArrayOfStudentDTO')
-
         student_dto = request.get_type('ns5:StudentDTO')
 
         student = student_dto(
-            AdmissionDate=data.convert_to_post().get('AdmissionDate'),
-            BranchId=data.convert_to_post().get('BranchId'),
-            CEP=data.convert_to_post().get('CEP'),
-            CPF=data.convert_to_post().get('CPF'),
-            Celular=data.convert_to_post().get('Celular'),
-            City=data.convert_to_post().get('City'),
-            Company=data.convert_to_post().get('Company'),
-            Complement=data.convert_to_post().get('Complement'),
-            DDD=data.convert_to_post().get('DDD'),
-            DateOfBirth=datetime.datetime(1985, 12, 4, 0, 0),
-            DepartmentId=data.convert_to_post().get('DepartmentId'),
-            District=data.convert_to_post().get('District'),
-            Email=data.convert_to_post().get('Email'),
-            ForeingStudent=False,
-            JobId=data.convert_to_post().get('JobId'),
-            LMSBranchId=data.convert_to_post().get('DepartmentId'),
-            LMSDepartmentId=data.convert_to_post().get('DepartmentId'),
-            LMSFreeTable1=data.convert_to_post().get('DepartmentId'),
-            LMSFreeTable2=data.convert_to_post().get('DepartmentId'),
-            LMSFreeTable5=data.convert_to_post().get('DepartmentId'),
-            LMSJobId=data.convert_to_post().get('DepartmentId'),
-            LMSMaritalStatusId=data.convert_to_post().get('DepartmentId'),
-            LMSSchoolingId=data.convert_to_post().get('DepartmentId'),
-            LMSStudentId=data.convert_to_post().get('DepartmentId'),
-            LMSTeamId=data.convert_to_post().get('DepartmentId'),
-            LevelList=data.convert_to_post().get('DepartmentId'),
-            Login=data.convert_to_post().get('email'),
-            MaritalStatusId=data.convert_to_post().get('DepartmentId'),
-            Name='Teste WebAula Corporativo',
-            NickName=data.convert_to_post().get('DepartmentId'),
-            Number=data.convert_to_post().get('DepartmentId'),
-            Password=data.convert_to_post().get('DepartmentId'),
-            Registration=data.convert_to_post().get('DepartmentId'),
-            SchoolingId=data.convert_to_post().get('DepartmentId'),
-            SectorList=data.convert_to_post().get('DepartmentId'),
-            Sex='Male',
-            StateAbbreviation=data.convert_to_post().get('DepartmentId'),
-            StudentId=data.convert_to_post().get('DepartmentId'),
-            TeamId=data.convert_to_post().get('DepartmentId'),
+            Registration=data.registration,
+            Name=data.name,
+            Email=data.email,
+            CPF=data.cpf,
+            Status=data.status,
+            Password=data.password,
         )
-
-        # array_student_dto(StudentDTO=student)
-
-        # save = save_type(
-        #     passport=self._passport,
-        #     studentListDTO=
-        # )
 
         try:
             response = request.service.Save(
                 passport=self._passport,
-                studentListDTO=array_student_dto(student)
+                studentListDTO=[student]
             )
 
         except Exception as e:
