@@ -37,16 +37,24 @@ class CourseTestCase(CourseTestCaseBase):
             self.api.get_all(paginate)
 
         self.assertEqual(
-            'Não existe uma instancia para os dados da paginação',
+            u'Não existe uma instancia para os dados da paginação',
             excinfo.value.message
         )
 
-    def test_get_all(self):
+    def test_e_instancia_get_all_course_rs(self):
 
         paginate = GetAllRQ(page=1, page_size=1)
 
-        courses = self.api.get_all(paginate)
+        course_rs = self.api.get_all(paginate)
 
-        pytest.set_trace();
+        self.assertIsInstance(course_rs, GetAllCourseRS)
 
-        self.assertEqual(True, False)
+    def test_sucesso_get_all(self):
+
+        paginate = GetAllRQ(page=1, page_size=12)
+
+        res = self.api.get_all(paginate)
+
+        courses = res.data_list
+
+        self.assertEqual(courses[0].name, 'TCC')
