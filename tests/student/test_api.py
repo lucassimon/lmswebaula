@@ -41,27 +41,119 @@ class StudentTestCase(StudentTestCaseBase):
             excinfo.value.message
         )
 
-    def test_get_all(self):
+    def test_resposta_instancia_get_all_students_rs(self):
+        """
+        Verifica se a instancia de resposta é um GetAllStudentRS
+        """
 
         paginate = GetAllRQ(page=1, page_size=1)
 
-        students = self.api.get_all(paginate)
+        res = self.api.get_all(paginate)
 
-        self.assertEqual(students[0].email, 'webaula@webaula.com.br')
+        self.assertIsInstance(res, GetAllStudentRS)
+
+    def test_get_all(self):
+        """
+        Testa se o retorno da resposta veio com sucesso
+        """
+
+        paginate = GetAllRQ(page=1, page_size=12)
+
+        res = self.api.get_all(paginate)
+
+        self.assertEqual(res.data_list[0].email, 'webaula@webaula.com.br')
+
+    def test_erro_parametro_set_status(self):
+        """
+        Testa erro ao não setar um parametro na metodo set_status
+        """
+
+        with pytest.raises(ValueError) as excinfo:
+
+            status = {}
+            self.api.set_status(status)
+
+        self.assertEqual(
+            'Não existe uma instancia para os dados do status',
+            excinfo.value.message
+        )
+
+    def test_resposta_instancia_status_rs(self):
+
+        paginate = GetAllRQ(page=1, page_size=12)
+
+        res = self.api.get_all(paginate)
+
+        student_test = res.data_list[3]
+
+        status = StatusRQ(
+            lms_student_id=student_test.lms_student_id,
+            active=True
+        )
+
+        res = self.api.set_status(status)
+
+        self.assertIsInstance(res, StatusRS)
+
+    def test_set_status_active_false(self):
+
+        paginate = GetAllRQ(page=1, page_size=12)
+
+        res = self.api.get_all(paginate)
+
+        student_test = res.data_list[3]
+
+        status = StatusRQ(
+            lms_student_id=student_test.lms_student_id,
+            active=False
+        )
+
+        res = self.api.set_status(status)
+
+        self.assertEqual(res.has_error, False)
+
+        res = self.api.get_all(paginate)
+
+        student_test = res.data_list[3]
+
+        self.assertEqual(student_test.status, False)
+
+    def test_set_status_active_true(self):
+
+        paginate = GetAllRQ(page=1, page_size=12)
+
+        res = self.api.get_all(paginate)
+
+        student_test = res.data_list[3]
+
+        status = StatusRQ(
+            lms_student_id=student_test.lms_student_id,
+            active=True
+        )
+
+        res = self.api.set_status(status)
+
+        self.assertEqual(res.has_error, False)
+
+        res = self.api.get_all(paginate)
+
+        student_test = res.data_list[3]
+
+        self.assertEqual(student_test.status, True)
 
     def test_save(self):
         """
         Erro ao salvar um estudante
         """
 
-        data = StudentDTO(
-            cpf=self.fake.cpf(),
-            email=self.fake.email(),
-            login=self.fake.email(),
-            name=u'Teste {}'.format(self.fake.name()),
-            sex='M',
-        )
+        # data = StudentDTO(
+        #     cpf=self.fake.cpf(),
+        #     email=self.fake.email(),
+        #     login=self.fake.email(),
+        #     name=u'Teste {}'.format(self.fake.name()),
+        #     sex='M',
+        # )
 
-        # result = self.api.save(data)
+        # # result = self.api.save(data)
 
         self.assertEqual(False, False)
