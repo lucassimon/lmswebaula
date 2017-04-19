@@ -67,11 +67,48 @@ class API(object):
 
         # tratar os dados
 
-        students = StudentParse.get_all(response)
+        data = StudentParse.get_all(response)
 
         # Retornar o student response
 
-        return students
+        data_rs = GetAllStudentRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg'],
+            data=data
+        )
+
+        return data_rs
+
+    def set_status(self, status_rq):
+        """
+        Seta o status para ativo ou inativo de acordo
+        com o Id do estudante
+        """
+
+        if not isinstance(status_rq, StatusRQ):
+            raise ValueError(
+                "Não existe uma instancia para os dados do status"
+            )
+
+        try:
+            response = self.rpc.set_status(status_rq)
+        except Exception as e:
+            raise e
+
+        # Verificar se tem erro na resposta
+
+        self._verifica_exception(response)
+
+        # Retornar o student response
+
+        data_rs = StatusRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg'],
+        )
+
+        return data_rs
 
     def save(self, student_rq):
         """
@@ -90,6 +127,6 @@ class API(object):
 
         self._verifica_exception(response)
 
-        result = StudentRS()
+        data_rs = StudentRS()
 
-        return result
+        return data_rs
