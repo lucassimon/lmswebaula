@@ -5,19 +5,9 @@ import pytest
 
 from lmswebaula.lms.core.containers.login import LoginRQ
 
-from lmswebaula.lms.student.containers import *
+from lmswebaula.lms.enrollment.containers import *
 
-from lmswebaula.lms.student.rpc import (
-    RPC as StudentRPC
-)
-
-from lmswebaula.lms.student.containers.students import (
-    StudentRS
-)
-
-from lmswebaula.lms.student.parse import (
-    StudentParse
-)
+from lmswebaula.lms.enrollment.rpc import RPC
 
 
 class API(object):
@@ -36,7 +26,7 @@ class API(object):
 
         login = LoginRQ(passport, url=self.ENDPOINT)
 
-        self.rpc = StudentRPC(
+        self.rpc = RPC(
             login=login,
             passport=passport
         )
