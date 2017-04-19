@@ -12,13 +12,14 @@ class StudentParse(object):
     @staticmethod
     def get_all(response):
 
-        students = []
+        data = []
         ws_students = response['StudentListDTO']['StudentDTO']
 
         for std in ws_students:
 
-            students.append(
+            data.append(
                 StudentDTO(
+                    lms_student_id=std['LMSStudentId'],
                     cpf=std['CPF'],
                     date_of_birth=std['DateOfBirth'],
                     email=std['Email'],
@@ -29,4 +30,4 @@ class StudentParse(object):
                 )
             )
 
-        return students
+        return data
