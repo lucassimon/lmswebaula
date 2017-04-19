@@ -63,6 +63,26 @@ class RPC(object):
 
         return response
 
+    def set_status(self, status):
+
+        if not isinstance(status, StatusRQ):
+            raise ValueError(
+                "Não existe uma instância para os dados do status"
+            )
+
+        request = Client(self._login.url)
+
+        try:
+            response = request.service.SetStatus(
+                passport=self._passport,
+                lmsStudentId=status.lms_student_id,
+                active=status.active
+            )
+        except Exception as e:
+            raise e
+
+        return response
+
     def save(self, data):
 
         if not isinstance(data, StudentDTO):
