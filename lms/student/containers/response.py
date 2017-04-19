@@ -63,6 +63,7 @@ class StudentDTO(object):
 
     def __init__(
         self,
+        lms_student_id,
         cpf,
         email,
         login,
@@ -71,7 +72,7 @@ class StudentDTO(object):
         date_of_birth=None,
         status=None
     ):
-
+        self._lms_student_id = lms_student_id
         self._cpf = cpf
         self._date_of_birth = date_of_birth
         self._email = email
@@ -152,6 +153,15 @@ class StudentDTO(object):
 
         self._password = value
 
+    @property
+    def lms_student_id(self):
+        return self._lms_student_id
+
+    @lms_student_id.setter
+    def lms_student_id(self, value):
+
+        self._lms_student_id = value
+
     def convert_to_post(self):
 
         return {
@@ -164,8 +174,7 @@ class StudentDTO(object):
             'Company': self._company,
             'Complement': self._complement,
             'DDD': self._ddd,
-            'DateOfBirth': datetime.datetime(1985, 12, 4, 0, 0),
-            'DateOfRegistration': datetime.datetime(2005, 7, 4, 14, 55, 16),
+            'DateOfBirth': self._date_of_birth,
             'DepartmentId': self._department_id,
             'District': self._district,
             'Email': self._email,
@@ -191,81 +200,3 @@ class StudentDTO(object):
             'StudentId': self._student_id,
             'TeamId': self._team_id
         }
-
-
-class StudentRS(ContainerResponse):
-    """
-
-    Url: http://lmsapi.webaula.com.br/v3/DOC/API.aspx?s=Student&m=GetAll
-
-    {
-        Guid: 8c0a5920-c24b-4ded-b59b-d5085268cd96
-        Msg: A pagina deve ser maior que 0,
-        PaginationInfo: {
-            NumberOfPages: None,
-            Page: None,
-            PageSize: None,
-            TotalAmount: None
-        },
-        hasError: True,
-        ErrorList: {
-            EntityId: []
-        },
-        StudentListDTO: {
-            StudentDTO: []
-        },
-            TranscriptListDTO: {
-            StudentCourseSituationDTO: []
-        }
-    }
-    """
-
-    _student_list = []
-
-    def __init__(self, error=True, guid='', msg='', students=[]):
-
-        self._has_error = error
-        self._guid = guid
-        self._msg = msg
-        self._student_list = students
-
-    @property
-    def has_error(self):
-        return self._has_error
-
-    @has_error.setter
-    def has_error(self, value):
-
-        self._has_error = value
-
-    @property
-    def guid(self):
-        return self._guid
-
-    @guid.setter
-    def guid(self, value):
-
-        self._guid = value
-
-    @property
-    def msg(self):
-        return self._msg
-
-    @msg.setter
-    def msg(self, value):
-
-        self._msg = value
-
-    @property
-    def student_list(self):
-        return self._student_list
-
-    @student_list.setter
-    def student_list(self, value):
-
-        if not isinstance(value, list):
-            raise ValueError(
-                'Os estudantes precisa ser uma lista'
-            )
-
-        self._student_list = value
