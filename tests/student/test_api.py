@@ -141,19 +141,39 @@ class StudentTestCase(StudentTestCaseBase):
 
         self.assertEqual(student_test.status, True)
 
+    def test_erro_parametro_save(self):
+        """
+        Testa erro ao não passar nenhum parametro de estudante no metodo Save
+        """
+
+        with pytest.raises(ValueError) as excinfo:
+
+            student = {}
+            self.api.save(student)
+
+        self.assertEqual(
+            'Não existe uma instância para os dados do estudante',
+            excinfo.value.message
+        )
+
     def test_save(self):
         """
         Erro ao salvar um estudante
         """
 
-        # data = StudentDTO(
-        #     cpf=self.fake.cpf(),
-        #     email=self.fake.email(),
-        #     login=self.fake.email(),
-        #     name=u'Teste {}'.format(self.fake.name()),
-        #     sex='M',
-        # )
+        data = SaveRQ(
+            name=u'Teste {}'.format(self.fake.name()),
+            email=self.fake.email(),
+            cpf=self.fake.cpf(),
+            password=self.fake.password(
+                length=10,
+                special_chars=True,
+                digits=True,
+                upper_case=True,
+                lower_case=True
+            ),
+        )
 
-        # # result = self.api.save(data)
+        res = self.api.save(data)
 
-        self.assertEqual(False, False)
+        self.assertEqual(res.has_error, False)
