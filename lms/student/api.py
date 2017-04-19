@@ -115,7 +115,7 @@ class API(object):
         Cria/Atualiza um aluno
         """
 
-        if not isinstance(student_rq, StudentDTO):
+        if not isinstance(student_rq, SaveRQ):
             raise ValueError(
                 "Não existe uma instância para os dados do estudante"
             )
@@ -127,6 +127,10 @@ class API(object):
 
         self._verifica_exception(response)
 
-        data_rs = StudentRS()
+        data_rs = SaveRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg']
+        )
 
         return data_rs
