@@ -111,6 +111,8 @@ class RPC(object):
 
         request = Client(self._login.url)
 
+        array_student_dto = request.get_type('ns5:ArrayOfStudentDTO')
+
         student_dto = request.get_type('ns5:StudentDTO')
 
         student = student_dto(
@@ -122,10 +124,12 @@ class RPC(object):
             Password=data.password,
         )
 
+        student_list = array_student_dto(StudentDTO=student)
+
         try:
             response = request.service.Save(
                 passport=self._passport,
-                studentListDTO=[student]
+                studentListDTO=student_list
             )
 
         except Exception as e:
