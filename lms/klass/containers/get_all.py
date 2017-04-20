@@ -35,32 +35,15 @@ class GetAllKlassRS(ContainerResponse):
         self._data_list = data
 
     @property
-    def has_error(self):
-        return self._has_error
-
-    @has_error.setter
-    def has_error(self, value):
-
-        self._has_error = value
-
-    @property
-    def guid(self):
-        return self._guid
-
-    @guid.setter
-    def guid(self, value):
-
-        self._guid = value
-
-    @property
-    def msg(self):
-        return self._msg
-
-    @msg.setter
-    def msg(self, value):
-
-        self._msg = value
-
-    @property
     def data_list(self):
         return self._data_list
+
+    @data_list.setter
+    def data_list(self, value):
+
+        if not isinstance(value, list):
+            raise ValueError(
+                'A classe precisa estar em uma lista'
+            )
+
+        self._data_list = value
