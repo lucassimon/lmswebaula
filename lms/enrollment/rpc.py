@@ -52,11 +52,14 @@ class RPC(object):
 
         request = Client(self._login.url)
 
+        now = datetime.datetime.now()
+
         try:
             response = request.service.EnrollmentCourse(
                 passport=self._passport,
-                lmsStudentId=data_rq.lms_student_id,
-                lmsClassId=data_rq.lms_class_id
+                lmsStudentId=data_rq.student_id,
+                lmsClassId=data_rq.class_id,
+                termAccess=now
             )
         except Exception as e:
             raise e
