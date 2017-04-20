@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 import pytest
 
+from lmswebaula.lms.core.api import APIBase
 from lmswebaula.lms.core.containers.login import LoginRQ
 from lmswebaula.lms.core.containers.error import ErrorRS
 
@@ -11,7 +12,7 @@ from lmswebaula.lms.enrollment.containers import *
 from lmswebaula.lms.enrollment.rpc import RPC
 
 
-class API(object):
+class API(APIBase):
     """
     Api para servico com a solução LMS do WebAula
 
@@ -31,27 +32,6 @@ class API(object):
             login=login,
             passport=passport
         )
-
-    def _verifica_response_none(self, res):
-
-        if res is None:
-
-            return True
-
-        return False
-
-    def _verifica_response_has_error(self, res):
-
-        if res['hasError']:
-
-            return True
-
-        return False
-
-    def _verifica_exception(self, res, execption_class=Exception):
-
-        if res['hasError']:
-            raise execption_class(res['Msg'])
 
     def enrollment_course(self, data_rq):
         """
@@ -85,6 +65,43 @@ class API(object):
         self._verifica_exception(response)
 
         res = EnrollmentCourseRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg']
+        )
+
+        return res
+
+    def set_status_in_class(self, data_rq):
+        """
+        Altera o status de uma matricula.
+        """
+
+        if not isinstance(data_rq, SetStatusInClassRQ):
+            raise ValueError(
+                "Não existe uma instância para os dados do status"
+            )
+
+        try:
+            response = self.rpc.set_status_in_class(data_rq)
+        except Exception as e:
+            raise e
+
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
+
+        res = SetStatusInClassRS(
             error=response['hasError'],
             guid=response['Guid'],
             msg=response['Msg']
