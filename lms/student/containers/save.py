@@ -40,7 +40,7 @@ class SaveRQ(object):
         email,
         cpf,
         password,
-        student_id,
+        student_id=None,
         registration=None
     ):
         self._name = name
@@ -133,6 +133,9 @@ class SaveRS(ContainerResponse):
             )
 
         self._data_list = data
+        self._has_error = error
+        self._guid = guid
+        self._msg = msg
 
     @property
     def data_list(self):
