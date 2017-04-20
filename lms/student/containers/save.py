@@ -40,12 +40,14 @@ class SaveRQ(object):
         email,
         cpf,
         password,
+        student_id,
         registration=None
     ):
         self._name = name
         self._email = email
         self._cpf = cpf
         self._password = password
+        self._student_id = student_id
 
         if registration is None:
             self._registration = cpf
@@ -105,6 +107,15 @@ class SaveRQ(object):
     def status(self, value):
 
         self._status = value
+
+    @property
+    def student_id(self):
+        return self._student_id
+
+    @student_id.setter
+    def student_id(self, value):
+
+        self._student_id = value
 
 
 class SaveRS(ContainerResponse):
