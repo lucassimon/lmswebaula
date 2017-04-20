@@ -77,6 +77,25 @@ class RPC(object):
 
         return response
 
+    def get_by_course_id(self, data):
+
+        if not isinstance(data, GetByCourseIdRQ):
+            raise ValueError(
+                "Não existe uma instancia para os dados de estudante"
+            )
+
+        request = Client(self._login.url)
+
+        try:
+            response = request.service.GetByCourseId(
+                passport=self._passport,
+                lmsCourseId=data.lms_course_id,
+            )
+        except Exception as e:
+            raise e
+
+        return response
+
     def save(self, data):
 
         pass

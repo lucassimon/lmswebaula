@@ -3,7 +3,9 @@ from __future__ import unicode_literals
 
 import pytest
 
+from lmswebaula.lms.core.api import APIBase
 from lmswebaula.lms.core.containers.login import LoginRQ
+from lmswebaula.lms.core.containers.error import ErrorRS
 
 from lmswebaula.lms.klass.containers import *
 
@@ -16,7 +18,7 @@ from lmswebaula.lms.klass.parse import (
 )
 
 
-class API(object):
+class API(APIBase):
     """
     Api para servico com a solução LMS do WebAula
 
@@ -36,11 +38,6 @@ class API(object):
             login=login,
             passport=passport
         )
-
-    def _verifica_exception(self, res, execption_class=Exception):
-
-        if res['hasError']:
-            raise execption_class(res['Msg'])
 
     def get_all(self, paginate_rq):
         """
@@ -107,6 +104,46 @@ class API(object):
         )
 
         return data_rs
+
+    def get_by_course_id(self, data_rq):
+        """
+        Recupera a lista de turmas de um curso
+        """
+
+        if not isinstance(data_rq, GetByCourseIdRQ):
+            raise ValueError(
+                "Não existe uma instância para os dados da turma"
+            )
+
+        try:
+            response = self.rpc.get_by_course_id(data_rq)
+        except Exception as e:
+            raise e
+
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
+
+        data = KlassParse.get_all(response)
+
+        res = GetAllKlassRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg'],
+            data=data
+        )
+
+        return res
 
     def save(self, student_rq):
         """
