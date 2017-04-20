@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 import pytest
 
+from lmswebaula.lms.core.api import APIBase
 from lmswebaula.lms.core.containers.login import LoginRQ
 
 from lmswebaula.lms.student.containers import *
@@ -20,7 +21,7 @@ from lmswebaula.lms.student.parse import (
 )
 
 
-class API(object):
+class API(APIBase):
     """
     Api para servico com a solução LMS do WebAula
 
@@ -40,11 +41,6 @@ class API(object):
             login=login,
             passport=passport
         )
-
-    def _verifica_exception(self, res, execption_class=Exception):
-
-        if res['hasError']:
-            raise execption_class(res['Msg'])
 
     def get_all(self, paginate_rq):
         """
@@ -161,10 +157,13 @@ class API(object):
 
         self._verifica_exception(response)
 
+        data = StudentParse.get_all(response)
+
         data_rs = SaveRS(
             error=response['hasError'],
             guid=response['Guid'],
-            msg=response['Msg']
+            msg=response['Msg'],
+            data=data
         )
 
         return data_rs
