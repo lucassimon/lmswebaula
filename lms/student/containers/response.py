@@ -162,6 +162,15 @@ class StudentDTO(object):
 
         self._lms_student_id = value
 
+    @property
+    def student_id(self):
+        return self._student_id
+
+    @student_id.setter
+    def student_id(self, value):
+
+        self._student_id = value
+
     def convert_to_post(self):
 
         return {
