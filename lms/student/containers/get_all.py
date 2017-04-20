@@ -51,6 +51,9 @@ class GetAllStudentRS(ContainerResponse):
             )
 
         self._data_list = data
+        self._has_error = error
+        self._guid = guid
+        self._msg = msg
 
     @property
     def data_list(self):
