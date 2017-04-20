@@ -17,17 +17,22 @@ class StudentParse(object):
 
         for std in ws_students:
 
+            student = StudentDTO(
+                lms_student_id=std['LMSStudentId'],
+                cpf=std['CPF'],
+                date_of_birth=std['DateOfBirth'],
+                email=std['Email'],
+                login=std['Login'],
+                name=std['Name'],
+                sex=std['Sex'],
+                status=std['Status'],
+            )
+
+            if std['StudentId']:
+                student.student_id = std['StudentId']
+
             data.append(
-                StudentDTO(
-                    lms_student_id=std['LMSStudentId'],
-                    cpf=std['CPF'],
-                    date_of_birth=std['DateOfBirth'],
-                    email=std['Email'],
-                    login=std['Login'],
-                    name=std['Name'],
-                    sex=std['Sex'],
-                    status=std['Status'],
-                )
+                student
             )
 
         return data
