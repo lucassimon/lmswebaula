@@ -80,6 +80,40 @@ class API(object):
 
         return data_rs
 
+    def get_by_id(self, data_rq):
+        """
+        Retorna o estudande de acordo com o ID
+        """
+
+        if not isinstance(data_rq, GetByIdRQ):
+            raise ValueError(
+                "Não existe uma instancia para os dados de estudante"
+            )
+
+        try:
+            response = self.rpc.get_by_id(data_rq)
+        except Exception as e:
+            raise e
+
+        # Verificar se tem erro na resposta
+
+        self._verifica_exception(response)
+
+        # tratar os dados
+
+        data = StudentParse.get_all(response)
+
+        # Retornar o student response
+
+        data_rs = GetAllStudentRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg'],
+            data=data
+        )
+
+        return data_rs
+
     def set_status(self, status_rq):
         """
         Seta o status para ativo ou inativo de acordo
