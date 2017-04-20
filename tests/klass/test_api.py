@@ -23,7 +23,7 @@ class KlassTestCaseBase(unittest.TestCase):
 
 class KlassTestCase(KlassTestCaseBase):
     """
-    Testes para o serviço Student
+    Testes para o serviço Class/Turma
     """
 
     def test_erro_parametro_get_all(self):
@@ -48,6 +48,18 @@ class KlassTestCase(KlassTestCaseBase):
         res = self.api.get_all(paginate)
 
         self.assertIsInstance(res, GetAllKlassRS)
+
+    def test_busca_turma_pelo_id(self):
+
+        data_rq = GetByIdRQ(
+            lms_class_id=10
+        )
+
+        res = self.api.get_by_id(data_rq)
+
+        klass_test = res.data_list[0]
+
+        self.assertEqual(klass_test.lms_class_id, 10L)
 
     def test_sucesso_get_all(self):
 

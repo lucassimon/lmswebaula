@@ -110,8 +110,6 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
             lms_class_id=10
         )
 
-        pytest.set_trace()
-
         res = self.api.enrollment_course(data)
 
         self.assertIsInstance(res, EnrollmentCourseRS)

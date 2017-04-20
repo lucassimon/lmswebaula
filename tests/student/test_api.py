@@ -141,6 +141,18 @@ class StudentTestCase(StudentTestCaseBase):
 
         self.assertEqual(student_test.status, True)
 
+    def test_busca_estudante_pelo_id(self):
+
+        data_rq = GetByIdRQ(
+            lms_student_id=15
+        )
+
+        res = self.api.get_by_id(data_rq)
+
+        student_test = res.data_list[0]
+
+        self.assertEqual(student_test.status, True)
+
     def test_erro_parametro_save(self):
         """
         Testa erro ao não passar nenhum parametro de estudante no metodo Save
@@ -172,7 +184,10 @@ class StudentTestCase(StudentTestCaseBase):
                 upper_case=True,
                 lower_case=True
             ),
+            student_id=self.fake.uuid4()
         )
+
+        pytest.set_trace()
 
         res = self.api.save(data)
 
