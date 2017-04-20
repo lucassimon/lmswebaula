@@ -75,6 +75,39 @@ class API(object):
 
         return data_rs
 
+    def get_by_id(self, data_rq):
+        """
+        Recupera uma turma pelo código
+        """
+        if not isinstance(data_rq, GetByIdRQ):
+            raise ValueError(
+                "Não existe uma instancia para os dados do estudante"
+            )
+
+        try:
+            response = self.rpc.get_by_id(data_rq)
+        except Exception as e:
+            raise e
+
+        # Verificar se tem erro na resposta
+
+        self._verifica_exception(response)
+
+        # tratar os dados
+
+        data = KlassParse.get_all(response)
+
+        # Retornar o response
+
+        data_rs = GetAllKlassRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg'],
+            data=data
+        )
+
+        return data_rs
+
     def save(self, student_rq):
         """
         Cria/Atualiza uma classe
