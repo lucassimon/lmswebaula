@@ -60,6 +60,7 @@ class CourseDTO(object):
 
     def __init__(
         self,
+        lms_course_id,
         folder_name,
         frequency,
         hours,
@@ -67,7 +68,7 @@ class CourseDTO(object):
         name,
         name_course_menu
     ):
-
+        self._lms_course_id = lms_course_id
         self._folder_name = folder_name
         self._frequency = frequency
         self._hours = hours
@@ -92,6 +93,15 @@ class CourseDTO(object):
     def name(self, value):
 
         self._name = value
+
+    @property
+    def lms_course_id(self):
+        return self._lms_course_id
+
+    @lms_course_id.setter
+    def lms_course_id(self, value):
+
+        self._lms_course_id = value
 
     def convert_to_post(self):
         pass

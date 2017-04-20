@@ -5,7 +5,7 @@ import pytest
 import datetime
 
 from zeep import Client
-from lmswebaula.lms.student.containers import *
+from lmswebaula.lms.course.containers import *
 
 import logging.config
 
@@ -52,6 +52,25 @@ class RPC(object):
                 passport=self._passport,
                 page=paginate.page,
                 pageSize=paginate.page_size
+            )
+        except Exception as e:
+            raise e
+
+        return response
+
+    def get_by_id(self, data):
+
+        if not isinstance(data, GetByIdRQ):
+            raise ValueError(
+                "Não existe uma instancia para os dados do cursao"
+            )
+
+        request = Client(self._login.url)
+
+        try:
+            response = request.service.GetById(
+                passport=self._passport,
+                lmsCourseId=data.lms_course_id,
             )
         except Exception as e:
             raise e

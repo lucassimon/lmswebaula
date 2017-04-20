@@ -8,6 +8,8 @@ from datetime import datetime
 
 from faker import Factory
 
+from lmswebaula.lms.core.containers.error import ErrorRS
+
 from lmswebaula.lms.course.api import API
 from lmswebaula.lms.course.containers import *
 
@@ -55,6 +57,92 @@ class CourseTestCase(CourseTestCaseBase):
 
         res = self.api.get_all(paginate)
 
-        courses = res.data_list
+        data = res.data_list
 
-        self.assertEqual(courses[0].name, 'TCC')
+        self.assertEqual(data[0].name, 'TCC')
+
+    def test_resposta_error_parametro_course_id_get_by_id(self):
+        """
+        Testa Erro ao passar o parametro lms_course_id como nulo
+        """
+
+        payload = GetByIdRQ(
+            lms_course_id=None
+        )
+
+        res = self.api.get_by_id(payload)
+
+        self.assertIsInstance(res, ErrorRS)
+
+        self.assertEqual(
+            res.has_error,
+            True
+        )
+
+        self.assertEqual(
+            res.msg,
+            (
+                u"Deve ser informado a chave do registro "
+                u"no sistema legado ou do LMS."
+            )
+        )
+
+    def test_curso_nao_encontrado_get_all_course_rs_get_by_id(self):
+        """
+        Testa a resposta de erro caso o curso nao seja encontrado
+        na resposta do metodo get_by_id
+        """
+
+        payload = GetByIdRQ(
+            lms_course_id=15
+        )
+
+        res = self.api.get_by_id(payload)
+
+        self.assertIsInstance(res, ErrorRS)
+
+        self.assertEqual(
+            res.has_error,
+            True
+        )
+
+        self.assertEqual(
+            res.msg,
+            u"Curso não encontrado"
+        )
+
+    def test_e_instancia_get_all_course_rs_get_by_id(self):
+        """
+        Testa se a instancia da resposta do metodo get_by_id
+        é GetAllCourseRS
+        """
+
+        payload = GetByIdRQ(
+            lms_course_id=5
+        )
+
+        res = self.api.get_by_id(payload)
+
+        self.assertIsInstance(res, GetAllCourseRS)
+
+    def test_sucesso_get_all_course_rs_get_by_id(self):
+        """
+        Testa o sucesso no retorno do metodo get_by_id
+        """
+
+        payload = GetByIdRQ(
+            lms_course_id=5
+        )
+
+        res = self.api.get_by_id(payload)
+
+        self.assertEqual(
+            res.msg,
+            u"Operação realizada com sucesso."
+        )
+
+        self.assertFalse(res.has_error)
+
+        data = res.data_list[0]
+
+        self.assertEqual(data.name, 'TCC')
