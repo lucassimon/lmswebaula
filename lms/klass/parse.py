@@ -19,8 +19,8 @@ class KlassParse(object):
             data.append(
                 DataDTO(
                     name=std['Name'],
-                    lms_class_id=std['LMSClassId'],
-                    lms_course_id=std['LMSCourseId'],
+                    lms_class_id='{0}'.format(std['LMSClassId']),
+                    lms_course_id='{0}'.format(std['LMSCourseId']),
                     maximum_students=std['MaximumStudents'],
                     start_time=std['StartTime'],
                     end_time=std['EndTime']

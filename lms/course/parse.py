@@ -18,6 +18,7 @@ class CourseParse(object):
 
             data.append(
                 CourseDTO(
+                    lms_course_id='{0}'.format(std['LMSCourseId']),
                     folder_name=std['FolderName'],
                     frequency=float(std['Frequency']),
                     hours=float(std['Hours']),

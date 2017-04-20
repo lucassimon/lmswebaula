@@ -18,7 +18,7 @@ class StudentParse(object):
         for std in ws_students:
 
             student = StudentDTO(
-                lms_student_id=std['LMSStudentId'],
+                lms_student_id='{0}'.format(std['LMSStudentId']),
                 cpf=std['CPF'],
                 date_of_birth=std['DateOfBirth'],
                 email=std['Email'],
@@ -29,7 +29,7 @@ class StudentParse(object):
             )
 
             if std['StudentId']:
-                student.student_id = std['StudentId']
+                student.student_id = '{0}'.format(std['StudentId'])
 
             data.append(
                 student
