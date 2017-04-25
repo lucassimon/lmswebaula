@@ -130,7 +130,7 @@ class API(APIBase):
 
         return data_rs
 
-    def save(self, student_rq):
+    def save(self, data_rq):
         """
         Cria/Atualiza um curso
         """
