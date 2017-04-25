@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+import six
 
 from lmswebaula.lms.core.containers.response import (
     ContainerResponse, ErrorListResponse
@@ -40,9 +40,14 @@ class SaveRQ(object):
         email,
         cpf,
         password,
-        student_id=None,
+        student_id,
         registration=None
     ):
+        if not isinstance(student_id, six.integer_types):
+            raise ValueError(
+                'O student_id precisa ser um inteiro'
+            )
+
         self._name = name
         self._email = email
         self._cpf = cpf
@@ -114,6 +119,11 @@ class SaveRQ(object):
 
     @student_id.setter
     def student_id(self, value):
+
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O student_id precisa ser um inteiro'
+            )
 
         self._student_id = value
 
