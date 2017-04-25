@@ -9,7 +9,7 @@ from lmswebaula.lms.core.containers.error import ErrorRS
 
 
 from lmswebaula.lms.segment.containers import *
-
+from lmswebaula.lms.segment.parse import SegmentParse
 from lmswebaula.lms.segment.rpc import (
     RPC
 )
@@ -131,11 +131,85 @@ class API(APIBase):
         Recupera os segmentos pelo nome
         """
 
-        pass
+        if not isinstance(data_rq, GetByDescriptionRQ):
+            raise ValueError(
+                "Não existe uma instância para os dados do segmento"
+            )
+
+        try:
+            response = self.rpc.get_by_description(data_rq)
+        except Exception as e:
+            raise e
+
+        # Verificar se tem erro na resposta
+
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
+
+        # tratar os dados
+
+        data = SegmentParse.get_all(response)
+
+        # Retornar o response
+
+        data_rs = GetAllSegmentRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg'],
+            data=data
+        )
+
+        return data_rs
 
     def save(self, data_rq):
         """
         Cria/Atualiza um segmentos
         """
 
-        pass
+        if not isinstance(data_rq, SaveRQ):
+            raise ValueError(
+                "Não existe uma instância para os dados do segmento"
+            )
+
+        pytest.set_trace()
+
+        try:
+            response = self.rpc.save(data_rq)
+        except Exception as e:
+            raise e
+
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
+
+        data = SegmentParse.get_all(response)
+
+        data_rs = SaveRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg'],
+            data=data
+        )
+
+        return data_rs
