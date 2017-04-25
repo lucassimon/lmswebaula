@@ -13,7 +13,11 @@ class StudentParse(object):
     def get_all(response):
 
         data = []
-        ws_students = response['StudentListDTO']['StudentDTO']
+
+        try:
+            ws_students = response['StudentListDTO']['StudentDTO']
+        except Exception:
+            return data
 
         for std in ws_students:
 

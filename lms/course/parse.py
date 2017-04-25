@@ -12,7 +12,11 @@ class CourseParse(object):
 
         data = []
 
-        ws_students = response['CourseListDTO']['CourseDTO']
+        try:
+            ws_students = response['CourseListDTO']['CourseDTO']
+
+        except Exception:
+            return data
 
         for std in ws_students:
 
