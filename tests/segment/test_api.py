@@ -68,18 +68,18 @@ class SegmentTestCase(SegmentTestCaseBase):
 
         data = res.data_list
 
-        self.assertEqual(data[0].name, 'TCC')
+        self.assertEqual(data[0].description, 'Segmento Padrão')
 
     def test_resposta_error_parametro_segment_id_get_segment_by_id(self):
         """
         Testa Erro ao passar o parametro lms_segment_id como nulo
         """
 
-        data = GetByCourseIdRQ(
+        data = GetByIdRQ(
             lms_segment_id=None
         )
 
-        res = self.api.get_by_segment_id(data)
+        res = self.api.get_by_id(data)
 
         self.assertIsInstance(res, ErrorRS)
 
@@ -96,17 +96,17 @@ class SegmentTestCase(SegmentTestCaseBase):
             )
         )
 
-    def test_curso_nao_encontrado_get_all_segment_rs_get_segment_by_id(self):
+    def test_segmento_nao_encontrado_get_all_segment_rs_get_segment_by_id(self):
         """
-        Testa a resposta de erro caso o curso nao seja encontrado
+        Testa a resposta de erro caso o segmento nao seja encontrado
         na resposta do metodo get_segment_by_id
         """
 
-        data = GetByCourseIdRQ(
-            lms_segment_id=15
+        data = GetByIdRQ(
+            lms_segment_id=10000
         )
 
-        res = self.api.get_by_segment_id(data)
+        res = self.api.get_by_id(data)
 
         self.assertIsInstance(res, ErrorRS)
 
@@ -117,7 +117,7 @@ class SegmentTestCase(SegmentTestCaseBase):
 
         self.assertEqual(
             res.msg,
-            u"Curso não encontrado"
+            u"Segmento não encontrado"
         )
 
     def test_e_instancia_get_all_segment_rs_get_segment_by_id(self):
@@ -126,11 +126,11 @@ class SegmentTestCase(SegmentTestCaseBase):
         é GetAllSegmentRS
         """
 
-        data = GetByCourseIdRQ(
-            lms_segment_id=5
+        data = GetByIdRQ(
+            lms_segment_id=1
         )
 
-        res = self.api.get_by_segment_id(data)
+        res = self.api.get_by_id(data)
 
         self.assertIsInstance(res, GetAllSegmentRS)
 
@@ -139,11 +139,11 @@ class SegmentTestCase(SegmentTestCaseBase):
         Testa o sucesso no retorno do metodo get_segment_by_id
         """
 
-        data = GetByCourseIdRQ(
-            lms_segment_id=5
+        data = GetByIdRQ(
+            lms_segment_id=1
         )
 
-        res = self.api.get_by_segment_id(data)
+        res = self.api.get_by_id(data)
 
         self.assertEqual(
             res.msg,
@@ -154,4 +154,110 @@ class SegmentTestCase(SegmentTestCaseBase):
 
         segment_test = res.data_list[0]
 
-        self.assertEqual(segment_test.name, 'TCC')
+        self.assertEqual(segment_test.description, 'Segmento Padrão')
+
+    def test_resposta_error_parametro_name_get_by_description(self):
+        """
+        Testa Erro ao passar o parametro lms_segment_id como nulo
+        """
+
+        with pytest.raises(ValueError) as excinfo:
+
+            GetByDescriptionRQ(
+                description=None
+            )
+
+        self.assertEqual(
+            u'A descrição precisa ser uma string',
+            excinfo.value.message
+        )
+
+    def test_segmento_nao_encontrado_get_all_segment_rs_get_by_description(self):
+        """
+        Testa a resposta de erro caso o segmento nao seja encontrado
+        na resposta do metodo get_segment_by_id
+        """
+
+        data = GetByDescriptionRQ(
+            description='Segmento 1'
+        )
+
+        res = self.api.get_by_description(data)
+
+        self.assertEqual(
+            res.has_error,
+            False
+        )
+
+        self.assertEqual(
+            len(res.data_list),
+            0
+        )
+
+    def test_e_instancia_get_all_segment_rs_get_by_description(self):
+        """
+        Testa se a instancia da resposta do metodo get_segment_by_id
+        é GetAllSegmentRS
+        """
+
+        data = GetByDescriptionRQ(
+            description='Segmento Padrão'
+        )
+
+        res = self.api.get_by_description(data)
+
+        self.assertIsInstance(res, GetAllSegmentRS)
+
+    def test_sucesso_get_all_segment_rs_get_by_description(self):
+        """
+        Testa o sucesso no retorno do metodo get_segment_by_id
+        """
+
+        data = GetByDescriptionRQ(
+            description='Segmento Padrão'
+        )
+
+        res = self.api.get_by_description(data)
+
+        self.assertEqual(
+            res.msg,
+            u"Operação realizada com sucesso."
+        )
+
+        self.assertFalse(res.has_error)
+
+        segment_test = res.data_list[0]
+
+        self.assertEqual(segment_test.description, 'Segmento Padrão')
+
+    def test_erro_parametro_save(self):
+        """
+        Testa erro ao não passar nenhum parametro de segmento no metodo Save
+        """
+
+        with pytest.raises(ValueError) as excinfo:
+
+            data = {}
+            self.api.save(data)
+
+        self.assertEqual(
+            'Não existe uma instância para os dados do segmento',
+            excinfo.value.message
+        )
+
+    def test_save(self):
+        """
+        Erro ao salvar um segmento
+        """
+
+        data = SaveRQ(
+            description=u'Teste segmento {}'.format(self.fake.name()),
+        )
+
+        res = self.api.save(data)
+
+        print res.__dict__
+
+        self.assertEqual(res.has_error, False)
+
+        # self.assertFalse(False)
