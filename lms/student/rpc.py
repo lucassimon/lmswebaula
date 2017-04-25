@@ -122,6 +122,7 @@ class RPC(object):
             CPF=data.cpf,
             Status=data.status,
             Password=data.password,
+            StudentId=data.student_id
         )
 
         student_list = array_student_dto(StudentDTO=student)
