@@ -98,4 +98,4 @@ class RPC(object):
 
     def save(self, data):
 
-        pass
+        raise NotImplementedError
