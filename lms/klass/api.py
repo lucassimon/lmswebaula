@@ -150,4 +150,25 @@ class API(APIBase):
         Cria/Atualiza uma classe
         """
 
-        pass
+        raise NotImplementedError
+
+    def bind_resource(self, data_rq):
+        """
+        Associa o recurso a turma
+        """
+
+        raise NotImplementedError
+
+    def bind_segment(self, data_rq):
+        """
+        Atribui um segmento a turma
+        """
+
+        raise NotImplementedError
+
+    def create_automatic_class(self, data_rq):
+        """
+        Cria uma turma automatica para o curso
+        """
+
+        raise NotImplementedError
