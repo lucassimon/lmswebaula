@@ -5,6 +5,7 @@ import pytest
 
 from lmswebaula.lms.core.api import APIBase
 from lmswebaula.lms.core.containers.login import LoginRQ
+from lmswebaula.lms.core.containers.error import ErrorRS
 
 from lmswebaula.lms.student.containers import *
 
@@ -59,7 +60,19 @@ class API(APIBase):
 
         # Verificar se tem erro na resposta
 
-        self._verifica_exception(response)
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
 
         # tratar os dados
 
@@ -93,7 +106,19 @@ class API(APIBase):
 
         # Verificar se tem erro na resposta
 
-        self._verifica_exception(response)
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
 
         # tratar os dados
 
@@ -128,7 +153,19 @@ class API(APIBase):
 
         # Verificar se tem erro na resposta
 
-        self._verifica_exception(response)
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
 
         # Retornar o student response
 
@@ -155,7 +192,19 @@ class API(APIBase):
         except Exception as e:
             raise e
 
-        self._verifica_exception(response)
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
 
         data = StudentParse.get_all(response)
 
