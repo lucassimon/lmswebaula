@@ -25,8 +25,8 @@ class CourseDTO(object):
     _demonstration_active = False,
     _description = None,
     _displays_the_catalog = False,
-    _evaluationHas = False,
-    _folder_name = "p00001",
+    _evaluation_has = False,
+    _folder_name = "",
     _follow_schedule = "",
     _frequency = 75
     _full_screen = False,
