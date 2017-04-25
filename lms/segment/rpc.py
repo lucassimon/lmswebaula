@@ -70,7 +70,26 @@ class RPC(object):
         try:
             response = request.service.GetById(
                 passport=self._passport,
-                lmsCourseId=data.lms_course_id,
+                lmsSegmentId=data.lms_segment_id,
+            )
+        except Exception as e:
+            raise e
+
+        return response
+
+    def get_by_description(self, data):
+
+        if not isinstance(data, GetByDescriptionRQ):
+            raise ValueError(
+                "Não existe uma instância para os dados do segmento"
+            )
+
+        request = Client(self._login.url)
+
+        try:
+            response = request.service.GetByDescription(
+                passport=self._passport,
+                name=data.description,
             )
         except Exception as e:
             raise e
@@ -79,4 +98,31 @@ class RPC(object):
 
     def save(self, data):
 
-        pass
+        if not isinstance(data, SaveRQ):
+            raise ValueError(
+                "Não existe dados para o estudante"
+            )
+
+        request = Client(self._login.url)
+
+        array_dto = request.get_type('ns4:ArrayOfSegmentDTO')
+
+        data_dto = request.get_type('ns4:SegmentDTO')
+
+        data = data_dto(
+            Description=data.description,
+            # SegmentId=1
+        )
+
+        data_list = array_dto(SegmentDTO=data)
+
+        try:
+            response = request.service.Save(
+                passport=self._passport,
+                segmentListDTO=data_list
+            )
+
+        except Exception as e:
+            raise e
+
+        return response
