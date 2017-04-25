@@ -16,7 +16,7 @@ testing_extras = [
 ]
 
 setup(
-    name='pagarme-python',
+    name='lmswebaula',
     version=__version__,
     author=__author__,
     author_email=__author_email__,
