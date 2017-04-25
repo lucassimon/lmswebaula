@@ -87,7 +87,7 @@ class StudentTestCase(StudentTestCaseBase):
         student_test = res.data_list[3]
 
         status = StatusRQ(
-            lms_student_id=student_test.lms_student_id,
+            lms_student_id=int(student_test.lms_student_id),
             active=True
         )
 
@@ -104,7 +104,7 @@ class StudentTestCase(StudentTestCaseBase):
         student_test = res.data_list[3]
 
         status = StatusRQ(
-            lms_student_id=student_test.lms_student_id,
+            lms_student_id=int(student_test.lms_student_id),
             active=False
         )
 
@@ -127,7 +127,7 @@ class StudentTestCase(StudentTestCaseBase):
         student_test = res.data_list[3]
 
         status = StatusRQ(
-            lms_student_id=student_test.lms_student_id,
+            lms_student_id=int(student_test.lms_student_id),
             active=True
         )
 
@@ -187,8 +187,8 @@ class StudentTestCase(StudentTestCaseBase):
             # student_id=self.fake.uuid4()
         )
 
-        # res = self.api.save(data)
+        res = self.api.save(data)
 
-        # self.assertEqual(res.has_error, False)
+        self.assertEqual(res.has_error, False)
 
         self.assertFalse(False)
