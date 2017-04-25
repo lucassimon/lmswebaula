@@ -216,3 +216,136 @@ class API(APIBase):
         )
 
         return data_rs
+
+    def bind_branch_manager(self, data_rq):
+        """
+        Associa um aluno com gerente filial
+        """
+
+        raise NotImplementedError
+
+    def bind_level(self, data_rq):
+        """
+        Associa o usuário ao Level (PDINivel)
+        """
+
+        raise NotImplementedError
+
+    def bind_sector(self, data_rq):
+        """
+        Associa o usuário ao Setor
+        """
+
+        raise NotImplementedError
+
+    def bind_segment(self, data_rq):
+        """
+        Atribui segmento ao aluno
+        """
+
+        raise NotImplementedError
+
+    def get_by_login(self, data_rq):
+        """
+        Recupera um aluno pelo login no LMS
+        """
+
+        raise NotImplementedError
+
+    def get_login_integred_by_user(self, data_rq):
+        """
+        Recupera a url de autenticação do LMS
+        """
+
+        raise NotImplementedError
+
+    def get_password_reminder(self, data_rq):
+        """
+        Recupera lembrete de senha
+        """
+
+        raise NotImplementedError
+
+    def get_segment_main(self, data_rq):
+        """
+        Recupera o segmento principal do aluno
+        """
+
+        raise NotImplementedError
+
+    def get_student_segment(self, data_rq):
+        """
+        Recupera uma associação entre o aluno e o segmento
+        """
+
+        raise NotImplementedError
+
+    def send_password_by_email(self, data_rq):
+        """
+        Envia senha do aluno por E-mail
+        """
+
+        raise NotImplementedError
+
+    def student_lms_id(self, data_rq):
+        """
+        Recupera o código do usuário na webAula pelo seu login
+        """
+
+        raise NotImplementedError
+
+    def teste_date(self, data_rq):
+        """
+        Recupera o código do usuário na webAula pelo seu login
+        """
+
+        raise NotImplementedError
+
+    def unbound_all_level(self, data_rq):
+        """
+        Retira o aluno de todos os niveis vinculados a ele
+        """
+
+        raise NotImplementedError
+
+    def unbound_all_sector(self, data_rq):
+        """
+        Retira o aluno de todos os setores
+        """
+
+        raise NotImplementedError
+
+    def unbound_branch_manager(self, data_rq):
+        """
+        Retira a associação do aluno como gerente da filial
+        """
+
+        raise NotImplementedError
+
+    def unbound_level(self, data_rq):
+        """
+        Retira a associação do aluno no Level (PDINivel)
+        """
+
+        raise NotImplementedError
+
+    def unbound_sector(self, data_rq):
+        """
+        Retira a associação do aluno no Setor
+        """
+
+        raise NotImplementedError
+
+    def unbound_segment(self, data_rq):
+        """
+        Retira o segmento do aluno
+        """
+
+        raise NotImplementedError
+
+    def upload_file(self, data_rq):
+        """
+        Recebe a foto do usuário
+        """
+
+        raise NotImplementedError
