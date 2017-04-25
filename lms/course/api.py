@@ -135,4 +135,47 @@ class API(APIBase):
         Cria/Atualiza um curso
         """
 
-        pass
+        raise NotImplementedError
+
+    def bind_coordination(self, data_rq):
+        """
+        Realiza a associação entre o corpo docente e a coordenação
+        """
+
+        raise NotImplementedError
+
+    def bind_segment(self, data_rq):
+        """
+        Atribui segmento ao curso
+        """
+        raise NotImplementedError
+
+    def get_by_save_or_update(self, data_rq):
+        """
+        Recupera os cursos que foram cadastrados ou atualizados no período
+        """
+        raise NotImplementedError
+
+    def iimport(self, data_rq):
+        """
+        Importa um curso O pacote tem que estar no FTP
+        """
+        raise NotImplementedError
+
+    def unbound_coordination(self, data_rq):
+        """
+        Desvincula o curso da coordenação
+        """
+        raise NotImplementedError
+
+    def unbound_segment(self, data_rq):
+        """
+        Desvincula o curso do segmento
+        """
+        raise NotImplementedError
+
+    def update(self, data_rq):
+        """
+        Atualiza um curso
+        """
+        raise NotImplementedError
