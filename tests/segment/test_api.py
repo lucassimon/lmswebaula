@@ -252,12 +252,9 @@ class SegmentTestCase(SegmentTestCaseBase):
 
         data = SaveRQ(
             description=u'Teste segmento {}'.format(self.fake.name()),
+            segment_id=self.fake.random_int(min=0, max=99999)
         )
 
         res = self.api.save(data)
 
-        print res.__dict__
-
         self.assertEqual(res.has_error, False)
-
-        # self.assertFalse(False)

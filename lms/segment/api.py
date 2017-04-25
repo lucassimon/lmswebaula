@@ -182,8 +182,6 @@ class API(APIBase):
                 "Não existe uma instância para os dados do segmento"
             )
 
-        pytest.set_trace()
-
         try:
             response = self.rpc.save(data_rq)
         except Exception as e:

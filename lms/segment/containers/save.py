@@ -18,7 +18,7 @@ class SaveRQ(object):
     def __init__(
         self,
         description,
-        segment_id=None,
+        segment_id,
     ):
 
         if not isinstance(description, six.string_types):
@@ -26,12 +26,13 @@ class SaveRQ(object):
                 'A descrição precisa ser uma string'
             )
 
-        self._description = description
+        if not isinstance(segment_id, six.integer_types):
+            raise ValueError(
+                'O segmento_id precisa ser um inteiro'
+            )
 
-        if segment_id is None:
-            self._segment_id = segment_id
-        else:
-            self._segment_id = segment_id
+        self._description = description
+        self._segment_id = segment_id
 
     @property
     def description(self):
@@ -46,6 +47,20 @@ class SaveRQ(object):
             )
 
         self._description = value
+
+    @property
+    def segment_id(self):
+        return self._segment_id
+
+    @segment_id.setter
+    def segment_id(self, value):
+
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O segmento precisa ser um inteiro'
+            )
+
+        self._segment_id = value
 
 
 class SaveRS(ContainerResponse):

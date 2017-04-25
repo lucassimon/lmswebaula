@@ -111,7 +111,7 @@ class RPC(object):
 
         data = data_dto(
             Description=data.description,
-            # SegmentId=1
+            SegmentId=data.segment_id
         )
 
         data_list = array_dto(SegmentDTO=data)
