@@ -62,8 +62,6 @@ class API(APIBase):
                 msg=response['Msg'],
             )
 
-        self._verifica_exception(response)
-
         res = EnrollmentCourseRS(
             error=response['hasError'],
             guid=response['Guid'],
@@ -108,3 +106,72 @@ class API(APIBase):
         )
 
         return res
+
+    def checks_student_enrolled_in_trail_class(self, data_rq):
+        """
+        Verifica se o aluno está matriculado na turma de trilha
+        """
+
+        raise NotImplementedError
+
+    def checks_student_enrolled_in_trail_default_class(self, data_rq):
+        """
+        Verifica se o aluno está matriculado na turma automatica da trilha
+        """
+
+        raise NotImplementedError
+
+    def enrollment_automatic_class_by_course(self, data_rq):
+        """
+        Realiza a matricula do aluno na turma automatica do curso
+        """
+
+        raise NotImplementedError
+
+    def enrollment_program(self, data_rq):
+        """
+        Matricula um aluno em uma turma de programa
+        """
+
+        raise NotImplementedError
+
+    def enrollment_trail(self, data_rq):
+        """
+        Matricula o aluno na turma de trilha
+
+        """
+
+        raise NotImplementedError
+
+    def enrollment_trail_trail_with_days_as_period_access(self, data_rq):
+        """
+        Matricula o aluno na trilha e recupera o prazo em dias sugeridos
+        para calcular o prazo de acesso
+        """
+
+        raise NotImplementedError
+
+    def get_enrollment_course(self, data_rq):
+        """
+        Recupera as matriculas aplicando os filtros informados
+        """
+
+        raise NotImplementedError
+
+    def get_trails_history_by_class_period(self, data_rq):
+        """
+        Retorna os historicos de trilhas de acordo com o tipo de pesquisa
+        em um determinado periodo
+
+        """
+
+        raise NotImplementedError
+
+    def updat_term_enroll_by_term_course(self, data_rq):
+        """
+        Altera o prazo de acesso da matricula de acordo com o
+        prazo de acesso do curso
+
+        """
+
+        raise NotImplementedError
