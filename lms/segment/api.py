@@ -3,14 +3,14 @@ from __future__ import unicode_literals
 
 import pytest
 
-from lmswebaula.lms.core.api import APIBase
-from lmswebaula.lms.core.containers.login import LoginRQ
-from lmswebaula.lms.core.containers.error import ErrorRS
+from lms.core.api import APIBase
+from lms.core.containers.login import LoginRQ
+from lms.core.containers.error import ErrorRS
 
 
-from lmswebaula.lms.segment.containers import *
-from lmswebaula.lms.segment.parse import SegmentParse
-from lmswebaula.lms.segment.rpc import (
+from lms.segment.containers import *
+from lms.segment.parse import SegmentParse
+from lms.segment.rpc import (
     RPC
 )
 

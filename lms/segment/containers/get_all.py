@@ -4,8 +4,8 @@ from __future__ import unicode_literals
 import pytest
 import six
 
-from lmswebaula.lms.core.containers.pagination import PaginationMixinRQ
-from lmswebaula.lms.core.containers.response import (
+from lms.core.containers.pagination import PaginationMixinRQ
+from lms.core.containers.response import (
     ContainerResponse
 )
 

@@ -8,12 +8,12 @@ from datetime import datetime
 
 from faker import Factory
 
-from lmswebaula.lms.core.containers.error import (
+from lms.core.containers.error import (
     ErrorRS
 )
 
-from lmswebaula.lms.segment.api import API
-from lmswebaula.lms.segment.containers import *
+from lms.segment.api import API
+from lms.segment.containers import *
 
 
 class SegmentTestCaseBase(unittest.TestCase):

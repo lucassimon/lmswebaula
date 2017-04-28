@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 import pytest
 
-from lmswebaula.lms.student.containers.response import (
+from lms.student.containers.response import (
     StudentDTO
 )
 

@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 import pytest
 
-from lmswebaula.lms.segment.containers import *
+from lms.segment.containers import *
 
 
 class SegmentParse(object):

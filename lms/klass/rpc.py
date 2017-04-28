@@ -5,7 +5,7 @@ import pytest
 import datetime
 
 from zeep import Client
-from lmswebaula.lms.klass.containers import *
+from lms.klass.containers import *
 
 import logging.config
 

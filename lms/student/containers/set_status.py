@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import six
 import pytest
 
-from lmswebaula.lms.core.containers.response import (
+from lms.core.containers.response import (
     ContainerResponse
 )
 

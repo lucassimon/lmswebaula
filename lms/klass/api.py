@@ -3,17 +3,17 @@ from __future__ import unicode_literals
 
 import pytest
 
-from lmswebaula.lms.core.api import APIBase
-from lmswebaula.lms.core.containers.login import LoginRQ
-from lmswebaula.lms.core.containers.error import ErrorRS
+from lms.core.api import APIBase
+from lms.core.containers.login import LoginRQ
+from lms.core.containers.error import ErrorRS
 
-from lmswebaula.lms.klass.containers import *
+from lms.klass.containers import *
 
-from lmswebaula.lms.klass.rpc import (
+from lms.klass.rpc import (
     RPC as KlassRPC
 )
 
-from lmswebaula.lms.klass.parse import (
+from lms.klass.parse import (
     KlassParse
 )
 

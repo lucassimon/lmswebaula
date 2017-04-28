@@ -2,12 +2,18 @@
 from __future__ import unicode_literals
 
 
-from lmswebaula.lms.core.containers.response import (
+from lms.core.containers.response import (
     ContainerResponse, ErrorListResponse
 )
 
+from lms.course.containers.response import CourseDTO
 
-class Course(object):
 
-    def __init__(self):
-        pass
+class CourseRQ(CourseDTO):
+
+    pass
+
+
+class CourseRS(ContainerResponse):
+
+    pass

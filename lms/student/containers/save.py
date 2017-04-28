@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 import six
 
-from lmswebaula.lms.core.containers.response import (
+from lms.core.containers.response import (
     ContainerResponse, ErrorListResponse
 )
 

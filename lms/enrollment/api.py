@@ -3,13 +3,13 @@ from __future__ import unicode_literals
 
 import pytest
 
-from lmswebaula.lms.core.api import APIBase
-from lmswebaula.lms.core.containers.login import LoginRQ
-from lmswebaula.lms.core.containers.error import ErrorRS
+from lms.core.api import APIBase
+from lms.core.containers.login import LoginRQ
+from lms.core.containers.error import ErrorRS
 
-from lmswebaula.lms.enrollment.containers import *
+from lms.enrollment.containers import *
 
-from lmswebaula.lms.enrollment.rpc import RPC
+from lms.enrollment.rpc import RPC
 
 
 class API(APIBase):

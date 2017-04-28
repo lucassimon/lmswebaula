@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 import pytest
 
-from lmswebaula.lms.course.containers import *
+from lms.course.containers import *
 
 
 class CourseParse(object):

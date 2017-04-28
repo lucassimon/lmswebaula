@@ -8,10 +8,10 @@ from datetime import datetime
 
 from faker import Factory
 
-from lmswebaula.lms.core.containers.error import ErrorRS
+from lms.core.containers.error import ErrorRS
 
-from lmswebaula.lms.course.api import API
-from lmswebaula.lms.course.containers import *
+from lms.course.api import API
+from lms.course.containers import *
 
 
 class CourseTestCaseBase(unittest.TestCase):

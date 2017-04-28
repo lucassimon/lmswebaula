@@ -8,12 +8,12 @@ from datetime import datetime
 
 from faker import Factory
 
-from lmswebaula.lms.core.containers.error import (
+from lms.core.containers.error import (
     ErrorRS
 )
 
-from lmswebaula.lms.klass.api import API
-from lmswebaula.lms.klass.containers import *
+from lms.klass.api import API
+from lms.klass.containers import *
 
 
 class KlassTestCaseBase(unittest.TestCase):
@@ -82,7 +82,7 @@ class KlassTestCase(KlassTestCaseBase):
 
         klass_test = res.data_list[0]
 
-        self.assertEqual(klass_test.lms_class_id, 10L)
+        self.assertEqual(klass_test.lms_class_id, 10)
 
     def test_resposta_error_parametro_course_id_get_course_by_id(self):
         """
