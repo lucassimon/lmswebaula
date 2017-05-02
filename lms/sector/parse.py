@@ -19,7 +19,7 @@ class SectorParse(object):
 
         for std in ws_data:
 
-            dt = JobDTO(
+            dt = SectorDTO(
                 lms_sector_id='{0}'.format(std['LMSSectorId']),
                 name=std['Name'],
             )

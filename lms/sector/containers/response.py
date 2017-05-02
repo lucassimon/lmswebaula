@@ -8,7 +8,7 @@ from lms.core.containers.response import (
 )
 
 
-class JobDTO(object):
+class SectorDTO(object):
 
     _lms_sector_id = "",
     _sector_id = "",
