@@ -3,6 +3,18 @@ from __future__ import unicode_literals
 
 import pytest
 
+from requests.exceptions import (
+    Timeout,
+    HTTPError,
+    ConnectionError,
+    ProxyError,
+    SSLError,
+    ConnectTimeout,
+    ReadTimeout,
+    TooManyRedirects,
+    RetryError
+)
+
 from lms.core.api import APIBase
 from lms.core.containers.login import LoginRQ
 from lms.core.containers.error import ErrorRS
@@ -50,8 +62,14 @@ class API(APIBase):
 
         try:
             response = self.rpc.get_all(paginate_rq)
+        except ConnectionError as e:
+            pytest.set_trace()
+        except NewConnectionError as e:
+            pytest.set_trace()
+        except HttpError as e:
+            pytest.set_trace()
         except Exception as e:
-            raise e
+            pytest.set_trace()
 
         # Verificar se tem erro na resposta
 
@@ -83,8 +101,14 @@ class API(APIBase):
 
         try:
             response = self.rpc.get_by_id(data_rq)
+        except ConnectionError as e:
+            pytest.set_trace()
+        except NewConnectionError as e:
+            pytest.set_trace()
+        except HttpError as e:
+            pytest.set_trace()
         except Exception as e:
-            raise e
+            pytest.set_trace()
 
         # Verificar se tem erro na resposta
 
@@ -117,8 +141,14 @@ class API(APIBase):
 
         try:
             response = self.rpc.get_by_course_id(data_rq)
+        except ConnectionError as e:
+            pytest.set_trace()
+        except NewConnectionError as e:
+            pytest.set_trace()
+        except HttpError as e:
+            pytest.set_trace()
         except Exception as e:
-            raise e
+            pytest.set_trace()
 
         if self._verifica_response_none(response):
             return ErrorRS(
