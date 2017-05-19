@@ -151,7 +151,7 @@ class StudentTestCase(StudentTestCaseBase):
 
         student_test = res.data_list[0]
 
-        self.assertEqual(student_test.status, True)
+        self.assertEqual(int(student_test.lms_student_id), 15)
 
     def test_erro_parametro_save(self):
         """
