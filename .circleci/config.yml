@@ -3,9 +3,16 @@ jobs:
   build:
     docker:
       - image: python:2.7
-    working_directory: /home/lmswebaula/lms
+    working_directory: /home/lmswebaula/
     steps:
       - checkout
+      - run:
+          name: Install virtualenv
+          command: |
+            pip install virtualenv
+            pip install virtualenv-wrapper
+            source /usr/local/bin/virtualenvwrapper.sh
+            mkvirtualenv lms
       - restore_cache:
           key: deps1-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}
       - run:
@@ -16,7 +23,11 @@ jobs:
           key: deps1-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}
           paths:
             - "/home/lmswebaula/.pip-cache"
-      - run: pytest --cov-config .coveragerc --cov=lms tests/
+      - run:
+          name: Run tests
+          command: |
+            cd lmswebaula
+            pytest --cov-config .coveragerc --cov=lms tests/
       - store_artifacts:
           path: test-reports/coverage
           destination: reports
