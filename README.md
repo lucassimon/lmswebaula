@@ -1,5 +1,7 @@
 # LMS WebAula
 
+[![CircleCI](https://circleci.com/gh/lucassimon/lmswebaula/tree/master.svg?style=svg)](https://circleci.com/gh/lucassimon/lmswebaula/tree/master)
+
 [![Coverage Status](https://coveralls.io/repos/github/lucassimon/lmswebaula/badge.svg?branch=master)](https://coveralls.io/github/lucassimon/lmswebaula?branch=master)
 
 ## Pre requisitos
