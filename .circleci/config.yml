@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: python:2.7
+    working_directory: /home/lmswebaula/lms
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}
+      - run:
+          name: Install Requirements
+          command: |
+            pip install -r requirements-dev.txt
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}
+      - run: pytest --cov-config .coveragerc --cov=lms tests/
+      - store_artifacts:
+          path: test-reports/coverage
+          destination: reports
+      - store_test_results:
+          path: "test-reports/"
