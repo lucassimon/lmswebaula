@@ -10,7 +10,7 @@ jobs:
           name: Install virtualenv
           command: |
             pip install virtualenv
-            pip install virtualenv-wrapper
+            pip install virtualenvwrapper
             source /usr/local/bin/virtualenvwrapper.sh
             mkvirtualenv lms
       - restore_cache:
@@ -28,6 +28,10 @@ jobs:
           command: |
             cd lmswebaula
             pytest --cov-config .coveragerc --cov=lms tests/
+      - run:
+          name: Create test folders
+          command: |
+            mkdir -p /home/lmswebaula/test-reports/coverage
       - store_artifacts:
           path: test-reports/coverage
           destination: reports
