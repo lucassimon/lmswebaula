@@ -27,8 +27,7 @@ jobs:
       - run:
           name: Run tests
           command: |
-            cd lmswebaula
-            pytest --cov-config .coveragerc --cov=lms tests/
+            pytest --cov-config .coveragerc --cov=lms /home/lmswebaula/tests/
 
       - store_artifacts:
           path: test-reports/coverage
