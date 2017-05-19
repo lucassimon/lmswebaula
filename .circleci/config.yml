@@ -7,6 +7,10 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Create test folders
+          command: |
+            mkdir -p /home/lmswebaula/test-reports/coverage
+      - run:
           name: Install virtualenv
           command: |
             pip install virtualenv
@@ -28,10 +32,7 @@ jobs:
           command: |
             cd lmswebaula
             pytest --cov-config .coveragerc --cov=lms tests/
-      - run:
-          name: Create test folders
-          command: |
-            mkdir -p /home/lmswebaula/test-reports/coverage
+
       - store_artifacts:
           path: test-reports/coverage
           destination: reports
