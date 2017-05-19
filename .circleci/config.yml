@@ -11,12 +11,9 @@ jobs:
           command: |
             mkdir -p /home/lmswebaula/test-reports/coverage
       - run:
-          name: Install virtualenv
+          name: Install packate
           command: |
-            pip install virtualenv
-            pip install virtualenvwrapper
-            source /usr/local/bin/virtualenvwrapper.sh
-            mkvirtualenv lms
+            python /home/lmswebaula/setup.py develop
       - restore_cache:
           key: deps1-{{ .Branch }}-{{ checksum "requirements-dev.txt" }}
       - run:
@@ -31,7 +28,7 @@ jobs:
           name: Run tests
           command: |
             cd lmswebaula
-            pytest --cov-config .coveragerc --cov=lms tests/
+            pytest --cov-config .coveragerc --cov=lms /home/lmswebaula/tests/
 
       - store_artifacts:
           path: test-reports/coverage

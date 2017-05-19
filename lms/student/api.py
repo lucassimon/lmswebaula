@@ -13,9 +13,6 @@ from lms.student.rpc import (
     RPC as StudentRPC
 )
 
-from lms.student.containers.students import (
-    StudentRS
-)
 
 from lms.student.parse import (
     StudentParse
