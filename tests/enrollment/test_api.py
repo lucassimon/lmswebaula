@@ -9,7 +9,7 @@ from datetime import datetime
 from faker import Factory
 
 from lms.core.containers.error import (
-    ErrorRS
+    ErrorRS, ExceptionRS
 )
 
 from lms.enrollment.api import API
@@ -58,6 +58,9 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
 
         res = self.api.enrollment_course(data)
 
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
         self.assertIsInstance(res, ErrorRS)
 
         self.assertEqual(
@@ -84,6 +87,9 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
         )
 
         res = self.api.enrollment_course(data)
+
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
 
@@ -112,6 +118,9 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
 
         res = self.api.enrollment_course(data)
 
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
         self.assertIsInstance(res, EnrollmentCourseRS)
 
     def test_sucesso_enrollment_course_rs_enrollment_course(self):
@@ -125,6 +134,9 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
         )
 
         res = self.api.enrollment_course(data)
+
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
 
         self.assertEqual(res.has_error, False)
 
@@ -178,6 +190,9 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
 
         res = self.api.set_status_in_class(data)
 
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
         self.assertIsInstance(res, ErrorRS)
 
         self.assertEqual(
@@ -206,6 +221,9 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
         )
 
         res = self.api.set_status_in_class(data)
+
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
 
@@ -236,6 +254,9 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
 
         res = self.api.set_status_in_class(data)
 
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
         self.assertIsInstance(res, SetStatusInClassRS)
 
     def test_sucesso_set_status_in_class_rs_set_status_in_class(self):
@@ -250,5 +271,8 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
         )
 
         res = self.api.set_status_in_class(data)
+
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
 
         self.assertEqual(res.has_error, False)

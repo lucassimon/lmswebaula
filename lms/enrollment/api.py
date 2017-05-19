@@ -17,7 +17,7 @@ from requests.exceptions import (
 
 from lms.core.api import APIBase
 from lms.core.containers.login import LoginRQ
-from lms.core.containers.error import ErrorRS
+from lms.core.containers.error import ErrorRS, ExceptionRS
 
 from lms.enrollment.containers import *
 
@@ -55,16 +55,16 @@ class API(APIBase):
                 "Não existe uma instância para os dados da matricula"
             )
 
+        response = None
+
         try:
             response = self.rpc.enrollment_course(data_rq)
-        except ConnectionError as e:
-            pytest.set_trace()
-        except NewConnectionError as e:
-            pytest.set_trace()
-        except HttpError as e:
-            pytest.set_trace()
         except Exception as e:
-            pytest.set_trace()
+            return ExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
 
         if self._verifica_response_none(response):
             return ErrorRS(
@@ -98,16 +98,16 @@ class API(APIBase):
                 "Não existe uma instância para os dados do status"
             )
 
+        response = None
+
         try:
             response = self.rpc.set_status_in_class(data_rq)
-        except ConnectionError as e:
-            pytest.set_trace()
-        except NewConnectionError as e:
-            pytest.set_trace()
-        except HttpError as e:
-            pytest.set_trace()
         except Exception as e:
-            pytest.set_trace()
+            return ExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
 
         if self._verifica_response_none(response):
             return ErrorRS(

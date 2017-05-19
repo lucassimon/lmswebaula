@@ -17,7 +17,7 @@ from requests.exceptions import (
 
 from lms.core.api import APIBase
 from lms.core.containers.login import LoginRQ
-from lms.core.containers.error import ErrorRS
+from lms.core.containers.error import ErrorRS, ExceptionRS
 
 from lms.klass.containers import *
 
@@ -60,16 +60,16 @@ class API(APIBase):
                 "Não existe uma instancia para os dados da paginação"
             )
 
+        response = None
+
         try:
             response = self.rpc.get_all(paginate_rq)
-        except ConnectionError as e:
-            pytest.set_trace()
-        except NewConnectionError as e:
-            pytest.set_trace()
-        except HttpError as e:
-            pytest.set_trace()
         except Exception as e:
-            pytest.set_trace()
+            return ExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
 
         # Verificar se tem erro na resposta
 
@@ -99,16 +99,16 @@ class API(APIBase):
                 "Não existe uma instancia para os dados do estudante"
             )
 
+        response = None
+
         try:
             response = self.rpc.get_by_id(data_rq)
-        except ConnectionError as e:
-            pytest.set_trace()
-        except NewConnectionError as e:
-            pytest.set_trace()
-        except HttpError as e:
-            pytest.set_trace()
         except Exception as e:
-            pytest.set_trace()
+            return ExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
 
         # Verificar se tem erro na resposta
 
@@ -139,16 +139,16 @@ class API(APIBase):
                 "Não existe uma instância para os dados da turma"
             )
 
+        response = None
+
         try:
             response = self.rpc.get_by_course_id(data_rq)
-        except ConnectionError as e:
-            pytest.set_trace()
-        except NewConnectionError as e:
-            pytest.set_trace()
-        except HttpError as e:
-            pytest.set_trace()
         except Exception as e:
-            pytest.set_trace()
+            return ExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
 
         if self._verifica_response_none(response):
             return ErrorRS(

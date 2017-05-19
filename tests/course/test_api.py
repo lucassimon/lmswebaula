@@ -8,7 +8,7 @@ from datetime import datetime
 
 from faker import Factory
 
-from lms.core.containers.error import ErrorRS
+from lms.core.containers.error import ErrorRS, ExceptionRS
 
 from lms.course.api import API
 from lms.course.containers import *
@@ -47,15 +47,21 @@ class CourseTestCase(CourseTestCaseBase):
 
         paginate = GetAllRQ(page=1, page_size=1)
 
-        course_rs = self.api.get_all(paginate)
+        res = self.api.get_all(paginate)
 
-        self.assertIsInstance(course_rs, GetAllCourseRS)
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertIsInstance(res, GetAllCourseRS)
 
     def test_sucesso_get_all(self):
 
         paginate = GetAllRQ(page=1, page_size=12)
 
         res = self.api.get_all(paginate)
+
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
 
         data = res.data_list
 
@@ -71,6 +77,9 @@ class CourseTestCase(CourseTestCaseBase):
         )
 
         res = self.api.get_by_id(payload)
+
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
 
@@ -99,6 +108,9 @@ class CourseTestCase(CourseTestCaseBase):
 
         res = self.api.get_by_id(payload)
 
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
         self.assertIsInstance(res, ErrorRS)
 
         self.assertEqual(
@@ -123,6 +135,9 @@ class CourseTestCase(CourseTestCaseBase):
 
         res = self.api.get_by_id(payload)
 
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
         self.assertIsInstance(res, GetAllCourseRS)
 
     def test_sucesso_get_all_course_rs_get_by_id(self):
@@ -135,6 +150,9 @@ class CourseTestCase(CourseTestCaseBase):
         )
 
         res = self.api.get_by_id(payload)
+
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
 
         self.assertEqual(
             res.msg,

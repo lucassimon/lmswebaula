@@ -9,7 +9,7 @@ from datetime import datetime
 from faker import Factory
 
 from lms.core.containers.error import (
-    ErrorRS
+    ErrorRS, ExceptionRS
 )
 
 from lms.sector.api import API
@@ -55,6 +55,9 @@ class SectorTestCase(SectorTestCaseBase):
 
         res = self.api.get_all(paginate)
 
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
         self.assertIsInstance(res, GetAllSectorRS)
 
     def test_sucesso_get_all(self):
@@ -65,6 +68,9 @@ class SectorTestCase(SectorTestCaseBase):
         paginate = GetAllRQ(page=1, page_size=12)
 
         res = self.api.get_all(paginate)
+
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
 
         data = res.data_list
 
@@ -80,6 +86,9 @@ class SectorTestCase(SectorTestCaseBase):
         )
 
         res = self.api.get_by_id(data)
+
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
 
@@ -108,6 +117,9 @@ class SectorTestCase(SectorTestCaseBase):
 
         res = self.api.get_by_id(data)
 
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
         self.assertIsInstance(res, ErrorRS)
 
         self.assertEqual(
@@ -132,6 +144,9 @@ class SectorTestCase(SectorTestCaseBase):
 
         res = self.api.get_by_id(data)
 
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
         self.assertIsInstance(res, GetAllSectorRS)
 
     def test_sucesso_get_all_sector_rs_get_sector_by_id(self):
@@ -144,6 +159,13 @@ class SectorTestCase(SectorTestCaseBase):
         )
 
         res = self.api.get_by_id(data)
+
+        if isinstance(res, ExceptionRS):
+            unittest.skip(
+                "Exception {!r}".format(
+                    res.msg
+                )
+            )
 
         self.assertEqual(
             res.msg,
@@ -182,5 +204,8 @@ class SectorTestCase(SectorTestCaseBase):
         )
 
         res = self.api.save(data)
+
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
 
         self.assertEqual(res.has_error, False)

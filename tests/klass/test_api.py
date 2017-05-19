@@ -9,7 +9,7 @@ from datetime import datetime
 from faker import Factory
 
 from lms.core.containers.error import (
-    ErrorRS
+    ErrorRS, ExceptionRS
 )
 
 from lms.klass.api import API
@@ -55,6 +55,9 @@ class KlassTestCase(KlassTestCaseBase):
 
         res = self.api.get_all(paginate)
 
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
         self.assertIsInstance(res, GetAllKlassRS)
 
     def test_sucesso_get_all(self):
@@ -65,6 +68,9 @@ class KlassTestCase(KlassTestCaseBase):
         paginate = GetAllRQ(page=1, page_size=12)
 
         res = self.api.get_all(paginate)
+
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
 
         data = res.data_list
 
@@ -80,6 +86,9 @@ class KlassTestCase(KlassTestCaseBase):
 
         res = self.api.get_by_id(data_rq)
 
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
         klass_test = res.data_list[0]
 
         self.assertEqual(klass_test.lms_class_id, 10)
@@ -94,6 +103,9 @@ class KlassTestCase(KlassTestCaseBase):
         )
 
         res = self.api.get_by_course_id(data)
+
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
 
@@ -122,6 +134,9 @@ class KlassTestCase(KlassTestCaseBase):
 
         res = self.api.get_by_course_id(data)
 
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
         self.assertIsInstance(res, ErrorRS)
 
         self.assertEqual(
@@ -146,6 +161,9 @@ class KlassTestCase(KlassTestCaseBase):
 
         res = self.api.get_by_course_id(data)
 
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
         self.assertIsInstance(res, GetAllKlassRS)
 
     def test_sucesso_get_all_klass_rs_get_course_by_id(self):
@@ -158,6 +176,9 @@ class KlassTestCase(KlassTestCaseBase):
         )
 
         res = self.api.get_by_course_id(data)
+
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
 
         self.assertEqual(
             res.msg,

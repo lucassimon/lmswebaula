@@ -9,9 +9,9 @@ jobs:
       - run:
           name: Create test folders
           command: |
-            mkdir -p /home/lmswebaula/test-reports/coverage
+            mkdir -p /home/lmswebaula/reports/coverage
       - run:
-          name: Install packate
+          name: Install package
           command: |
             python /home/lmswebaula/setup.py develop
       - restore_cache:
@@ -27,10 +27,9 @@ jobs:
       - run:
           name: Run tests
           command: |
-            pytest --cov-config .coveragerc --cov=lms /home/lmswebaula/tests/
+            pytest --cov-config /home/lmswebaula/.coveragerc --cov=lms /home/lmswebaula/tests/
 
       - store_artifacts:
-          path: test-reports/coverage
-          destination: reports
+          path: /home/lmswebaula/reports/coverage
       - store_test_results:
-          path: "test-reports/"
+          path: "/home/lmswebaula/.coverage"

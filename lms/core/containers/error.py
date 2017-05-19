@@ -9,7 +9,21 @@ from lms.core.containers.response import (
 
 class ErrorRS(ContainerResponse):
 
+    pass
+
+
+class ExceptionRS(ErrorRS):
+
     _exception = None
+
+    def __init__(self, error=False, guid='', msg='', exception=None):
+
+        self._has_error = error
+        self._guid = guid
+        self._msg = msg
+
+        if exception:
+            self._exception = exception
 
     @property
     def exception(self):
@@ -19,3 +33,12 @@ class ErrorRS(ContainerResponse):
     def exception(self, value):
 
         self._exception = value
+
+    @property
+    def msg(self):
+        return self._msg
+
+    @msg.setter
+    def msg(self, value):
+
+        self._msg = value
