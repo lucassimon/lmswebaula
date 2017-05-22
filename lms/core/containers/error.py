@@ -42,3 +42,8 @@ class ExceptionRS(ErrorRS):
     def msg(self, value):
 
         self._msg = value
+
+
+class ConnectionExceptionRS(ExceptionRS):
+
+    pass

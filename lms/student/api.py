@@ -18,7 +18,9 @@ from requests.exceptions import (
 
 from lms.core.api import APIBase
 from lms.core.containers.login import LoginRQ
-from lms.core.containers.error import ErrorRS, ExceptionRS
+from lms.core.containers.error import (
+    ErrorRS, ExceptionRS, ConnectionExceptionRS
+)
 
 from lms.student.containers import *
 
@@ -67,11 +69,25 @@ class API(APIBase):
 
         try:
             response = self.rpc.get_all(paginate_rq)
+        except ValueError as e:
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
         except Exception as e:
             return ExceptionRS(
                 error=True,
                 msg=e.message,
-                exception=e
             )
 
         # Verificar se tem erro na resposta
@@ -119,11 +135,25 @@ class API(APIBase):
 
         try:
             response = self.rpc.get_by_id(data_rq)
+        except ValueError as e:
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
         except Exception as e:
             return ExceptionRS(
                 error=True,
                 msg=e.message,
-                exception=e
             )
 
         # Verificar se tem erro na resposta
@@ -172,11 +202,25 @@ class API(APIBase):
 
         try:
             response = self.rpc.set_status(status_rq)
+        except ValueError as e:
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
         except Exception as e:
             return ExceptionRS(
                 error=True,
                 msg=e.message,
-                exception=e
             )
 
         # Verificar se tem erro na resposta
@@ -219,11 +263,25 @@ class API(APIBase):
 
         try:
             response = self.rpc.save(student_rq)
+        except ValueError as e:
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
         except Exception as e:
             return ExceptionRS(
                 error=True,
                 msg=e.message,
-                exception=e
             )
 
         if self._verifica_response_none(response):
