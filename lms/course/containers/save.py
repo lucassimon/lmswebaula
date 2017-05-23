@@ -22,7 +22,7 @@ class SaveRQ(CourseDTO):
         frequency,
         sector_list,
         status,
-        course_class_types
+        course_class_type
     ):
         self._name = name
         self._name_course_menu = name_course_menu
@@ -33,7 +33,7 @@ class SaveRQ(CourseDTO):
         self._frequency = frequency
         self._sector_list = sector_list
         self._status = status
-        self._course_class_types = course_class_types
+        self._course_class_type = course_class_type
 
 
 class SaveRS(SuccessContainerResponse):

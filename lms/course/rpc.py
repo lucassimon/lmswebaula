@@ -98,7 +98,7 @@ class RPC(object):
             Hours=data.hours,
             Media=data.media,
             Frequency=data.frequency,
-            CourseClassTypes=data.course_class_types,
+            CourseClassType=data._course_class_type,
             # SectorList=data.sector_list,
             Status=data.status
         )
