@@ -9,7 +9,7 @@ from datetime import datetime
 from faker import Factory
 
 from lms.core.containers.error import (
-    ErrorRS, ExceptionRS
+    ErrorRS, ExceptionRS, ConnectionExceptionRS
 )
 
 from lms.sector.api import API
@@ -55,7 +55,7 @@ class SectorTestCase(SectorTestCaseBase):
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, GetAllSectorRS)
@@ -69,7 +69,7 @@ class SectorTestCase(SectorTestCaseBase):
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         data = res.data_list
@@ -87,7 +87,7 @@ class SectorTestCase(SectorTestCaseBase):
 
         res = self.api.get_by_id(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
@@ -117,7 +117,7 @@ class SectorTestCase(SectorTestCaseBase):
 
         res = self.api.get_by_id(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
@@ -144,7 +144,7 @@ class SectorTestCase(SectorTestCaseBase):
 
         res = self.api.get_by_id(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, GetAllSectorRS)
@@ -160,12 +160,8 @@ class SectorTestCase(SectorTestCaseBase):
 
         res = self.api.get_by_id(data)
 
-        if isinstance(res, ExceptionRS):
-            unittest.skip(
-                "Exception {!r}".format(
-                    res.msg
-                )
-            )
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
 
         self.assertEqual(
             res.msg,
@@ -205,7 +201,7 @@ class SectorTestCase(SectorTestCaseBase):
 
         res = self.api.save(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertEqual(res.has_error, False)

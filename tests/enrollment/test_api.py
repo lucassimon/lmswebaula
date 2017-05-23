@@ -9,7 +9,7 @@ from datetime import datetime
 from faker import Factory
 
 from lms.core.containers.error import (
-    ErrorRS, ExceptionRS
+    ErrorRS, ExceptionRS, ConnectionExceptionRS
 )
 
 from lms.enrollment.api import API
@@ -58,7 +58,7 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
 
         res = self.api.enrollment_course(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
@@ -88,7 +88,7 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
 
         res = self.api.enrollment_course(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
@@ -118,7 +118,7 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
 
         res = self.api.enrollment_course(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, EnrollmentCourseRS)
@@ -135,7 +135,7 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
 
         res = self.api.enrollment_course(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertEqual(res.has_error, False)
@@ -190,7 +190,7 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
 
         res = self.api.set_status_in_class(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
@@ -222,7 +222,7 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
 
         res = self.api.set_status_in_class(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
@@ -254,7 +254,7 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
 
         res = self.api.set_status_in_class(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, SetStatusInClassRS)

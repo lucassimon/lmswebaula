@@ -9,7 +9,7 @@ from datetime import datetime
 from faker import Factory
 
 from lms.core.containers.error import (
-    ErrorRS, ExceptionRS
+    ErrorRS, ExceptionRS, ConnectionExceptionRS
 )
 
 from lms.job.api import API
@@ -55,7 +55,7 @@ class JobTestCase(JobTestCaseBase):
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, GetAllJobRS)
@@ -69,7 +69,7 @@ class JobTestCase(JobTestCaseBase):
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         data = res.data_list
@@ -87,7 +87,7 @@ class JobTestCase(JobTestCaseBase):
 
         res = self.api.get_by_id(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
@@ -117,7 +117,7 @@ class JobTestCase(JobTestCaseBase):
 
         res = self.api.get_by_id(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
@@ -144,7 +144,7 @@ class JobTestCase(JobTestCaseBase):
 
         res = self.api.get_by_id(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, GetAllJobRS)
@@ -160,7 +160,7 @@ class JobTestCase(JobTestCaseBase):
 
         res = self.api.get_by_id(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertEqual(
@@ -195,13 +195,13 @@ class JobTestCase(JobTestCaseBase):
         """
 
         data = SaveRQ(
-            description=u'Teste job {}'.format(self.fake.name()),
+            description=u'Teste job {}'.format(self.fake.job()),
             job_id=self.fake.random_int(min=0, max=99999)
         )
 
         res = self.api.save(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertEqual(res.has_error, False)

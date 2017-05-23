@@ -9,7 +9,7 @@ from datetime import datetime
 from faker import Factory
 
 from lms.core.containers.error import (
-    ErrorRS, ExceptionRS
+    ErrorRS, ExceptionRS, ConnectionExceptionRS
 )
 
 from lms.klass.api import API
@@ -55,7 +55,7 @@ class KlassTestCase(KlassTestCaseBase):
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, GetAllKlassRS)
@@ -69,7 +69,7 @@ class KlassTestCase(KlassTestCaseBase):
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         data = res.data_list
@@ -86,7 +86,7 @@ class KlassTestCase(KlassTestCaseBase):
 
         res = self.api.get_by_id(data_rq)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         klass_test = res.data_list[0]
@@ -104,7 +104,7 @@ class KlassTestCase(KlassTestCaseBase):
 
         res = self.api.get_by_course_id(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
@@ -134,7 +134,7 @@ class KlassTestCase(KlassTestCaseBase):
 
         res = self.api.get_by_course_id(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
@@ -161,7 +161,7 @@ class KlassTestCase(KlassTestCaseBase):
 
         res = self.api.get_by_course_id(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, GetAllKlassRS)
@@ -177,7 +177,7 @@ class KlassTestCase(KlassTestCaseBase):
 
         res = self.api.get_by_course_id(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertEqual(

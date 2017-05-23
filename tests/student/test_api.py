@@ -9,7 +9,7 @@ from datetime import datetime
 from faker import Factory
 
 from lms.core.containers.error import (
-    ErrorRS, ExceptionRS
+    ErrorRS, ExceptionRS, ConnectionExceptionRS
 )
 
 from lms.student.api import API
@@ -54,7 +54,7 @@ class StudentTestCase(StudentTestCaseBase):
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, GetAllStudentRS)
@@ -68,7 +68,7 @@ class StudentTestCase(StudentTestCaseBase):
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertEqual(res.data_list[0].email, 'webaula@webaula.com.br')
@@ -94,7 +94,7 @@ class StudentTestCase(StudentTestCaseBase):
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         student_test = res.data_list[3]
@@ -106,7 +106,7 @@ class StudentTestCase(StudentTestCaseBase):
 
         res = self.api.set_status(status)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, StatusRS)
@@ -117,7 +117,7 @@ class StudentTestCase(StudentTestCaseBase):
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         student_test = res.data_list[3]
@@ -129,14 +129,14 @@ class StudentTestCase(StudentTestCaseBase):
 
         res = self.api.set_status(status)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertEqual(res.has_error, False)
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         student_test = res.data_list[3]
@@ -149,7 +149,7 @@ class StudentTestCase(StudentTestCaseBase):
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         student_test = res.data_list[3]
@@ -161,14 +161,14 @@ class StudentTestCase(StudentTestCaseBase):
 
         res = self.api.set_status(status)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertEqual(res.has_error, False)
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         student_test = res.data_list[3]
@@ -183,7 +183,7 @@ class StudentTestCase(StudentTestCaseBase):
 
         res = self.api.get_by_id(data_rq)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         student_test = res.data_list[0]
@@ -226,7 +226,7 @@ class StudentTestCase(StudentTestCaseBase):
 
         res = self.api.save(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertEqual(res.has_error, False)

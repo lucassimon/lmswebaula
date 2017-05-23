@@ -8,7 +8,9 @@ from datetime import datetime
 
 from faker import Factory
 
-from lms.core.containers.error import ErrorRS, ExceptionRS
+from lms.core.containers.error import (
+    ErrorRS, ExceptionRS, ConnectionExceptionRS
+)
 
 from lms.course.api import API
 from lms.course.containers import *
@@ -49,7 +51,7 @@ class CourseTestCase(CourseTestCaseBase):
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, GetAllCourseRS)
@@ -60,7 +62,7 @@ class CourseTestCase(CourseTestCaseBase):
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         data = res.data_list
@@ -78,7 +80,7 @@ class CourseTestCase(CourseTestCaseBase):
 
         res = self.api.get_by_id(payload)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
@@ -108,7 +110,7 @@ class CourseTestCase(CourseTestCaseBase):
 
         res = self.api.get_by_id(payload)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
@@ -135,7 +137,7 @@ class CourseTestCase(CourseTestCaseBase):
 
         res = self.api.get_by_id(payload)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, GetAllCourseRS)
@@ -151,7 +153,7 @@ class CourseTestCase(CourseTestCaseBase):
 
         res = self.api.get_by_id(payload)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertEqual(
@@ -164,3 +166,58 @@ class CourseTestCase(CourseTestCaseBase):
         data = res.data_list[0]
 
         self.assertEqual(data.name, 'TCC')
+
+    def test_erro_parametro_save(self):
+        """
+        Testa erro ao não passar nenhum parametro de course no metodo Save
+        """
+
+        with pytest.raises(ValueError) as excinfo:
+
+            data = {}
+            self.api.save(data)
+
+        self.assertEqual(
+            'Não existe uma instância para os dados do curso',
+            excinfo.value.message
+        )
+
+    def test_save(self):
+        """
+        Salvar um course
+        """
+
+        # Buscar um grupo
+
+        # Buscar um setores/segmentos
+
+        # Status podem ser:
+        #
+        # A - Ambos
+        # L - Livre
+        # T - Turma
+
+        name = u'Teste curso {}'.format(self.fake.name())
+
+        data = SaveRQ(
+            name=name,
+            name_course_menu=name,
+            group_id='',
+            course_id=self.fake.uuid4(),
+            hours=self.fake.random_int(min=120, max=260),
+            media=self.fake.random_int(min=70, max=90),
+            frequency=self.fake.random_int(min=70, max=90),
+            sector_list=[],
+            status=fake.random_element(
+                elements=(
+                    'A', 'L', 'T'
+                )
+            )
+        )
+
+        res = self.api.save(data)
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertEqual(res.has_error, False)

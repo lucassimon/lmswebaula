@@ -9,7 +9,7 @@ from datetime import datetime
 from faker import Factory
 
 from lms.core.containers.error import (
-    ErrorRS, ExceptionRS
+    ErrorRS, ExceptionRS, ConnectionExceptionRS
 )
 
 from lms.segment.api import API
@@ -55,7 +55,7 @@ class SegmentTestCase(SegmentTestCaseBase):
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, GetAllSegmentRS)
@@ -69,7 +69,7 @@ class SegmentTestCase(SegmentTestCaseBase):
 
         res = self.api.get_all(paginate)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         data = res.data_list
@@ -87,7 +87,7 @@ class SegmentTestCase(SegmentTestCaseBase):
 
         res = self.api.get_by_id(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
@@ -117,7 +117,7 @@ class SegmentTestCase(SegmentTestCaseBase):
 
         res = self.api.get_by_id(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, ErrorRS)
@@ -144,7 +144,7 @@ class SegmentTestCase(SegmentTestCaseBase):
 
         res = self.api.get_by_id(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, GetAllSegmentRS)
@@ -160,7 +160,7 @@ class SegmentTestCase(SegmentTestCaseBase):
 
         res = self.api.get_by_id(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertEqual(
@@ -202,7 +202,7 @@ class SegmentTestCase(SegmentTestCaseBase):
 
         res = self.api.get_by_description(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertEqual(
@@ -227,7 +227,7 @@ class SegmentTestCase(SegmentTestCaseBase):
 
         res = self.api.get_by_description(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, GetAllSegmentRS)
@@ -243,7 +243,7 @@ class SegmentTestCase(SegmentTestCaseBase):
 
         res = self.api.get_by_description(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertEqual(
@@ -284,7 +284,7 @@ class SegmentTestCase(SegmentTestCaseBase):
 
         res = self.api.save(data)
 
-        if isinstance(res, ExceptionRS):
+        if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
         self.assertEqual(res.has_error, False)
