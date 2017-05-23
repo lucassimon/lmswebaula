@@ -52,3 +52,38 @@ class ErrorListResponse(object):
 
         self._lmsid = lmsid
         self._id = id
+
+
+class SuccessContainerResponse(ContainerResponse):
+
+    """
+    Container de sucesso
+    """
+
+    _data_list = []
+
+    def __init__(self, error=True, guid='', msg='', data=[]):
+
+        if not isinstance(data, list):
+            raise ValueError(
+                'Os itens precisam estar em uma lista'
+            )
+
+        self._data_list = data
+        self._has_error = error
+        self._guid = guid
+        self._msg = msg
+
+    @property
+    def data_list(self):
+        return self._data_list
+
+    @data_list.setter
+    def data_list(self, value):
+
+        if not isinstance(value, list):
+            raise ValueError(
+                'Os itens precisam estar em uma lista'
+            )
+
+        self._data_list = value
