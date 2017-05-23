@@ -14,6 +14,10 @@ from lms.core.containers.error import (
 
 from lms.course.api import API
 from lms.course.containers import *
+from lms.course_group.api import API as CGAPI
+from lms.course_group.containers import GetByIdRQ as CGGetByIdRQ
+from lms.segment.api import API as SAPI
+from lms.segment.containers import GetByIdRQ as SGetByIdRQ
 
 
 class CourseTestCaseBase(unittest.TestCase):
@@ -184,14 +188,34 @@ class CourseTestCase(CourseTestCaseBase):
 
     def test_save(self):
         """
-        Salvar um course
+        Salvar um curso
         """
 
         # Buscar um grupo
 
+        payload = CGGetByIdRQ(
+            lms_course_group_id=10121
+        )
+
+        cgapi = CGAPI(self.passport)
+
+        res = cgapi.get_by_id(payload)
+
+        group = res.data_list[0]
+
+        sapi = SAPI(self.passport)
+
+        payload = SGetByIdRQ(
+            lms_segment_id=1
+        )
+
+        res = sapi.get_by_id(payload)
+
+        sector = res.data_list[0]
+
         # Buscar um setores/segmentos
 
-        # Status podem ser:
+        # Course Class Type podem ser:
         #
         # A - Ambos
         # L - Livre
@@ -202,17 +226,18 @@ class CourseTestCase(CourseTestCaseBase):
         data = SaveRQ(
             name=name,
             name_course_menu=name,
-            group_id='',
+            group_id=group.lms_course_group_id,
             course_id=self.fake.uuid4(),
             hours=self.fake.random_int(min=120, max=260),
             media=self.fake.random_int(min=70, max=90),
             frequency=self.fake.random_int(min=70, max=90),
             sector_list=[],
-            status=fake.random_element(
+            course_class_type=self.fake.random_element(
                 elements=(
                     'A', 'L', 'T'
                 )
-            )
+            ),
+            status=True
         )
 
         res = self.api.save(data)
