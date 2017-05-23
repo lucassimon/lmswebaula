@@ -17,7 +17,9 @@ from requests.exceptions import (
 
 from lms.core.api import APIBase
 from lms.core.containers.login import LoginRQ
-from lms.core.containers.error import ErrorRS, ExceptionRS
+from lms.core.containers.error import (
+    ErrorRS, ExceptionRS, ConnectionExceptionRS
+)
 
 
 from lms.competence.containers import *
@@ -61,6 +63,21 @@ class API(APIBase):
 
         try:
             response = self.rpc.get_all(data_rq)
+        except ValueError as e:
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
         except Exception as e:
             return ExceptionRS(
                 error=True,
@@ -112,6 +129,21 @@ class API(APIBase):
 
         try:
             response = self.rpc.get_by_id(data_rq)
+        except ValueError as e:
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
         except Exception as e:
             return ExceptionRS(
                 error=True,
@@ -164,6 +196,21 @@ class API(APIBase):
 
         try:
             response = self.rpc.save(data_rq)
+        except ValueError as e:
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
         except Exception as e:
             return ExceptionRS(
                 error=True,
