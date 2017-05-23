@@ -79,4 +79,39 @@ class RPC(object):
 
     def save(self, data):
 
-        raise NotImplementedError
+        if not isinstance(data, SaveRQ):
+            raise ValueError(
+                "Não existe dados para o curso"
+            )
+
+        request = Client(self._login.url)
+
+        array_dto = request.get_type('ns4:ArrayOfCourseDTO')
+
+        data_dto = request.get_type('ns4:CourseDTO')
+
+        data = data_dto(
+            Name=data.name,
+            NameCourseMenu=data.name_course_menu,
+            GroupId=data.group_id,
+            CourseId=data.course_id,
+            Hours=data.hours,
+            Media=data.media,
+            Frequency=data.frequency,
+            CourseClassTypes=data.course_class_types,
+            # SectorList=data.sector_list,
+            Status=data.status
+        )
+
+        data_list = array_dto(CourseDTO=data)
+
+        try:
+            response = request.service.Save(
+                passport=self._passport,
+                courseListDTO=data_list
+            )
+
+        except Exception as e:
+            raise e
+
+        return response
