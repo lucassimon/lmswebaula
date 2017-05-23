@@ -5,7 +5,7 @@ import six
 
 
 from lms.core.containers.response import (
-    ContainerResponse, ErrorListResponse
+    SuccessContainerResponse, ErrorListResponse
 )
 
 
@@ -99,35 +99,6 @@ class SaveRQ(object):
         self._available = value
 
 
-class SaveRS(ContainerResponse):
-    """
-    Resposta do metodo save
-    """
+class SaveRS(SuccessContainerResponse):
 
-    _data_list = []
-
-    def __init__(self, error=True, guid='', msg='', data=[]):
-
-        if not isinstance(data, list):
-            raise ValueError(
-                'Os cargos precisam estar em uma lista'
-            )
-
-        self._data_list = data
-        self._has_error = error
-        self._guid = guid
-        self._msg = msg
-
-    @property
-    def data_list(self):
-        return self._data_list
-
-    @data_list.setter
-    def data_list(self, value):
-
-        if not isinstance(value, list):
-            raise ValueError(
-                'Os cargos precisam estar em uma lista'
-            )
-
-        self._data_list = value
+    pass
