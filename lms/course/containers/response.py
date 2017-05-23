@@ -22,7 +22,7 @@ class CourseDTO(object):
     _media = 0
     _frequency = 0
     _has_certified = False
-    _course_class_type = None
+    _course_class_type = 'A'
     _has_pre_test = False
     _class_room_course = False
     _completion_certificate = False
@@ -171,3 +171,12 @@ class CourseDTO(object):
     def status(self, value):
 
         self._status = value
+
+    @property
+    def course_class_type(self):
+        return self._course_class_type
+
+    @course_class_type.setter
+    def course_class_type(self, value):
+
+        self._course_class_type = value
