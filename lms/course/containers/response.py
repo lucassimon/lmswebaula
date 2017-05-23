@@ -10,53 +10,50 @@ from lms.core.containers.response import (
 
 class CourseDTO(object):
 
-    _aicccompilant = False
-    _access_to_term_pos = False,
-    _allows_re_enrollment = False,
-    _amount_questions = "",
-    _class_room_course = True,
-    _competence_list = None,
-    _completion_certificate = False,
-    _course_class_type = "FreeClassesAndCourseClasses",
-    _course_id = None,
-    _course_level_job_list = None,
-    _date_begin_pre_registration = None,
-    _date_end_pre_registration = None,
-    _demonstration_active = False,
-    _description = None,
-    _displays_the_catalog = False,
-    _evaluation_has = False,
-    _folder_name = "",
-    _follow_schedule = "",
-    _frequency = 75
-    _full_screen = False,
-    _group_id = None,
-    _has_flash = True,
-    _has_media = False,
-    _has_pre_test = False,
-    _has_certified = False,
-    _have_recycling = False,
-    _height_room = "",
-    _hours = ""
-    _lms_course_id = "",
-    _lms_group_id = "",
-    _media = "",
-    _name = "",
+    _lms_course_id = 0
+    _course_id = None
+    _lms_group_id = 0
+    _name = ""
+    _folder_name = ""
+    _term = ""
+    _evaluation_has = False
     _name_course_menu = ""
-    _order = "",
-    _pre_registration = False,
-    _pre_registration_validity = "",
-    _pre_requirements = "",
-    _pre_requisite_courses = None,
-    _provider = None,
-    _re_enrollment = "",
-    _scorm_compliant = True,
-    _sector_list = None,
-    _segment_pre_registration = "",
-    _status = True,
-    _term = "",
-    _time_travel_news = None,
-    _width_room = ""
+    _pre_requirements = 0
+    _media = 0
+    _frequency = 0
+    _has_certified = False
+    _course_class_type = None
+    _has_pre_test = False
+    _class_room_course = False
+    _completion_certificate = False
+    _pre_registration = False
+    _date_begin_pre_registration = None
+    _date_end_pre_registration = None
+    _hours = 0
+    _provider = ""
+    _description = ""
+    _re_enrollment = 0
+    _access_to_term_pos = False
+    _scorm_compliant = False
+    _have_recycling = False
+    _has_media = False
+    _has_flash = False
+    _displays_the_catalog = False
+    _segment_pre_registration = None
+    _time_travel_news = ""
+    _group_id = ""
+    _lms_group_id = None
+    _amount_questions = 0
+    _follow_schedule = 0
+    _full_screen = False
+    _pre_registration_validity = None
+    _order = 0
+    _demonstration_active = False
+    _width_room = 0
+    _height_room = 0
+    _allows_re_enrollment = False
+    _aicccompilant = False
+    _status = False
 
     def __init__(
         self,
@@ -103,5 +100,74 @@ class CourseDTO(object):
 
         self._lms_course_id = value
 
-    def convert_to_post(self):
-        pass
+    @property
+    def name_course_menu(self):
+        return self._name_course_menu
+
+    @name_course_menu.setter
+    def name_course_menu(self, value):
+
+        self._name_course_menu = value
+
+    @property
+    def group_id(self):
+        return self._group_id
+
+    @group_id.setter
+    def group_id(self, value):
+
+        self._group_id = value
+
+    @property
+    def course_id(self):
+        return self._course_id
+
+    @course_id.setter
+    def course_id(self, value):
+
+        self._course_id = value
+
+    @property
+    def hours(self):
+        return self._hours
+
+    @hours.setter
+    def hours(self, value):
+
+        self._hours = value
+
+    @property
+    def media(self):
+        return self._media
+
+    @media.setter
+    def media(self, value):
+
+        self._media = value
+
+    @property
+    def frequency(self):
+        return self._frequency
+
+    @frequency.setter
+    def frequency(self, value):
+
+        self._frequency = value
+
+    @property
+    def sector_list(self):
+        return self._sector_list
+
+    @sector_list.setter
+    def sector_list(self, value):
+
+        self._sector_list = value
+
+    @property
+    def status(self):
+        return self._status
+
+    @status.setter
+    def status(self, value):
+
+        self._status = value
