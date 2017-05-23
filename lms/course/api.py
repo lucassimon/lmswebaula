@@ -189,7 +189,60 @@ class API(APIBase):
         Cria/Atualiza um curso
         """
 
-        raise NotImplementedError
+        if not isinstance(data_rq, SaveRQ):
+            raise ValueError(
+                "Não existe uma instância para os dados do curso"
+            )
+
+        response = None
+
+        try:
+            response = self.rpc.save(data_rq)
+        except ValueError as e:
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
+        except Exception as e:
+            return ExceptionRS(
+                error=True,
+                msg=e.message,
+            )
+
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
+
+        data = CourseParse.get_all(response)
+
+        data_rs = SaveRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg'],
+            data=data
+        )
+
+        return data_rs
 
     def bind_coordination(self, data_rq):
         """
