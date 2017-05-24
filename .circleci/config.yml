@@ -30,6 +30,6 @@ jobs:
             pytest --cov-config /home/lmswebaula/.coveragerc --cov=lms /home/lmswebaula/tests/
 
       - store_artifacts:
-          path: /home/lmswebaula/reports/coverage
+          path: /home/lmswebaula/.coverage
       - store_test_results:
           path: "/home/lmswebaula/.coverage"
