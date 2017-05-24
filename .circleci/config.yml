@@ -28,9 +28,13 @@ jobs:
           name: Run tests
           command: |
             pytest --cov-config /home/lmswebaula/.coveragerc --cov-report html --cov=lms /home/lmswebaula/tests/
-
+      - run:
+        name: Update Code Coverage
+        command: |
+          mkdir -p /home/lmswebaula/html_cov
+          coverage html -d html_cov
       - store_artifacts:
-          path: /home/lmswebaula/html_cov
-      - store_test_results:
           path: "/home/lmswebaula/.coverage"
+      - store_test_results:
+          path: "/home/lmswebaula/html_cov"
 
