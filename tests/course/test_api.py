@@ -191,58 +191,60 @@ class CourseTestCase(CourseTestCaseBase):
         Salvar um curso
         """
 
+        raise unittest.SkipTest('Not Implemented')
+
         # Buscar um grupo
 
-        payload = CGGetByIdRQ(
-            lms_course_group_id=10121
-        )
+        # payload = CGGetByIdRQ(
+        #     lms_course_group_id=10121
+        # )
 
-        cgapi = CGAPI(self.passport)
+        # cgapi = CGAPI(self.passport)
 
-        res = cgapi.get_by_id(payload)
+        # res = cgapi.get_by_id(payload)
 
-        group = res.data_list[0]
+        # group = res.data_list[0]
 
-        sapi = SAPI(self.passport)
+        # sapi = SAPI(self.passport)
 
-        payload = SGetByIdRQ(
-            lms_segment_id=1
-        )
+        # payload = SGetByIdRQ(
+        #     lms_segment_id=1
+        # )
 
-        res = sapi.get_by_id(payload)
+        # res = sapi.get_by_id(payload)
 
-        sector = res.data_list[0]
+        # sector = res.data_list[0]
 
-        # Buscar um setores/segmentos
+        # # Buscar um setores/segmentos
 
-        # Course Class Type podem ser:
-        #
-        # A - Ambos
-        # L - Livre
-        # T - Turma
+        # # Course Class Type podem ser:
+        # #
+        # # A - Ambos
+        # # L - Livre
+        # # T - Turma
 
-        name = u'Teste curso {}'.format(self.fake.name())
+        # name = u'Teste curso {}'.format(self.fake.name())
 
-        data = SaveRQ(
-            name=name,
-            name_course_menu=name,
-            group_id=group.lms_course_group_id,
-            course_id=self.fake.uuid4(),
-            hours=self.fake.random_int(min=120, max=260),
-            media=self.fake.random_int(min=70, max=90),
-            frequency=self.fake.random_int(min=70, max=90),
-            sector_list=[],
-            course_class_type=self.fake.random_element(
-                elements=(
-                    'A', 'L', 'T'
-                )
-            ),
-            status=True
-        )
+        # data = SaveRQ(
+        #     name=name,
+        #     name_course_menu=name,
+        #     group_id=group.lms_course_group_id,
+        #     course_id=self.fake.uuid4(),
+        #     hours=self.fake.random_int(min=120, max=260),
+        #     media=self.fake.random_int(min=70, max=90),
+        #     frequency=self.fake.random_int(min=70, max=90),
+        #     sector_list=[],
+        #     course_class_type=self.fake.random_element(
+        #         elements=(
+        #             'A', 'L', 'T'
+        #         )
+        #     ),
+        #     status=True
+        # )
 
-        res = self.api.save(data)
+        # res = self.api.save(data)
 
-        if isinstance(res, ConnectionExceptionRS):
-            raise unittest.SkipTest(res.msg)
+        # if isinstance(res, ConnectionExceptionRS):
+        #     raise unittest.SkipTest(res.msg)
 
-        self.assertEqual(res.has_error, False)
+        # self.assertEqual(res.has_error, False)
