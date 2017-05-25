@@ -5,7 +5,7 @@ import six
 
 from lms.core.containers.pagination import PaginationMixinRQ
 from lms.core.containers.response import (
-    ContainerResponse
+    SuccessContainerResponse
 )
 
 
@@ -14,7 +14,7 @@ class GetAllRQ(PaginationMixinRQ):
     pass
 
 
-class GetAllStudentRS(ContainerResponse):
+class GetAllStudentRS(SuccessContainerResponse):
     """
 
     Url: http://lmsapi.webaula.com.br/v3/DOC/API.aspx?s=Student&m=GetAll
@@ -41,30 +41,4 @@ class GetAllStudentRS(ContainerResponse):
     }
     """
 
-    _data_list = []
-
-    def __init__(self, error=True, guid='', msg='', data=[]):
-
-        if not isinstance(data, list):
-            raise ValueError(
-                'Os estudantes precisam estar em uma lista'
-            )
-
-        self._data_list = data
-        self._has_error = error
-        self._guid = guid
-        self._msg = msg
-
-    @property
-    def data_list(self):
-        return self._data_list
-
-    @data_list.setter
-    def data_list(self, value):
-
-        if not isinstance(value, list):
-            raise ValueError(
-                'Os estudantes precisam estar em uma lista'
-            )
-
-        self._data_list = value
+    pass
