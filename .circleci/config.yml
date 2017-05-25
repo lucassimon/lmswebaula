@@ -35,10 +35,9 @@ jobs:
             coverage html -d html_cov
       - store_artifacts:
           path: "/home/lmswebaula/html_cov"
-          destination: "/home/lmswebaula/test-reports/html/"
+          destination: html
       - store_artifacts:
           path: "/home/lmswebaula/.coverage"
-          destination: "/home/lmswebaula/test-reports/"
       - store_test_results:
-          path: "/home/lmswebaula/test-reports/"
+          path: "/home/lmswebaula/.coverage"
 
