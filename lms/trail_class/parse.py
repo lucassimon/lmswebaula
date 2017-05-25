@@ -8,7 +8,7 @@ from lms.trail_class.containers.response import (
 )
 
 
-class TrailParse(object):
+class TrailClassParse(object):
 
     @staticmethod
     def get_all(response):

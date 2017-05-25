@@ -5,7 +5,7 @@ import six
 
 from lms.core.containers.pagination import PaginationMixinRQ
 from lms.core.containers.response import (
-    ContainerResponse
+    SuccessContainerResponse
 )
 
 
@@ -14,7 +14,7 @@ class GetRQ(object):
     _trail_class_id = None
     _lms_trail_class_id = None
 
-    def __init__(self, lms_trail_class_id, trail_class_id=None):
+    def __init__(self, trail_class_id, lms_trail_class_id=None,):
 
         self._lms_trail_class_id = lms_trail_class_id
         self._trail_class_id = trail_class_id
@@ -38,37 +38,11 @@ class GetRQ(object):
         self._trail_class_id = value
 
 
-class GetRS(ContainerResponse):
+class GetRS(SuccessContainerResponse):
     """
 
     Url: http://lmsapi.webaula.com.br/v3/DOC/API.aspx?s=Trail&m=GetTrail
 
     """
 
-    _data_list = []
-
-    def __init__(self, error=True, guid='', msg='', data=[]):
-
-        if not isinstance(data, list):
-            raise ValueError(
-                'As turmas de uma trilha precisam estar em uma lista'
-            )
-
-        self._data_list = data
-        self._has_error = error
-        self._guid = guid
-        self._msg = msg
-
-    @property
-    def data_list(self):
-        return self._data_list
-
-    @data_list.setter
-    def data_list(self, value):
-
-        if not isinstance(value, list):
-            raise ValueError(
-                'As turmas de uma precisam estar em uma lista'
-            )
-
-        self._data_list = value
+    pass

@@ -67,7 +67,7 @@ class API(APIBase):
         Recupera uma turma de trilha
         """
 
-        if not isinstance(data_rq, GetByIdRQ):
+        if not isinstance(data_rq, GetRQ):
             raise ValueError(
                 "Não existe uma instância para os dados da trilha"
             )
