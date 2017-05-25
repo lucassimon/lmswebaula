@@ -86,3 +86,25 @@ class RPC(object):
             raise e
 
         return response
+
+    def checks_student_enrolled_in_trail_class(self, data_rq):
+
+        if not isinstance(data_rq, EnrolledInTrailClassRQ):
+            raise ValueError(
+                "Não existe uma instância para os dados da aluno matriculado"
+            )
+
+        request = Client(self._login.url)
+
+        response = None
+
+        try:
+            response = request.service.ChecksStudentEnrolledInTrailClass(
+                passport=self._passport,
+                userId=data_rq.user_id,
+                trailClassId=data_rq.trail_class_id,
+            )
+        except Exception as e:
+            raise e
+
+        return response

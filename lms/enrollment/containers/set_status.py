@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 
 from lms.core.containers.response import (
-    ContainerResponse, ErrorListResponse
+    SuccessContainerResponse, ErrorListResponse
 )
 
 
@@ -90,6 +90,6 @@ class SetStatusInClassRQ(object):
         self._status = value
 
 
-class SetStatusInClassRS(ContainerResponse):
+class SetStatusInClassRS(SuccessContainerResponse):
 
     pass

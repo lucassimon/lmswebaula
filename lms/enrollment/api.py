@@ -166,7 +166,57 @@ class API(APIBase):
         Verifica se o aluno está matriculado na turma de trilha
         """
 
-        raise NotImplementedError
+        if not isinstance(data_rq, EnrolledInTrailClassRQ):
+            raise ValueError(
+                "Não existe uma instância para os dados do aluno matriculado"
+            )
+
+        response = None
+
+        try:
+            response = self.rpc.checks_student_enrolled_in_trail_class(data_rq)
+        except ValueError as e:
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
+        except Exception as e:
+            return ExceptionRS(
+                error=True,
+                msg=e.message,
+            )
+
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
+
+        res = EnrolledInTrailClassRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg']
+        )
+
+        return res
 
     def checks_student_enrolled_in_trail_default_class(self, data_rq):
         """
@@ -192,10 +242,59 @@ class API(APIBase):
     def enrollment_trail(self, data_rq):
         """
         Matricula o aluno na turma de trilha
-
         """
 
-        raise NotImplementedError
+        if not isinstance(data_rq, EnrollmentTrailRQ):
+            raise ValueError(
+                "Não existe uma instância para os dados da matricula"
+            )
+
+        response = None
+
+        try:
+            response = self.rpc.enrollment_trail(data_rq)
+        except ValueError as e:
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
+        except Exception as e:
+            return ExceptionRS(
+                error=True,
+                msg=e.message,
+            )
+
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
+
+        res = EnrollmentCourseRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg']
+        )
+
+        return res
 
     def enrollment_trail_trail_with_days_as_period_access(self, data_rq):
         """

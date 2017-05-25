@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 
 from lms.core.containers.response import (
-    ContainerResponse, ErrorListResponse
+    SuccessContainerResponse, ErrorListResponse
 )
 
 
@@ -68,6 +68,6 @@ class EnrollmentCourseRQ(object):
         self._class_id = value
 
 
-class EnrollmentCourseRS(ContainerResponse):
+class EnrollmentCourseRS(SuccessContainerResponse):
 
     pass
