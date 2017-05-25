@@ -276,3 +276,22 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
             raise unittest.SkipTest(res.msg)
 
         self.assertEqual(res.has_error, False)
+
+    def test_erro_checks_student_enrolled_in_trail_class(self):
+        """
+        Testa erro ao não encontrar matricula para o estudante
+        """
+
+        data = EnrolledInTrailClassRQ(
+            student_id=15,
+            trail_class_id=4
+        )
+
+        res = self.api.checks_student_enrolled_in_trail_class(data)
+
+        if isinstance(res, ExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertEqual(res.has_error, True)
+
+        self.assertEqual(res.msg, u'Matricula não encontrada')
