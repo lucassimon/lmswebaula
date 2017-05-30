@@ -21,6 +21,9 @@ from lms.core.containers.error import (
     ErrorRS, ExceptionRS, ConnectionExceptionRS
 )
 
+from lms.core.containers.pagination import (
+    PaginationParse
+)
 
 from lms.course.containers import *
 
@@ -116,6 +119,9 @@ class API(APIBase):
             msg=response['Msg'],
             data=data
         )
+
+        # insere os dados de paginação
+        data_rs.pagination = PaginationParse.parse(response['PaginationInfo'])
 
         return data_rs
 
