@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import six
 
 from lms.core.containers.response import (
-    SuccessContainerResponse, ErrorListResponse
+    SuccessContainerResponse
 )
 
 
@@ -35,6 +35,11 @@ class SaveRQ(object):
         cpf
     ):
 
+        if not isinstance(teacher_id, six.integer_types):
+            raise ValueError(
+                'O id do professor precisa ser um inteiro'
+            )
+
         self._teacher_id = teacher_id
         self._name = name
         self._email = email
@@ -58,6 +63,11 @@ class SaveRQ(object):
 
     @teacher_id.setter
     def teacher_id(self, value):
+
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O id do professor precisa ser um inteiro'
+            )
 
         self._teacher_id = value
 

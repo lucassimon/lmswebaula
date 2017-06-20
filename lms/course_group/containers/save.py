@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import six
 
 from lms.core.containers.response import (
     SuccessContainerResponse, ErrorListResponse
@@ -17,6 +18,11 @@ class SaveRQ(CourseGroupDTO):
         name,
         course_group_id
     ):
+
+        if not isinstance(course_group_id, six.integer_types):
+            raise ValueError(
+                'O id da grupo de curso precisa ser um inteiro'
+            )
 
         self._course_group_id = course_group_id
 

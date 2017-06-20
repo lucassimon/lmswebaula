@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import datetime
-
-from lms.core.containers.response import (
-    ContainerResponse, ErrorListResponse
-)
+import six
 
 
 class SectorDTO(object):
@@ -21,10 +17,22 @@ class SectorDTO(object):
         name,
         sector_id=None,
     ):
+
+        if not isinstance(lms_sector_id, six.integer_types):
+            raise ValueError(
+                'O lms id do setor precisa ser um inteiro'
+            )
+
         self._lms_sector_id = lms_sector_id
         self._name = name
 
         if sector_id:
+
+            if not isinstance(lms_sector_id, six.integer_types):
+                raise ValueError(
+                    'O id do setor precisa ser um inteiro'
+                )
+
             self._sector_id = sector_id
 
     @property
@@ -33,6 +41,11 @@ class SectorDTO(object):
 
     @lms_sector_id.setter
     def lms_sector_id(self, value):
+
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O lms id do setor precisa ser um inteiro'
+            )
 
         self._lms_sector_id = value
 
@@ -51,5 +64,10 @@ class SectorDTO(object):
 
     @sector_id.setter
     def sector_id(self, value):
+
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O lms id do setor precisa ser um inteiro'
+            )
 
         self._sector_id = value

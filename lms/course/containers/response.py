@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import six
+
 import datetime
 
 from lms.core.containers.response import (
@@ -65,6 +67,11 @@ class CourseDTO(object):
         name,
         name_course_menu
     ):
+        if not isinstance(lms_course_id, six.integer_types):
+            raise ValueError(
+                'O lms id do curso precisa ser um inteiro'
+            )
+
         self._lms_course_id = lms_course_id
         self._folder_name = folder_name
         self._frequency = frequency
@@ -98,6 +105,11 @@ class CourseDTO(object):
     @lms_course_id.setter
     def lms_course_id(self, value):
 
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O lms id do curso precisa ser um inteiro'
+            )
+
         self._lms_course_id = value
 
     @property
@@ -124,6 +136,11 @@ class CourseDTO(object):
 
     @course_id.setter
     def course_id(self, value):
+
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O id do curso precisa ser um inteiro'
+            )
 
         self._course_id = value
 

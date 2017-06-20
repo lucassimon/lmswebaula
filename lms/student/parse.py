@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import pytest
 
 from lms.student.containers.response import (
     StudentDTO
@@ -22,7 +21,7 @@ class StudentParse(object):
         for std in ws_students:
 
             student = StudentDTO(
-                lms_student_id='{0}'.format(std['LMSStudentId']),
+                lms_student_id=int(std['LMSStudentId']),
                 cpf=std['CPF'],
                 date_of_birth=std['DateOfBirth'],
                 email=std['Email'],
@@ -33,7 +32,7 @@ class StudentParse(object):
             )
 
             if std['StudentId']:
-                student.student_id = '{0}'.format(std['StudentId'])
+                student.student_id = int(std['StudentId'])
 
             data.append(
                 student

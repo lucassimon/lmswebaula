@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import pytest
-import datetime
-
 from zeep import Client
 from lms.segment.containers import *
 

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import pytest
 
 from lms.segment.containers import *
 
@@ -20,12 +19,12 @@ class SegmentParse(object):
         for std in ws_data:
 
             dt = SegmentDTO(
-                lms_segment_id='{0}'.format(std['LMSSegmentId']),
+                lms_segment_id=int(std['LMSSegmentId']),
                 description=std['Description']
             )
 
             if std['SegmentId']:
-                dt.segment_id = '{0}'.format(std['SegmentId'])
+                dt.segment_id = int(std['SegmentId'])
 
             data.append(
                 dt

@@ -68,10 +68,22 @@ class RPC(object):
         request = Client(self._login.url)
 
         try:
-            response = request.service.GetById(
-                passport=self._passport,
-                lmsClassId=data.lms_class_id,
-            )
+
+            if data.lms_class_id:
+                response = request.service.GetById(
+                    passport=self._passport,
+                    lmsClassId=data.lms_class_id,
+                )
+            elif data.class_id:
+                response = request.service.GetById(
+                    passport=self._passport,
+                    classId=data.class_id,
+                )
+            else:
+                raise ValueError(
+                    "Precisamos de um id para pesquisar a classe"
+                )
+
         except Exception as e:
             raise e
 
@@ -87,10 +99,21 @@ class RPC(object):
         request = Client(self._login.url)
 
         try:
-            response = request.service.GetByCourseId(
-                passport=self._passport,
-                lmsCourseId=data.lms_course_id,
-            )
+
+            if data.lms_course_id:
+                response = request.service.GetByCourseId(
+                    passport=self._passport,
+                    lmsCourseId=data.lms_course_id,
+                )
+            elif data.course_id:
+                response = request.service.GetByCourseId(
+                    passport=self._passport,
+                    courseId=data.course_id,
+                )
+            else:
+                raise ValueError(
+                    "Precisamos de um id para pesquisar a classe"
+                )
         except Exception as e:
             raise e
 

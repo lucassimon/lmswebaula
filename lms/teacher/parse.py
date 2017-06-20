@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import pytest
 
 from lms.teacher.containers.response import (
     TeacherDTO
@@ -22,7 +21,7 @@ class TeacherParse(object):
         for std in ws_data:
 
             item = TeacherDTO(
-                lms_teacher_id='{0}'.format(std['LMSTeacherId']),
+                lms_teacher_id=int(std['LMSTeacherId']),
                 cpf=std['Cpf'],
                 email=std['Email'],
                 password=std['Password'],
@@ -33,7 +32,7 @@ class TeacherParse(object):
             )
 
             if std['TeacherId']:
-                item.teacher_id = '{0}'.format(std['TeacherId'])
+                item.teacher_id = int(std['TeacherId'])
 
             data.append(
                 item

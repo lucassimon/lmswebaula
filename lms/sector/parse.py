@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import pytest
 
 from lms.sector.containers import *
 
@@ -20,12 +19,12 @@ class SectorParse(object):
         for std in ws_data:
 
             dt = SectorDTO(
-                lms_sector_id='{0}'.format(std['LMSSectorId']),
+                lms_sector_id=int(std['LMSSectorId']),
                 name=std['Name'],
             )
 
             if std['SectorId']:
-                dt.sector_id = '{0}'.format(std['SectorId'])
+                dt.sector_id = int(std['SectorId'])
 
             data.append(
                 dt

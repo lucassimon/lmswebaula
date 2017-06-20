@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import six
+
 import datetime
 
 from lms.core.containers.response import (
@@ -21,10 +23,22 @@ class CompetenceDTO(object):
         name,
         competence_id=None,
     ):
+
+        if not isinstance(lms_competence_id, six.integer_types):
+            raise ValueError(
+                'O lms id da competencia precisa ser um inteiro'
+            )
+
         self._lms_competence_id = lms_competence_id
         self._name = name
 
         if competence_id:
+
+            if not isinstance(competence_id, six.integer_types):
+                raise ValueError(
+                    'O id da competencia precisa ser um inteiro'
+                )
+
             self._competence_id = competence_id
 
     @property
@@ -33,6 +47,11 @@ class CompetenceDTO(object):
 
     @lms_competence_id.setter
     def lms_competence_id(self, value):
+
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O lms id da competencia precisa ser um inteiro'
+            )
 
         self._lms_competence_id = value
 
@@ -51,5 +70,10 @@ class CompetenceDTO(object):
 
     @competence_id.setter
     def competence_id(self, value):
+
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O lms id da competencia precisa ser um inteiro'
+            )
 
         self._competence_id = value

@@ -11,8 +11,21 @@ class GetByIdRQ(object):
 
     def __init__(self, lms_course_group_id, course_group_id=None):
 
+        if not isinstance(lms_course_group_id, six.integer_types):
+            raise ValueError(
+                'O lms id da curso de grupo precisa ser um inteiro'
+            )
+
         self._lms_course_group_id = lms_course_group_id
-        self._course_group_id = course_group_id
+
+        if course_group_id:
+
+            if not isinstance(course_group_id, six.integer_types):
+                raise ValueError(
+                    'O id do curso de grupo precisa ser um inteiro'
+                )
+
+            self._course_group_id = course_group_id
 
     @property
     def lms_course_group_id(self):
@@ -20,6 +33,11 @@ class GetByIdRQ(object):
 
     @lms_course_group_id.setter
     def lms_course_group_id(self, value):
+
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O lms id do grupo de curso precisa ser um inteiro'
+            )
 
         self._lms_course_group_id = value
 
@@ -29,5 +47,9 @@ class GetByIdRQ(object):
 
     @course_group_id.setter
     def course_group_id(self, value):
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O id do grupo de curso precisa ser um inteiro'
+            )
 
         self._course_group_id = value

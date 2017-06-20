@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import pytest
 
 from lms.trail_class.containers.response import (
     TrailClassDTO,
@@ -25,13 +24,13 @@ class TrailClassParse(object):
         for std in ws_data:
 
             item = StudentTrailClass(
-                lms_student_id='{0}'.format(std['LMSStudentId']),
+                lms_student_id=int(std['LMSStudentId']),
                 name=std['Name'],
                 state=std['State'],
             )
 
             if std['StudentId']:
-                item.student_id = '{0}'.format(std['StudentId'])
+                item.student_id = int(std['StudentId'])
 
         try:
             ws_data = response['TrailClassList']['TrailClassDTO']
@@ -41,8 +40,8 @@ class TrailClassParse(object):
         for std in ws_data:
 
             item = TrailClassDTO(
-                lms_trail_class_id='{0}'.format(std['LMSTrailClassId']),
-                lms_trail_id='{0}'.format(std['LMSTrailId']),
+                lms_trail_class_id=int(std['LMSTrailClassId']),
+                lms_trail_id=int(std['LMSTrailId']),
                 name=std['Name'],
                 description=std['Description'],
                 time_from=std['TimeFrom'],
@@ -51,10 +50,10 @@ class TrailClassParse(object):
             )
 
             if std['TrailId']:
-                item.trail_id = '{0}'.format(std['TrailId'])
+                item.trail_id = int(std['TrailId'])
 
             if std['TrailClassId']:
-                item.trail_class_id = '{0}'.format(std['TrailClassId']),
+                item.trail_class_id = int(std['TrailClassId']),
 
             data.append(
                 item

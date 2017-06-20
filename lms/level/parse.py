@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import pytest
+
 
 from lms.level.containers import *
 
@@ -20,13 +20,13 @@ class LevelParse(object):
         for std in ws_data:
 
             dt = LevelDTO(
-                lms_level_id='{0}'.format(std['LMSLevelId']),
+                lms_level_id=int(std['LMSLevelId']),
                 name=std['Name'],
                 order=std['Order']
             )
 
             if std['LevelId']:
-                dt.level_id = '{0}'.format(std['LevelId'])
+                dt.level_id = int(std['LevelId'])
 
             data.append(
                 dt

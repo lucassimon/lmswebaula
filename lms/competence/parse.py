@@ -20,12 +20,12 @@ class CompetenceParse(object):
         for std in ws_data:
 
             dt = CompetenceDTO(
-                lms_competence_id='{0}'.format(std['LMSCompetenceId']),
+                lms_competence_id=int(std['LMSCompetenceId']),
                 name=std['Name']
             )
 
             if std['CompetenceId']:
-                dt.competence_id = '{0}'.format(std['CompetenceId'])
+                dt.competence_id = int(std['CompetenceId'])
 
             data.append(
                 dt

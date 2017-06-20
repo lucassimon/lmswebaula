@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import six
 import datetime
 
 from lms.core.containers.response import (
@@ -58,8 +59,21 @@ class DataDTO(object):
     ):
 
         self._name = name
+
+        if not isinstance(lms_class_id, six.integer_types):
+            raise ValueError(
+                'O lms id da classe precisa ser um inteiro'
+            )
+
+        if not isinstance(lms_course_id, six.integer_types):
+            raise ValueError(
+                'O lms id do curso precisa ser um inteiro'
+            )
+
         self._lms_class_id = lms_class_id
+
         self._lms_course_id = lms_course_id
+
         self._maximum_students = maximum_students
         self._start_time = start_time
         self._end_time = end_time
@@ -80,6 +94,11 @@ class DataDTO(object):
     @lms_class_id.setter
     def lms_class_id(self, value):
 
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O lms id da classe precisa ser um inteiro'
+            )
+
         self._lms_class_id = value
 
     @property
@@ -88,6 +107,11 @@ class DataDTO(object):
 
     @lms_course_id.setter
     def lms_course_id(self, value):
+
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O lms id do curso precisa ser um inteiro'
+            )
 
         self._lms_course_id = value
 
@@ -114,6 +138,3 @@ class DataDTO(object):
             raise ValueError("A data precisa ser um datetime")
 
         self._end_time = value
-
-    def convert_to_post(self):
-        pass

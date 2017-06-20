@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import datetime
-
-from lms.core.containers.response import (
-    ContainerResponse, ErrorListResponse
-)
+import six
 
 
 class TeacherDTO(object):
@@ -36,6 +32,11 @@ class TeacherDTO(object):
         status,
         teacher_id=None
     ):
+        if not isinstance(lms_teacher_id, six.integer_types):
+            raise ValueError(
+                'O lms id do professor precisa ser um inteiro'
+            )
+
         self._lms_teacher_id = lms_teacher_id
         self._cpf = cpf
         self._email = email
@@ -45,6 +46,11 @@ class TeacherDTO(object):
         self._coordinator = coordinator
 
         if teacher_id:
+
+            if not isinstance(teacher_id, six.integer_types):
+                raise ValueError(
+                    'O id do professor precisa ser um inteiro'
+                )
 
             self._teacher_id = teacher_id
 
@@ -109,6 +115,11 @@ class TeacherDTO(object):
     @lms_teacher_id.setter
     def lms_teacher_id(self, value):
 
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O lms id do professor precisa ser um inteiro'
+            )
+
         self._lms_teacher_id = value
 
     @property
@@ -117,5 +128,10 @@ class TeacherDTO(object):
 
     @teacher_id.setter
     def teacher_id(self, value):
+
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O id do professor precisa ser um inteiro'
+            )
 
         self._teacher_id = value

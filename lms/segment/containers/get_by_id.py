@@ -11,8 +11,21 @@ class GetByIdRQ(object):
 
     def __init__(self, lms_segment_id, segment_id=None):
 
+        if not isinstance(lms_segment_id, six.integer_types):
+            raise ValueError(
+                'O lms id do segmento precisa ser um inteiro'
+            )
+
         self._lms_segment_id = lms_segment_id
-        self._segment_id = segment_id
+
+        if segment_id:
+
+            if not isinstance(segment_id, six.integer_types):
+                raise ValueError(
+                    'O id do segmento precisa ser um inteiro'
+                )
+
+            self._segment_id = segment_id
 
     @property
     def lms_segment_id(self):
@@ -20,6 +33,10 @@ class GetByIdRQ(object):
 
     @lms_segment_id.setter
     def lms_segment_id(self, value):
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O lms id do segmento precisa ser um inteiro'
+            )
 
         self._lms_segment_id = value
 
@@ -29,5 +46,10 @@ class GetByIdRQ(object):
 
     @segment_id.setter
     def segment_id(self, value):
+
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O lms id do setor precisa ser um inteiro'
+            )
 
         self._segment_id = value

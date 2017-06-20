@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import six
 
 from lms.core.containers.response import (
-    SuccessContainerResponse, ErrorListResponse
+    SuccessContainerResponse
 )
 
 
@@ -32,11 +32,22 @@ class SaveRQ(object):
         name,
         description,
         active
-
     ):
+
+        if not isinstance(lms_trail_id, six.integer_types):
+            raise ValueError(
+                'O lms id da trilha precisa ser um inteiro'
+            )
+
         self._lms_trail_id = lms_trail_id
 
         if trail_id:
+
+            if not isinstance(lms_trail_id, six.integer_types):
+                raise ValueError(
+                    'O id da trilha precisa ser um inteiro'
+                )
+
             self._trail_id = trail_id
 
         self._name = name
@@ -52,6 +63,11 @@ class SaveRQ(object):
     @lms_trail_id.setter
     def lms_trail_id(self, value):
 
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O lms id da trilha precisa ser um inteiro'
+            )
+
         self._lms_trail_id = value
 
     @property
@@ -60,6 +76,11 @@ class SaveRQ(object):
 
     @trail_id.setter
     def trail_id(self, value):
+
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O id da trilha precisa ser um inteiro'
+            )
 
         self._trail_id = value
 

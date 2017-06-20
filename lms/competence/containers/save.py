@@ -105,7 +105,7 @@ class SaveRS(ContainerResponse):
 
         if not isinstance(value, list):
             raise ValueError(
-                'Os nivels precisam estar em uma lista'
+                'As competencias precisam estar em uma lista'
             )
 
         self._data_list = value

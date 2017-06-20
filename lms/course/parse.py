@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
+import six
 import pytest
 
 from lms.course.containers import *
@@ -22,7 +24,7 @@ class CourseParse(object):
 
             data.append(
                 CourseDTO(
-                    lms_course_id='{0}'.format(std['LMSCourseId']),
+                    lms_course_id=int(std['LMSCourseId']),
                     folder_name=std['FolderName'],
                     frequency=float(std['Frequency']),
                     hours=float(std['Hours']),

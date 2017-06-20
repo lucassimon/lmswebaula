@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import pytest
+
 
 from lms.trail.containers.response import (
     TrailDTO
@@ -22,18 +22,18 @@ class TrailParse(object):
         for std in ws_data:
 
             item = TrailDTO(
-                lms_trail_id='{0}'.format(std['LMSTrailId']),
+                lms_trail_id=int(std['LMSTrailId']),
                 name=std['Name'],
                 description=std['Description'],
-                lms_activity_group_id=std['LMSActivityGroupId'],
-                lms_group_id=std['LMSGroupId'],
-                group_id=std['GroupId'],
+                lms_activity_group_id=int(std['LMSActivityGroupId']),
+                lms_group_id=int(std['LMSGroupId']),
+                group_id=int(std['GroupId']),
                 active=std['Active'],
                 hours=std['Hours']
             )
 
             if std['TrailId']:
-                item.trail_id = '{0}'.format(std['TrailId'])
+                item.trail_id = int(std['TrailId'])
 
             data.append(
                 item

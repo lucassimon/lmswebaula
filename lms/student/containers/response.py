@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import datetime
-
-from lms.core.containers.response import (
-    ContainerResponse, ErrorListResponse
-)
+import six
 
 
 class StudentDTO(object):
@@ -72,6 +68,12 @@ class StudentDTO(object):
         date_of_birth=None,
         status=None
     ):
+
+        if not isinstance(lms_student_id, six.integer_types):
+            raise ValueError(
+                'O lms id do estudante precisa ser um inteiro'
+            )
+
         self._lms_student_id = lms_student_id
         self._cpf = cpf
         self._date_of_birth = date_of_birth
@@ -160,6 +162,11 @@ class StudentDTO(object):
     @lms_student_id.setter
     def lms_student_id(self, value):
 
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O lms id do estudante precisa ser um inteiro'
+            )
+
         self._lms_student_id = value
 
     @property
@@ -169,43 +176,9 @@ class StudentDTO(object):
     @student_id.setter
     def student_id(self, value):
 
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O id do estudante precisa ser um inteiro'
+            )
+
         self._student_id = value
-
-    def convert_to_post(self):
-
-        return {
-            'AdmissionDate': self._admission_date,
-            'BranchId': self._branch_id,
-            'CEP': self._cep,
-            'CPF': self._cpf,
-            'Celular': self._celular,
-            'City': self._city,
-            'Company': self._company,
-            'Complement': self._complement,
-            'DDD': self._ddd,
-            'DateOfBirth': self._date_of_birth,
-            'DepartmentId': self._department_id,
-            'District': self._district,
-            'Email': self._email,
-            'ForeingStudent': False,
-            'JobId': self._job_id,
-            'LMSBranchId': self._lms_branch_id,
-            'LMSDepartmentId': self._lms_department_id,
-            'LMSJobId': self._lms_job_id,
-            'LMSMaritalStatusId': self._lms_marital_status_id,
-            'LMSSchoolingId': self._lms_schooling_id,
-            'LMSStudentId': self._lms_schooling_id,
-            'LMSTeamId': self._lms_team_id,
-            'Login': self._email,
-            'MaritalStatusId': self._marital_status_id,
-            'Name': self._name,
-            'NickName': self._nick_name,
-            'Number': self._number,
-            'Password': self._password,
-            'Registration': self._registration,
-            'SchoolingId': self._schooling_id,
-            'Sex': self._sex,
-            'StateAbbreviation': self._state_abbreviation,
-            'StudentId': self._student_id,
-            'TeamId': self._team_id
-        }

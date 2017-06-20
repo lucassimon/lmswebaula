@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import datetime
-
-from lms.core.containers.response import (
-    ContainerResponse, ErrorListResponse
-)
+import six
 
 
 class LevelDTO(object):
@@ -22,12 +18,24 @@ class LevelDTO(object):
         order,
         level_id=None,
     ):
+
+        if not isinstance(lms_level_id, six.integer_types):
+            raise ValueError(
+                'O lms id do nível precisa ser um inteiro'
+            )
+
         self._lms_level_id = lms_level_id
         self._name = name
 
         self._order = order
 
         if level_id:
+
+            if not isinstance(level_id, six.integer_types):
+                raise ValueError(
+                    'O lms id do nivel precisa ser um inteiro'
+                )
+
             self._level_id = level_id
 
     @property
@@ -36,6 +44,11 @@ class LevelDTO(object):
 
     @lms_level_id.setter
     def lms_level_id(self, value):
+
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O lms id do nível precisa ser um inteiro'
+            )
 
         self._lms_level_id = value
 
@@ -63,5 +76,10 @@ class LevelDTO(object):
 
     @level_id.setter
     def level_id(self, value):
+
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O lms id do nível precisa ser um inteiro'
+            )
 
         self._level_id = value

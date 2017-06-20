@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 import six
-import pytest
 
 from lms.core.containers.response import (
     ContainerResponse

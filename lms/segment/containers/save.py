@@ -3,9 +3,8 @@ from __future__ import unicode_literals
 
 import six
 
-
 from lms.core.containers.response import (
-    SuccessContainerResponse, ErrorListResponse
+    SuccessContainerResponse
 )
 
 

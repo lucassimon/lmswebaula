@@ -3,9 +3,8 @@ from __future__ import unicode_literals
 
 import six
 
-
 from lms.core.containers.response import (
-    SuccessContainerResponse, ErrorListResponse
+    SuccessContainerResponse
 )
 
 
@@ -33,6 +32,7 @@ class SaveRQ(object):
             )
 
         self._name = name
+
         self._sector_id = sector_id
 
     @property

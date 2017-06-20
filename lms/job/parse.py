@@ -20,13 +20,13 @@ class JobParse(object):
         for std in ws_data:
 
             dt = JobDTO(
-                lms_job_id='{0}'.format(std['LMSJobId']),
+                lms_job_id=int(std['LMSJobId']),
                 description=std['Description'],
                 available=bool(std['Available'])
             )
 
             if std['JobId']:
-                dt.job_id = '{0}'.format(std['JobId'])
+                dt.job_id = int(std['JobId'])
 
             data.append(
                 dt

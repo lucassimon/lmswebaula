@@ -21,8 +21,8 @@ class CourseGroupParse(object):
         for item in ws_items:
             data.append(
                 CourseGroupDTO(
-                    lms_course_group_id='{0}'.format(item['LMSCourseGroupId']),
-                    course_group_id=item['CourseGroupId'],
+                    lms_course_group_id=int(item['LMSCourseGroupId']),
+                    course_group_id=int(item['CourseGroupId']),
                     name=item['Name'],
                     highlighted=int(item['Highlighted']),
                 )
