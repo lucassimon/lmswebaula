@@ -9,14 +9,15 @@ class GetByIdRQ(object):
     _sector_id = None
     _lms_sector_id = None
 
-    def __init__(self, lms_sector_id, sector_id=None):
+    def __init__(self, lms_sector_id=None, sector_id=None):
 
-        if not isinstance(lms_sector_id, six.integer_types):
-            raise ValueError(
-                'O lms id do setor precisa ser um inteiro'
-            )
+        if lms_sector_id:
+            if not isinstance(lms_sector_id, six.integer_types):
+                raise ValueError(
+                    'O lms id do setor precisa ser um inteiro'
+                )
 
-        self._lms_sector_id = lms_sector_id
+            self._lms_sector_id = lms_sector_id
 
         if sector_id:
 
@@ -47,10 +48,5 @@ class GetByIdRQ(object):
 
     @sector_id.setter
     def sector_id(self, value):
-
-        if not isinstance(value, six.integer_types):
-            raise ValueError(
-                'O lms id do setor precisa ser um inteiro'
-            )
 
         self._sector_id = value

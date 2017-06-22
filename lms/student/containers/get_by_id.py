@@ -22,11 +22,6 @@ class GetByIdRQ(object):
 
         if student_id:
 
-            if not isinstance(student_id, six.integer_types):
-                raise ValueError(
-                    'O lms id do estudante precisa ser um inteiro'
-                )
-
             self._student_id = student_id
 
     @property
@@ -49,10 +44,5 @@ class GetByIdRQ(object):
 
     @student_id.setter
     def student_id(self, value):
-
-        if not isinstance(value, six.integer_types):
-            raise ValueError(
-                'O id do estudante precisa ser um inteiro'
-            )
 
         self._student_id = value

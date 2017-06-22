@@ -28,11 +28,11 @@ class StudentParse(object):
                 login=std['Login'],
                 name=std['Name'],
                 sex=std['Sex'],
-                status=std['Status'],
+                status=std['Status']
             )
 
             if std['StudentId']:
-                student.student_id = int(std['StudentId'])
+                student.student_id = std['StudentId']
 
             data.append(
                 student

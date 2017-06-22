@@ -65,10 +65,22 @@ class RPC(object):
         request = Client(self._login.url)
 
         try:
-            response = request.service.GetById(
-                passport=self._passport,
-                lmsSegmentId=data.lms_segment_id,
-            )
+
+            if data.lms_segment_id:
+                response = request.service.GetById(
+                    passport=self._passport,
+                    lmsSegmentId=data.lms_segment_id,
+                )
+            elif data.segment_id:
+                response = request.service.GetById(
+                    passport=self._passport,
+                    segmentId=data.segment_id,
+                )
+            else:
+                raise ValueError(
+                    "Precisamos de um id para pesquisar o nível"
+                )
+
         except Exception as e:
             raise e
 

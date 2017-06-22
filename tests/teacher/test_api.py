@@ -123,6 +123,78 @@ class TeacherTestCase(TeacherTestCaseBase):
 
         self.assertEqual(items[0].name, 'Professor Padrão')
 
+    def test_resposta_error_parametro_sector_id_get_sector_by_id(self):
+        """
+        Testa Erro ao passar o parametro lms_sector_id como nulo
+        """
+
+        data = GetByIdRQ(
+            lms_teacher_id=None
+        )
+
+        res = self.api.get_by_id(data)
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertIsInstance(res, ErrorRS)
+
+        self.assertEqual(
+            res.has_error,
+            True
+        )
+
+        self.assertEqual(
+            res.msg,
+            (
+                u"Precisamos de um id para pesquisar o professor"
+            )
+        )
+
+    def test_professor_nao_encontrado_get_all_sector_rs_get_sector_by_id(self):
+        """
+        Testa a resposta de erro caso o professor nao seja encontrado
+        na resposta do metodo get_sector_by_id
+        """
+
+        data = GetByIdRQ(
+            lms_teacher_id=10000
+        )
+
+        res = self.api.get_by_id(data)
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertIsInstance(res, ErrorRS)
+
+        self.assertEqual(
+            res.has_error,
+            True
+        )
+
+        self.assertEqual(
+            res.msg,
+            u"Corpo docente não encontrado"
+        )
+
+    def test_e_instancia_get_all_sector_rs_get_sector_by_id(self):
+        """
+        Testa se a instancia da resposta do metodo get_sector_by_id
+        é GetAllTeacherRS
+        """
+
+        data = GetByIdRQ(
+            lms_teacher_id=7
+        )
+
+        res = self.api.get_by_id(data)
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertIsInstance(res, GetAllTeacherRS)
+
     def test_get_by_id(self):
 
         data_rq = GetByIdRQ(

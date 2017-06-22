@@ -32,7 +32,7 @@ class TeacherParse(object):
             )
 
             if std['TeacherId']:
-                item.teacher_id = int(std['TeacherId'])
+                item.teacher_id = std['TeacherId']
 
             data.append(
                 item

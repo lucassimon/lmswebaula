@@ -11,19 +11,16 @@ class GetByIdRQ(object):
 
     def __init__(self, lms_job_id, job_id=None):
 
-        if not isinstance(lms_job_id, six.integer_types):
-            raise ValueError(
-                'O lms id do cargo precisa ser um inteiro'
-            )
+        if lms_job_id:
 
-        self._lms_job_id = lms_job_id
+            if not isinstance(lms_job_id, six.integer_types):
+                raise ValueError(
+                    'O lms id do cargo precisa ser um inteiro'
+                )
+
+            self._lms_job_id = lms_job_id
 
         if job_id:
-
-            if not isinstance(job_id, six.integer_types):
-                raise ValueError(
-                    'O id do cargo precisa ser um inteiro'
-                )
 
             self._job_id = job_id
 

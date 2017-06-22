@@ -66,7 +66,8 @@ class StudentDTO(object):
         name,
         sex,
         date_of_birth=None,
-        status=None
+        status=None,
+        student_id=None
     ):
 
         if not isinstance(lms_student_id, six.integer_types):
@@ -175,10 +176,5 @@ class StudentDTO(object):
 
     @student_id.setter
     def student_id(self, value):
-
-        if not isinstance(value, six.integer_types):
-            raise ValueError(
-                'O id do estudante precisa ser um inteiro'
-            )
 
         self._student_id = value

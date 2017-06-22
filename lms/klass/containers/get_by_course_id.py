@@ -21,11 +21,6 @@ class GetByCourseIdRQ(object):
 
         if course_id:
 
-            if not isinstance(course_id, six.integer_types):
-                raise ValueError(
-                    'O id do curso precisa ser um inteiro'
-                )
-
             self._course_id = course_id
 
     @property
@@ -48,10 +43,5 @@ class GetByCourseIdRQ(object):
 
     @course_id.setter
     def course_id(self, value):
-
-        if not isinstance(value, six.integer_types):
-            raise ValueError(
-                'O id do curso precisa ser um inteiro'
-            )
 
         self._course_id = value

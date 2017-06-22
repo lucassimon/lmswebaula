@@ -30,7 +30,7 @@ class TrailClassParse(object):
             )
 
             if std['StudentId']:
-                item.student_id = int(std['StudentId'])
+                item.student_id = std['StudentId']
 
         try:
             ws_data = response['TrailClassList']['TrailClassDTO']
@@ -50,10 +50,10 @@ class TrailClassParse(object):
             )
 
             if std['TrailId']:
-                item.trail_id = int(std['TrailId'])
+                item.trail_id = std['TrailId']
 
             if std['TrailClassId']:
-                item.trail_class_id = int(std['TrailClassId']),
+                item.trail_class_id = std['TrailClassId']
 
             data.append(
                 item

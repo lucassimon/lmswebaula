@@ -32,19 +32,23 @@ class SetStatusInClassRQ(object):
         if not isinstance(status, bool):
             raise ValueError("O status precisa ser um booleano")
 
-        if not isinstance(lms_student_id, six.integer_types):
-            raise ValueError(
-                'O lms id do estudante precisa ser um inteiro'
-            )
+        if lms_student_id:
 
-        if not isinstance(lms_class_id, six.integer_types):
-            raise ValueError(
-                'O id da classe precisa ser um inteiro'
-            )
+            if not isinstance(lms_student_id, six.integer_types):
+                raise ValueError(
+                    'O lms id do estudante precisa ser um inteiro'
+                )
 
-        self._lms_student_id = lms_student_id
+            self._lms_student_id = lms_student_id
 
-        self._lms_class_id = lms_class_id
+        if lms_class_id:
+
+            if not isinstance(lms_class_id, six.integer_types):
+                raise ValueError(
+                    'O id da classe precisa ser um inteiro'
+                )
+
+            self._lms_class_id = lms_class_id
 
         self._status = status
 

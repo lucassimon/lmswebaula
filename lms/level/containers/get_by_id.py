@@ -22,11 +22,6 @@ class GetByIdRQ(object):
 
         if level_id:
 
-            if not isinstance(level_id, six.integer_types):
-                raise ValueError(
-                    'O id do nivel precisa ser um inteiro'
-                )
-
             self._level_id = level_id
 
     @property
@@ -49,10 +44,5 @@ class GetByIdRQ(object):
 
     @level_id.setter
     def level_id(self, value):
-
-        if not isinstance(value, six.integer_types):
-            raise ValueError(
-                'O lms id do nível precisa ser um inteiro'
-            )
 
         self._level_id = value

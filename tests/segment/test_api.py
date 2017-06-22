@@ -100,8 +100,7 @@ class SegmentTestCase(SegmentTestCaseBase):
         self.assertEqual(
             res.msg,
             (
-                u"Deve ser informado a chave do registro "
-                u"no sistema legado ou do LMS."
+                u"Precisamos de um id para pesquisar o nível"
             )
         )
 

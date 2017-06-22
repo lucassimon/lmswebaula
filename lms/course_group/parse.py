@@ -22,7 +22,7 @@ class CourseGroupParse(object):
             data.append(
                 CourseGroupDTO(
                     lms_course_group_id=int(item['LMSCourseGroupId']),
-                    course_group_id=int(item['CourseGroupId']),
+                    course_group_id='{}'.format(item['CourseGroupId']),
                     name=item['Name'],
                     highlighted=int(item['Highlighted']),
                 )

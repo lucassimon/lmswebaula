@@ -34,11 +34,6 @@ class CourseGroupDTO(object):
 
         if course_group_id:
 
-            if not isinstance(course_group_id, six.integer_types):
-                raise ValueError(
-                    'O lms id do curso de grupo precisa ser um inteiro'
-                )
-
             self._course_group_id = course_group_id
 
         self._highlighted = highlighted
@@ -65,10 +60,6 @@ class CourseGroupDTO(object):
 
     @course_group_id.setter
     def course_group_id(self, value):
-        if not isinstance(value, six.integer_types):
-            raise ValueError(
-                'O id do grupo de curso precisa ser um inteiro'
-            )
 
         self._course_group_id = value
 

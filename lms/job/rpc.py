@@ -68,10 +68,20 @@ class RPC(object):
         request = Client(self._login.url)
 
         try:
-            response = request.service.GetById(
-                passport=self._passport,
-                lmsJobId=data.lms_job_id,
-            )
+            if data.lms_job_id:
+                response = request.service.GetById(
+                    passport=self._passport,
+                    lmsJobId=data.lms_job_id,
+                )
+            elif data.job_id:
+                response = request.service.GetById(
+                    passport=self._passport,
+                    jobId=data.job_id,
+                )
+            else:
+                raise ValueError(
+                    "Precisamos de um id para pesquisar o cargo"
+                )
         except Exception as e:
             raise e
 

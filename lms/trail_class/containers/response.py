@@ -33,35 +33,29 @@ class TrailClassDTO(object):
         time_to,
         students
     ):
-        if not isinstance(lms_trail_id, six.integer_types):
-            raise ValueError(
-                'O lms id da trilha precisa ser um inteiro'
-            )
 
-        self._lms_trail_id = lms_trail_id
+        if lms_trail_id:
+            if not isinstance(lms_trail_id, six.integer_types):
+                raise ValueError(
+                    'O lms id da trilha precisa ser um inteiro'
+                )
+
+            self._lms_trail_id = lms_trail_id
 
         if trail_id:
 
-            if not isinstance(trail_id, six.integer_types):
-                raise ValueError(
-                    'O id da trilha precisa ser um inteiro'
-                )
-
             self._trail_id = trail_id
 
-        self._lms_trail_class_id = lms_trail_class_id
+        if lms_trail_class_id:
 
-        if not isinstance(lms_trail_class_id, six.integer_types):
-            raise ValueError(
-                'O lms id da classe da trilha precisa ser um inteiro'
-            )
+            if not isinstance(lms_trail_class_id, six.integer_types):
+                raise ValueError(
+                    'O lms id da classe da trilha precisa ser um inteiro'
+                )
+
+            self._lms_trail_class_id = lms_trail_class_id
 
         if trail_class_id:
-
-            if not isinstance(trail_class_id, six.integer_types):
-                raise ValueError(
-                    'O id da classe da trilha precisa ser um inteiro'
-                )
 
             self._trail_class_id = trail_class_id
 
@@ -95,11 +89,6 @@ class TrailClassDTO(object):
     @trail_id.setter
     def trail_id(self, value):
 
-        if not isinstance(value, six.integer_types):
-            raise ValueError(
-                'O id da trilha precisa ser um inteiro'
-            )
-
         self._trail_id = value
 
     @property
@@ -122,11 +111,6 @@ class TrailClassDTO(object):
 
     @trail_class_id.setter
     def trail_class_id(self, value):
-
-        if not isinstance(value, six.integer_types):
-            raise ValueError(
-                'O lms id da trilha precisa ser um inteiro'
-            )
 
         self._trail_class_id = value
 
@@ -191,12 +175,13 @@ class StudentTrailClass(object):
         student_id=None
     ):
 
-        if not isinstance(lms_student_id, six.integer_types):
-            raise ValueError(
-                'O lms id do estudante precisa ser um inteiro'
-            )
+        if lms_student_id:
+            if not isinstance(lms_student_id, six.integer_types):
+                raise ValueError(
+                    'O lms id do estudante precisa ser um inteiro'
+                )
 
-        self._lms_student_id = lms_student_id
+            self._lms_student_id = lms_student_id
 
         if student_id:
 
@@ -231,11 +216,6 @@ class StudentTrailClass(object):
 
     @student_id.setter
     def student_id(self, value):
-
-        if not isinstance(value, six.integer_types):
-            raise ValueError(
-                'O lms id da trilha precisa ser um inteiro'
-            )
 
         self._student_id = value
 

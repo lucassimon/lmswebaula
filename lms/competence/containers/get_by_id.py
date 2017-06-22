@@ -11,18 +11,23 @@ class GetByIdRQ(object):
 
     def __init__(self, lms_competence_id, competence_id=None):
 
-        if not isinstance(lms_competence_id, six.integer_types):
-            raise ValueError(
-                'O lms id da competencia precisa ser um inteiro'
-            )
+        if lms_competence_id:
 
-        if not isinstance(competence_id, six.integer_types):
-            raise ValueError(
-                'O id da competencia precisa ser um inteiro'
-            )
+            if not isinstance(lms_competence_id, six.integer_types):
+                raise ValueError(
+                    'O lms id da competencia precisa ser um inteiro'
+                )
 
-        self._lms_competence_id = lms_competence_id
-        self._competence_id = competence_id
+            self._lms_competence_id = lms_competence_id
+
+        if competence_id:
+
+            if not isinstance(competence_id, six.integer_types):
+                raise ValueError(
+                    'O id da competencia precisa ser um inteiro'
+                )
+
+            self._competence_id = competence_id
 
     @property
     def lms_competence_id(self):

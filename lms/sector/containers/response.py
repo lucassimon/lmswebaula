@@ -18,20 +18,17 @@ class SectorDTO(object):
         sector_id=None,
     ):
 
-        if not isinstance(lms_sector_id, six.integer_types):
-            raise ValueError(
-                'O lms id do setor precisa ser um inteiro'
-            )
+        if lms_sector_id:
+            if not isinstance(lms_sector_id, six.integer_types):
+                raise ValueError(
+                    'O lms id do setor precisa ser um inteiro'
+                )
 
-        self._lms_sector_id = lms_sector_id
+            self._lms_sector_id = lms_sector_id
+
         self._name = name
 
         if sector_id:
-
-            if not isinstance(lms_sector_id, six.integer_types):
-                raise ValueError(
-                    'O id do setor precisa ser um inteiro'
-                )
 
             self._sector_id = sector_id
 
@@ -64,10 +61,5 @@ class SectorDTO(object):
 
     @sector_id.setter
     def sector_id(self, value):
-
-        if not isinstance(value, six.integer_types):
-            raise ValueError(
-                'O lms id do setor precisa ser um inteiro'
-            )
 
         self._sector_id = value
