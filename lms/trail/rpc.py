@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import pytest
-import datetime
-
 from zeep import Client
 from lms.trail.containers import *
 
@@ -95,6 +92,67 @@ class RPC(object):
             )
 
         except Exception as e:
+            raise e
+
+        return response
+
+    def get_all_courses_ordered_by_name(self, data):
+
+        if not isinstance(data, GetAllCoursesOrderedByNameRQ):
+            raise ValueError(
+                "Não existe dados para a pesquisa em Grupos de Trilha"
+            )
+
+        request = Client(self._login.url)
+
+        response = None
+
+        try:
+            response = request.service.GetAllCoursesOrderedByName(
+                passport=self._passport,
+                page=data.page,
+                pageSize=data.page_size
+            )
+        except Exception as e:
+            raise e
+
+        return response
+
+    def enroll_student_in_default_discipline(self, data):
+
+        if not isinstance(data, EnrollStudentInDefaultDisciplineRQ):
+            raise ValueError(
+                "Não existe uma instância para "
+                "matricular o aluno em uma disciplina"
+            )
+        request = Client(self._login.url)
+
+        item_schema = request.get_type('ns2:DateTimeOffset')
+
+        initial_access_date = item_schema(
+            DateTime=data.initial_access_date,
+            OffsetMinutes=0
+        )
+
+        final_access_date = item_schema(
+            DateTime=data.final_access_date,
+            OffsetMinutes=0
+        )
+
+        response = None
+
+        try:
+            response = request.service.EnrollStudentInDefaultDiscipline(
+                passport=self._passport,
+                lmsStudentId=data.lms_student_id,
+                disciplineId=data.discipline_id,
+                courseId=data.course_id,
+                initialAccessDate=initial_access_date,
+                finalAccessDate=final_access_date
+            )
+
+        except Exception as e:
+
             raise e
 
         return response

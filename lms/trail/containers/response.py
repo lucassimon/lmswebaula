@@ -28,7 +28,6 @@ class TrailDTO(object):
         name,
         description,
         active
-
     ):
 
         if not isinstance(lms_trail_id, six.integer_types):
@@ -188,3 +187,63 @@ class TrailDTO(object):
     def pre_requisites(self, value):
 
         self._pre_requisites = value
+
+
+class GroupTrailDTO(object):
+
+    _lms_group_trail_id = 0
+    _group_trail_id = None
+    _name = ''
+
+    def __init__(
+        self,
+        name,
+        lms_group_trail_id=0,
+        group_trail_id=None,
+    ):
+
+        if lms_group_trail_id:
+            if not isinstance(lms_group_trail_id, six.integer_types):
+                raise ValueError(
+                    'O lms id do grupo de trilha precisa ser um inteiro'
+                )
+
+            self._lms_group_trail_id = lms_group_trail_id
+
+        if group_trail_id:
+
+            self._group_trail_id = group_trail_id
+
+        self._name = name
+
+    @property
+    def lms_group_trail_id(self):
+        return self._lms_group_trail_id
+
+    @lms_group_trail_id.setter
+    def lms_group_trail_id(self, value):
+
+        if not isinstance(value, six.integer_types):
+            raise ValueError(
+                'O lms id do grupo de trilha precisa ser um inteiro'
+            )
+
+        self._lms_group_trail_id = value
+
+    @property
+    def group_trail_id(self):
+        return self._group_trail_id
+
+    @group_trail_id.setter
+    def group_trail_id(self, value):
+
+        self._group_trail_id = value
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value):
+
+        self._name = value

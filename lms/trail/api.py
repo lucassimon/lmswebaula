@@ -26,9 +26,8 @@ from lms.trail.rpc import (
     RPC as TrailRPC
 )
 
-
 from lms.trail.parse import (
-    TeacherParse
+    TrailParse, GroupTrailCustomizedParse
 )
 
 
@@ -42,16 +41,36 @@ class API(APIBase):
 
     """
 
-    ENDPOINT = 'http://lmsapi.webaula.com.br/v3/Trail.svc?singleWsdl'
+    _customized = False
 
-    def __init__(self, passport):
+    def __init__(self, passport, login=False, customized=False):
 
-        login = LoginRQ(passport, url=self.ENDPOINT)
+        if login is False:
+
+            ENDPOINT = 'http://lmsapi.webaula.com.br/v3/Trail.svc?singleWsdl'
+            login = LoginRQ(passport, url=ENDPOINT)
+
+        # Seta o atributo customizado
+
+        self._customized = customized
 
         self.rpc = TrailRPC(
             login=login,
             passport=passport
         )
+
+    @property
+    def customized(self):
+        return self._customized
+
+    @customized.setter
+    def customized(self, value):
+        if not isinstance(value, bool):
+            raise ValueError(
+                'O atributo customizado precisa ser um booleano'
+            )
+
+        self._customized = value
 
     def get_activity_group_by_name(self, data_rq):
         """
@@ -190,6 +209,146 @@ class API(APIBase):
         data_rs = SaveRS(
             error=response['hasError'],
             guid=response['Guid'],
+            msg=response['Msg'],
+            data=data
+        )
+
+        return data_rs
+
+    def enroll_student_in_default_discipline(self, data_rq):
+        """
+        Metodo customizado Matricular o aluno em uma trilha
+        """
+
+        if self.customized is False:
+
+            raise ValueError(
+                "Esse método é valido somente para ambiente customizado"
+            )
+
+        if not isinstance(data_rq, EnrollStudentInDefaultDisciplineRQ):
+            raise ValueError(
+                "Não existe uma instância para "
+                "matricular o aluno em uma disciplina"
+            )
+
+        response = None
+
+        try:
+            response = self.rpc.enroll_student_in_default_discipline(data_rq)
+
+        except ValueError as e:
+
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
+        except Exception as e:
+            return ExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
+
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
+
+        data_rs = EnrollStudentInDefaultDisciplineRS(
+            error=response['hasError'],
+            msg=response['Msg']
+        )
+
+        return data_rs
+
+    def get_all_courses_ordered_by_name(self, data_rq):
+        """
+        Metodo customizado Retorna todos os Cursos (Grupo de Trilha)
+        """
+
+        if self.customized is False:
+
+            raise ValueError(
+                "Esse metódo é valido somente para ambiente customizado"
+            )
+
+        if not isinstance(data_rq, GetAllCoursesOrderedByNameRQ):
+            raise ValueError(
+                "Não existe uma instância para a "
+                "paginacao dos Grupos de trilha"
+            )
+
+        response = None
+
+        try:
+            response = self.rpc.get_all_courses_ordered_by_name(data_rq)
+        except ValueError as e:
+
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
+        except Exception as e:
+            return ExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
+
+        # Verificar se tem erro na resposta
+
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
+
+        # tratar os dados
+
+        data = GroupTrailCustomizedParse.get_all(response)
+
+        # Retornar o group trail response
+
+        data_rs = GetAllCoursesOrderedByNameRS(
+            error=response['hasError'],
             msg=response['Msg'],
             data=data
         )
