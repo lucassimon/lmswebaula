@@ -97,7 +97,7 @@ class TrailCustomizedTestCase(TrailCustomizedTestCaseBase):
         if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
-        self.assertEqual(res.data_list[0].name, u' Área de Gestão/MBA')
+        self.assertEqual(res.data_list[0].name, u'Comportamentais')
 
     def test_erro_api_not_customized_enroll_student_in_default_discipline(
         self
