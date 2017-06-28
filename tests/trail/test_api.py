@@ -95,10 +95,12 @@ class TrailTestCase(TrailTestCaseBase):
         Verifica se a instancia de resposta é um get_trail_by_date
         """
 
-        initial_access_date = datetime.date.today()
+        initial_access_date = datetime.date.today() - relativedelta(
+            years=+1
+        )
 
         final_access_date = initial_access_date + relativedelta(
-            years=+1
+            years=+2
         )
 
         data = GetTrailByDateRQ(
