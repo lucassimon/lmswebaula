@@ -24,7 +24,8 @@ class PaginationMixinRQ(object):
             raise ValueError(
                 'A pagina precisa ser um inteiro'
             )
-        elif value > 0:
+
+        if value <= 0:
             raise ValueError(
                 'A pagina precisa ser maior que zero'
             )
@@ -42,7 +43,8 @@ class PaginationMixinRQ(object):
             raise ValueError(
                 'O tamanho da pagina precisa ser um inteiro'
             )
-        elif value > 0:
+
+        if value <= 0:
             raise ValueError(
                 'O tamanho da pagina precisa ser maior que zero'
             )
@@ -100,7 +102,8 @@ class PaginationMixinRS(object):
             raise ValueError(
                 'O tamanho da pagina precisa ser um inteiro'
             )
-        elif value > 0:
+
+        if value <= 0:
             raise ValueError(
                 'O tamanho da pagina precisa ser maior que zero'
             )
@@ -118,7 +121,8 @@ class PaginationMixinRS(object):
             raise ValueError(
                 'O número de paginas precisa ser um inteiro'
             )
-        elif value > 0:
+
+        if value <= 0:
             raise ValueError(
                 'O número de paginas precisa ser maior que zero'
             )
@@ -136,7 +140,8 @@ class PaginationMixinRS(object):
             raise ValueError(
                 'O total de itens precisa ser um inteiro'
             )
-        elif value > 0:
+
+        if value <= 0:
             raise ValueError(
                 'O total de itens precisa ser maior que zero'
             )
