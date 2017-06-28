@@ -152,7 +152,66 @@ class API(APIBase):
         de cadastro ou atualização
         """
 
-        raise NotImplementedError
+        if not isinstance(data_rq, GetTrailByDateRQ):
+            raise ValueError(
+                "Não existe uma instancia para os dados da paginação"
+            )
+
+        response = None
+
+        try:
+            response = self.rpc.get_trail_by_date(data_rq)
+
+        except ValueError as e:
+
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
+        except Exception as e:
+            return ExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
+
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
+
+        data = TrailParse.get_all(
+            response,
+            response['TrailDTOList']['TrailDTO']
+        )
+
+        data_rs = GetTrailByDateRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg'],
+            data=data
+        )
+
+        return data_rs
 
     def save(self, data_rq):
         """

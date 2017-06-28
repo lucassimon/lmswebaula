@@ -24,10 +24,10 @@ class TrailDTO(object):
     def __init__(
         self,
         lms_trail_id,
-        trail_id,
         name,
         description,
-        active
+        active,
+        trail_id=None
     ):
 
         if not isinstance(lms_trail_id, six.integer_types):

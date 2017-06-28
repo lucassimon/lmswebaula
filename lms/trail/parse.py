@@ -10,14 +10,17 @@ from lms.trail.containers.response import (
 class TrailParse(object):
 
     @staticmethod
-    def get_all(response):
+    def get_all(response, result=None):
 
         data = []
 
-        try:
-            ws_data = response['TrailListDTO']['TrailDTO']
-        except Exception:
-            return data
+        if result:
+            ws_data = result
+        else:
+            try:
+                ws_data = response['TrailListDTO']['TrailDTO']
+            except Exception:
+                return data
 
         for std in ws_data:
 
@@ -25,15 +28,23 @@ class TrailParse(object):
                 lms_trail_id=int(std['LMSTrailId']),
                 name=std['Name'],
                 description=std['Description'],
-                lms_activity_group_id=int(std['LMSActivityGroupId']),
-                lms_group_id=int(std['LMSGroupId']),
-                group_id=int(std['GroupId']),
-                active=std['Active'],
-                hours=std['Hours']
+                active=std['Active']
             )
 
             if std['TrailId']:
                 item.trail_id = int(std['TrailId'])
+
+            if std['GroupId']:
+
+                item.group_id = std['GroupId']
+
+            if std['LMSGroupId']:
+
+                item.lms_group_id = std['LMSGroupId']
+
+            if std['Hours']:
+
+                item.hours = std['Hours']
 
             data.append(
                 item

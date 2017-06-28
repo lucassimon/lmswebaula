@@ -17,6 +17,132 @@ from lms.trail.api import API
 from lms.trail.containers import *
 
 
+class TrailTestCaseBase(unittest.TestCase):
+
+    def setUp(self):
+
+        self.passport = 'adde547e6a7a4ea79741fbee834a07fe'
+        self.api = API(self.passport)
+        self.fake = Factory.create('pt_BR')
+
+
+class TrailTestCase(TrailTestCaseBase):
+    """
+    Testes para o serviço trilhas
+
+    """
+    def test_erro_parametro_get_trail_by_date(self):
+        """
+        Testa erro ao não passar nenhum parametro de Paginação no metodo GetAll
+        """
+
+        with pytest.raises(ValueError) as excinfo:
+
+            data = {}
+            self.api.get_trail_by_date(data)
+
+        self.assertEqual(
+            'Não existe uma instancia para os dados da paginação',
+            excinfo.value.message
+        )
+
+    def test_erro_parametro_date_begin_get_all_get_trail_by_date(self):
+        """
+        Testa erro ao não passar nenhum parametro de Paginação no metodo GetAll
+        """
+
+        with pytest.raises(ValueError) as excinfo:
+
+            data = GetTrailByDateRQ(
+                page=1,
+                page_size=1,
+                date_begin=None,
+                date_end=None
+            )
+
+            self.api.get_trail_by_date(data)
+
+        self.assertEqual(
+            'A data de inicio precisa ser do tipo date',
+            excinfo.value.message
+        )
+
+    def test_erro_parametro_date_end_get_all_get_trail_by_date(self):
+        """
+        Testa erro ao não passar nenhum parametro de Paginação no metodo GetAll
+        """
+
+        now = datetime.date.today()
+
+        with pytest.raises(ValueError) as excinfo:
+
+            data = GetTrailByDateRQ(
+                page=1,
+                page_size=1,
+                date_begin=now,
+                date_end=None
+            )
+
+            self.api.get_trail_by_date(data)
+
+        self.assertEqual(
+            'A data de fim precisa ser do tipo date',
+            excinfo.value.message
+        )
+
+    def test_resposta_instancia_get_trail_by_date_rs(self):
+        """
+        Verifica se a instancia de resposta é um get_trail_by_date
+        """
+
+        initial_access_date = datetime.date.today()
+
+        final_access_date = initial_access_date + relativedelta(
+            years=+1
+        )
+
+        data = GetTrailByDateRQ(
+            page=1,
+            page_size=1,
+            date_begin=initial_access_date,
+            date_end=final_access_date
+        )
+
+        res = self.api.get_trail_by_date(data)
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertIsInstance(res, GetTrailByDateRS)
+
+    def test_get_trail_by_date(self):
+        """
+        Testa se o retorno da resposta veio com sucesso
+        """
+
+        initial_access_date = datetime.date.today() - relativedelta(
+            years=+1
+        )
+
+        final_access_date = initial_access_date + relativedelta(
+            years=+2
+        )
+
+        data = GetTrailByDateRQ(
+            page=1,
+            page_size=12,
+            date_begin=initial_access_date,
+            date_end=final_access_date
+        )
+
+        res = self.api.get_trail_by_date(data)
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertEqual(res.data_list[0].name, u'Padr\xe3o A')
+
+
 class TrailCustomizedTestCaseBase(unittest.TestCase):
 
     def setUp(self):
@@ -97,7 +223,7 @@ class TrailCustomizedTestCase(TrailCustomizedTestCaseBase):
         if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
-        self.assertEqual(res.data_list[0].name, u'Comportamentais')
+        self.assertEqual(res.data_list[0].name, u' Área de Gestão/MBA')
 
     def test_erro_api_not_customized_enroll_student_in_default_discipline(
         self

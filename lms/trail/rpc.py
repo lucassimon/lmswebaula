@@ -59,6 +59,28 @@ class RPC(object):
 
         return response
 
+    def get_trail_by_date(self, data):
+
+        if not isinstance(data, GetTrailByDateRQ):
+            raise ValueError(
+                "Não existe uma instancia para os dados de trilha"
+            )
+
+        request = Client(self._login.url)
+
+        try:
+            response = request.service.GetTrailByDate(
+                passport=self._passport,
+                dateBegin=data.date_begin,
+                dateEnd=data.date_end,
+                page=data.page,
+                pageSize=data.page_size
+            )
+        except Exception as e:
+            raise e
+
+        return response
+
     def save(self, data):
 
         if not isinstance(data, SaveRQ):
