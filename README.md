@@ -16,7 +16,15 @@ Instalar as bibliotecas no sistema operacional
 
 ## Executar os testes
 
-A fazer
+Conferir as credenciais em cada arquivo de teste
+
+Executar o comando `pytest` para executar todos os testes.
+
+Para executar os testes por recursos faça:
+
+`pytest tests/trail/test_api.py::TrailCustomizedTestCase::test_matricular_aluno_em_disciplina`
+
+Onde, `TrailCustomizedTestCase`, nome da classe de teste e `test_matricular_aluno_em_disciplina` é o nome do teste.
 
 ## Como contribuir
 
