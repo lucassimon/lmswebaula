@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import time
 import pytest
 import unittest
 import datetime
@@ -132,7 +133,7 @@ class TrailTestCase(TrailTestCaseBase):
 
         data = GetTrailByDateRQ(
             page=1,
-            page_size=12,
+            page_size=1,
             date_begin=initial_access_date,
             date_end=final_access_date
         )
@@ -275,7 +276,7 @@ class TrailCustomizedTestCase(TrailCustomizedTestCaseBase):
         )
 
         data = EnrollStudentInDefaultDisciplineRQ(
-            lms_student_id=11,
+            lms_student_id=12261,
             discipline_id=4,
             course_id=8,
             initial_access_date=initial_access_date,
@@ -290,3 +291,79 @@ class TrailCustomizedTestCase(TrailCustomizedTestCaseBase):
         self.assertIsInstance(res, EnrollStudentInDefaultDisciplineRS)
 
         self.assertEqual(res.has_error, False)
+
+    def test_matricular_aluno_em_disciplina_debug_true(self):
+
+        initial_access_date = datetime.date.today()
+
+        final_access_date = initial_access_date + relativedelta(
+            years=+1
+        )
+
+        data = EnrollStudentInDefaultDisciplineRQ(
+            lms_student_id=12261,
+            discipline_id=4,
+            course_id=8,
+            initial_access_date=initial_access_date,
+            final_access_date=final_access_date
+        )
+
+        self.api.debug = True
+
+        res, sent, received = self.api.enroll_student_in_default_discipline(
+            data
+        )
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertIsInstance(res, EnrollStudentInDefaultDisciplineRS)
+
+        pytest.set_trace()
+
+        self.assertIn(
+            '<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">',
+            sent
+        )
+
+        self.assertIn(
+            '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">',
+            received
+        )
+
+        self.assertEqual(res.has_error, False)
+
+    def test_get_trail_by_date(self):
+        """
+        Testa se o retorno da resposta veio com sucesso
+        """
+
+        self.api = API('c400b95017244830804724aa2c60e000')
+
+        initial_access_date = datetime.date.today() - relativedelta(
+            years=+1
+        )
+
+        final_access_date = initial_access_date + relativedelta(
+            years=+2
+        )
+
+        data = GetTrailByDateRQ(
+            page=1,
+            page_size=1,
+            date_begin=initial_access_date,
+            date_end=final_access_date
+        )
+
+        start_time = time.time()
+
+        pytest.set_trace()
+
+        res = self.api.get_trail_by_date(data)
+
+        print("--- %s seconds ---" % (time.time() - start_time))
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertEqual(res.data_list[0].name, u'Padr\xe3o A')

@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import pytest
+
+from lxml import etree
+
 from zeep import Client
+from zeep.plugins import HistoryPlugin
 from lms.trail.containers import *
 
 import logging.config
@@ -35,10 +40,27 @@ class RPC(object):
     formato_data = '%Y-%m-%d'
     formato_hora = '%H:%M:%S'
 
-    def __init__(self, login, passport):
+    _debug = False
+
+    def __init__(self, login, passport, debug=False):
 
         self._login = login
         self._passport = passport
+        self._debug = debug
+
+    @property
+    def debug(self):
+        return self._debug
+
+    @debug.setter
+    def debug(self, value):
+
+        if not isinstance(value, bool):
+            raise ValueError(
+                'O modo debug precisa ser um booleano'
+            )
+
+        self._debug = value
 
     def get_trail(self, data):
 
@@ -147,7 +169,13 @@ class RPC(object):
                 "Não existe uma instância para "
                 "matricular o aluno em uma disciplina"
             )
-        request = Client(self._login.url)
+
+        history = HistoryPlugin()
+
+        request = Client(
+            self._login.url,
+            plugins=[history]
+        )
 
         item_schema = request.get_type('ns2:DateTimeOffset')
 
@@ -176,5 +204,23 @@ class RPC(object):
         except Exception as e:
 
             raise e
+
+        if self.debug:
+
+            xml_sent = '{}'.format(
+                etree.tounicode(
+                    history.last_sent['envelope'],
+                    pretty_print=True
+                )
+            )
+
+            xml_received = '{}'.format(
+                etree.tounicode(
+                    history.last_received['envelope'],
+                    pretty_print=True
+                )
+            )
+
+            return response, xml_sent, xml_received
 
         return response

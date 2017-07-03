@@ -43,7 +43,9 @@ class API(APIBase):
 
     _customized = False
 
-    def __init__(self, passport, login=False, customized=False):
+    _debug = False
+
+    def __init__(self, passport, login=False, customized=False, debug=False):
 
         if login is False:
 
@@ -71,6 +73,19 @@ class API(APIBase):
             )
 
         self._customized = value
+
+    @property
+    def debug(self):
+        return self._debug
+
+    @debug.setter
+    def debug(self, value):
+        if not isinstance(value, bool):
+            raise ValueError(
+                'O modo debug precisa ser um booleano'
+            )
+
+        self._debug = value
 
     def get_activity_group_by_name(self, data_rq):
         """
@@ -199,6 +214,13 @@ class API(APIBase):
                 msg=response['Msg'],
             )
 
+        if response['TrailDTOList'] is None:
+
+            return ErrorRS(
+                error=True,
+                msg='Lista de trilhas é nula ou vazia.'
+            )
+
         data = TrailParse.get_all(
             response,
             response['TrailDTOList']['TrailDTO']
@@ -294,7 +316,19 @@ class API(APIBase):
         response = None
 
         try:
-            response = self.rpc.enroll_student_in_default_discipline(data_rq)
+
+            if self.debug:
+
+                self.rpc.debug = self.debug
+
+                response, sent, received = self.rpc.enroll_student_in_default_discipline(
+                    data_rq
+                )
+
+            else:
+                response = self.rpc.enroll_student_in_default_discipline(
+                    data_rq
+                )
 
         except ValueError as e:
 
@@ -329,7 +363,7 @@ class API(APIBase):
 
             return ErrorRS(
                 error=response['hasError'],
-                guid=response['Guid'],
+                # guid=response['Guid'],
                 msg=response['Msg'],
             )
 
@@ -337,6 +371,10 @@ class API(APIBase):
             error=response['hasError'],
             msg=response['Msg']
         )
+
+        if self.debug:
+
+            return data_rs, sent, received
 
         return data_rs
 
