@@ -319,8 +319,6 @@ class TrailCustomizedTestCase(TrailCustomizedTestCaseBase):
 
         self.assertIsInstance(res, EnrollStudentInDefaultDisciplineRS)
 
-        pytest.set_trace()
-
         self.assertIn(
             '<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">',
             sent
@@ -341,7 +339,7 @@ class TrailCustomizedTestCase(TrailCustomizedTestCaseBase):
         self.api = API('c400b95017244830804724aa2c60e000')
 
         initial_access_date = datetime.date.today() - relativedelta(
-            years=+1
+            months=+4
         )
 
         final_access_date = initial_access_date + relativedelta(
@@ -356,8 +354,6 @@ class TrailCustomizedTestCase(TrailCustomizedTestCaseBase):
         )
 
         start_time = time.time()
-
-        pytest.set_trace()
 
         res = self.api.get_trail_by_date(data)
 

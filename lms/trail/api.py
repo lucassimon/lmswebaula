@@ -56,6 +56,8 @@ class API(APIBase):
 
         self._customized = customized
 
+        self._debug = debug
+
         self.rpc = TrailRPC(
             login=login,
             passport=passport
@@ -176,7 +178,6 @@ class API(APIBase):
 
         try:
             response = self.rpc.get_trail_by_date(data_rq)
-
         except ValueError as e:
 
             return ErrorRS(
@@ -315,6 +316,10 @@ class API(APIBase):
 
         response = None
 
+        sent = None
+
+        received = None
+
         try:
 
             if self.debug:
@@ -332,40 +337,75 @@ class API(APIBase):
 
         except ValueError as e:
 
-            return ErrorRS(
-                error=True,
-                msg=e.message,
-            )
+            if self.debug:
+                return ErrorRS(
+                    error=True,
+                    msg=e.message,
+                ), sent, received
+            else:
+
+                return ErrorRS(
+                    error=True,
+                    msg=e.message,
+                )
         except (
             Timeout, HTTPError, ConnectionError,
             ProxyError, SSLError, ConnectTimeout,
             ReadTimeout, TooManyRedirects, RetryError
         ) as e:
-            return ConnectionExceptionRS(
-                error=True,
-                msg=e.message,
-                exception=e
-            )
+
+            if self.debug:
+                return ConnectionExceptionRS(
+                    error=True,
+                    msg=e.message,
+                    exception=e
+                ), sent, received
+            else:
+
+                return ConnectionExceptionRS(
+                    error=True,
+                    msg=e.message,
+                    exception=e
+                )
         except Exception as e:
-            return ExceptionRS(
-                error=True,
-                msg=e.message,
-                exception=e
-            )
+            if self.debug:
+                return ExceptionRS(
+                    error=True,
+                    msg=e.message,
+                    exception=e
+                ), sent, received
+            else:
+                return ExceptionRS(
+                    error=True,
+                    msg=e.message,
+                    exception=e
+                )
 
         if self._verifica_response_none(response):
-            return ErrorRS(
-                error=True,
-                msg='Resposta nula ou vazia.'
-            )
+            if self.debug:
+                return ErrorRS(
+                    error=True,
+                    msg='Resposta nula ou vazia.'
+                ), sent, received
+            else:
+                return ErrorRS(
+                    error=True,
+                    msg='Resposta nula ou vazia.'
+                )
 
         if self._verifica_response_has_error(response):
-
-            return ErrorRS(
-                error=response['hasError'],
-                # guid=response['Guid'],
-                msg=response['Msg'],
-            )
+            if self.debug:
+                return ErrorRS(
+                    error=response['hasError'],
+                    # guid=response['Guid'],
+                    msg=response['Msg'],
+                ), sent, received
+            else:
+                return ErrorRS(
+                    error=response['hasError'],
+                    # guid=response['Guid'],
+                    msg=response['Msg'],
+                )
 
         data_rs = EnrollStudentInDefaultDisciplineRS(
             error=response['hasError'],
