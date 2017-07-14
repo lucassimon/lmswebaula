@@ -158,6 +158,8 @@ class TrailCustomizedTestCaseBase(unittest.TestCase):
 
         self.api = API(self.passport, login=login, customized=True)
 
+
+
         self.fake = Factory.create('pt_BR')
 
 

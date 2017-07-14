@@ -223,7 +223,59 @@ class API(APIBase):
         Verifica se o aluno está matriculado na turma automatica da trilha
         """
 
-        raise NotImplementedError
+        if not isinstance(data_rq, EnrolledInTrailDefaultClassRQ):
+            raise ValueError(
+                "Não existe uma instância para os dados do aluno matriculado"
+            )
+
+        res = None
+
+        try:
+            response = self.rpc.checks_student_enrolled_in_trail_default_class(
+                data_rq
+            )
+        except ValueError as e:
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
+        except Exception as e:
+            return ExceptionRS(
+                error=True,
+                msg=e.message,
+            )
+
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
+
+        res = EnrolledInTrailDefaultClassRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg']
+        )
+
+        return res
 
     def enrollment_automatic_class_by_course(self, data_rq):
         """

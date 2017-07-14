@@ -12,6 +12,7 @@ from lms.core.containers.error import (
     ErrorRS, ExceptionRS, ConnectionExceptionRS
 )
 
+from lms.core.containers.login import LoginRQ
 from lms.enrollment.api import API
 from lms.enrollment.containers import *
 
@@ -295,3 +296,133 @@ class EnrollmentTestCase(EnrollmentTestCaseBase):
         self.assertEqual(res.has_error, True)
 
         self.assertEqual(res.msg, u'Matricula não encontrada')
+
+
+class EnrollmentCustomizedTestCaseBase(unittest.TestCase):
+
+    def setUp(self):
+
+        self.passport = 'c400b95017244830804724aa2c60e000'
+
+        self.api = API(self.passport)
+
+        self.fake = Factory.create('pt_BR')
+
+
+class EnrollmentCustomizedTestCase(EnrollmentCustomizedTestCaseBase):
+    """
+    Testes para o serviço Turmas da trilha
+    """
+
+    def test_erro_parametro_checks_student_enrolled_in_trail_default_class(
+        self
+    ):
+        """
+        Testa erro ao não passar nenhum parametro no metodo
+        ChecksStudentEnrolledInTrailDefaultClass
+        """
+
+        with pytest.raises(ValueError) as excinfo:
+
+            data = {}
+            self.api.checks_student_enrolled_in_trail_default_class(data)
+
+        self.assertEqual(
+            u'Não existe uma instância para os dados do aluno matriculado',
+            excinfo.value.message
+        )
+
+    def test_resposta_error_parametro_student_id_enrolled_in_trail_default_class_rq(self):
+        """
+        Testa Erro ao matricular o aluno no curso
+        """
+
+        with pytest.raises(ValueError) as excinfo:
+
+            data = EnrolledInTrailDefaultClassRQ(
+                student_id=None,
+                trail_id=None
+            )
+            self.api.checks_student_enrolled_in_trail_default_class(data)
+
+        self.assertEqual(
+            u'O id do estudante precisa ser um inteiro',
+            excinfo.value.message
+        )
+
+    def test_resposta_error_parametro_trail_id_enrolled_in_trail_default_class_rq(self):
+        """
+        Testa Erro ao matricular o aluno no curso
+        """
+
+        with pytest.raises(ValueError) as excinfo:
+
+            data = EnrolledInTrailDefaultClassRQ(
+                student_id=7790,
+                trail_id=None
+            )
+            self.api.checks_student_enrolled_in_trail_default_class(data)
+
+        self.assertEqual(
+            u'O id da trilha precisa ser um inteiro',
+            excinfo.value.message
+        )
+
+    def test_e_instancia_enrolled_in_trail_default_class_rs_checks_student_enrolled_in_trail_default_class(self):
+        """
+        Testa Erro ao matricular o aluno no curso
+        """
+
+        data = EnrolledInTrailDefaultClassRQ(
+            student_id=7790,
+            trail_id=9999
+        )
+
+        pytest.set_trace()
+
+        res = self.api.checks_student_enrolled_in_trail_default_class(data)
+
+        pytest.set_trace()
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertIsInstance(res, EnrollmentCourseRS)
+
+    def test_matricula_nao_encontrada_checks_student_enrolled_in_trail_default_class(self):
+        """
+        Testa Erro ao matricular o aluno no curso
+        """
+
+        data = EnrolledInTrailDefaultClassRQ(
+            student_id=7790,
+            trail_id=9999
+        )
+
+        res = self.api.checks_student_enrolled_in_trail_default_class(data)
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertIsInstance(res, ErrorRS)
+
+        self.assertEqual(res.msg, u'Matricula não encontrada')
+
+    def test_sucesso_checks_student_enrolled_in_trail_default_class(self):
+        """
+        Testa Erro ao matricular o aluno no curso
+        """
+
+        data = EnrolledInTrailDefaultClassRQ(
+            student_id=7790,
+            trail_id=6165
+        )
+
+        res = self.api.checks_student_enrolled_in_trail_default_class(data)
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertIsInstance(res, ErrorRS)
+
+        self.assertEqual(res.has_error, False)
