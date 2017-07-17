@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 import pytest
-
 from requests.exceptions import (
     Timeout,
     HTTPError,
@@ -22,7 +20,7 @@ from lms.core.containers.error import (
 )
 
 from lms.enrollment.containers import *
-
+from lms.enrollment.parse import EnrollmentTrailClassDefaultParse
 from lms.enrollment.rpc import RPC
 
 
@@ -210,10 +208,13 @@ class API(APIBase):
                 msg=response['Msg'],
             )
 
+        data = EnrollmentTrailClassDefaultParse.get_all(response)
+
         res = EnrolledInTrailClassRS(
             error=response['hasError'],
             guid=response['Guid'],
-            msg=response['Msg']
+            msg=response['Msg'],
+            data=data
         )
 
         return res
@@ -269,10 +270,13 @@ class API(APIBase):
                 msg=response['Msg'],
             )
 
+        data = EnrollmentTrailClassDefaultParse.get_all(response)
+
         res = EnrolledInTrailDefaultClassRS(
             error=response['hasError'],
             guid=response['Guid'],
-            msg=response['Msg']
+            msg=response['Msg'],
+            data=data
         )
 
         return res
