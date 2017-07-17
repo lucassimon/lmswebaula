@@ -45,7 +45,7 @@ class TrailClassTestCase(TrailClassTestCaseBase):
             excinfo.value.message
         )
 
-    def test_erro_get(self):
+    def test_sucesso_get(self):
         """
         Testa o retorno de sucesso do metodo get
         """
@@ -57,6 +57,6 @@ class TrailClassTestCase(TrailClassTestCaseBase):
         if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
-        self.assertEqual(res.has_error, True)
+        self.assertEqual(res.has_error, False)
 
-        self.assertEqual(res.msg, u'Turma de trilha n\xe3o encontrada.')
+        self.assertEqual(res.msg, u'Operação realizada com sucesso.')
