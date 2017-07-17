@@ -378,11 +378,7 @@ class EnrollmentCustomizedTestCase(EnrollmentCustomizedTestCaseBase):
             trail_id=9999
         )
 
-        pytest.set_trace()
-
         res = self.api.checks_student_enrolled_in_trail_default_class(data)
-
-        pytest.set_trace()
 
         if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
@@ -415,7 +411,7 @@ class EnrollmentCustomizedTestCase(EnrollmentCustomizedTestCaseBase):
 
         data = EnrolledInTrailDefaultClassRQ(
             student_id=7790,
-            trail_id=6165
+            lms_trail_id=6165
         )
 
         res = self.api.checks_student_enrolled_in_trail_default_class(data)
@@ -423,6 +419,6 @@ class EnrollmentCustomizedTestCase(EnrollmentCustomizedTestCaseBase):
         if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
-        self.assertIsInstance(res, ErrorRS)
+        self.assertIsInstance(res, EnrolledInTrailDefaultClassRS)
 
         self.assertEqual(res.has_error, False)
