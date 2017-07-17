@@ -99,11 +99,25 @@ class RPC(object):
         response = None
 
         try:
-            response = request.service.ChecksStudentEnrolledInTrailClass(
-                passport=self._passport,
-                userId=data_rq.user_id,
-                trailClassId=data_rq.trail_class_id,
-            )
+
+            if data_rq.trail_class_id:
+                response = request.service.ChecksStudentEnrolledInTrailClass(
+                    passport=self._passport,
+                    userId=data_rq.user_id,
+                    trailClassId=data_rq.trail_class_id,
+                )
+            elif data_rq.lms_trail_class_id:
+
+                response = request.service.ChecksStudentEnrolledInTrailClass(
+                    passport=self._passport,
+                    userId=data_rq.user_id,
+                    lmsTrailClassId=data_rq.lms_trail_class_id,
+                )
+            else:
+                raise ValueError(
+                    "Não existe um id de trilha para pesquisa"
+                )
+
         except Exception as e:
             raise e
 
@@ -121,11 +135,23 @@ class RPC(object):
         response = None
 
         try:
-            response = request.service.ChecksStudentEnrolledInTrailDefaultClass(
-                passport=self._passport,
-                userId=data_rq.user_id,
-                trailId=data_rq.trail_id,
-            )
+
+            if data_rq.trail_id:
+                response = request.service.ChecksStudentEnrolledInTrailDefaultClass(
+                    passport=self._passport,
+                    userId=data_rq.user_id,
+                    trailId=data_rq.trail_id,
+                )
+            elif data_rq.lms_trail_id:
+                response = request.service.ChecksStudentEnrolledInTrailDefaultClass(
+                    passport=self._passport,
+                    userId=data_rq.user_id,
+                    lmsTrailId=data_rq.lms_trail_id,
+                )
+            else:
+                raise ValueError(
+                    "Não existe um id de trilha para pesquisa"
+                )
         except Exception as e:
             raise e
 
