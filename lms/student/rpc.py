@@ -146,3 +146,39 @@ class RPC(object):
             raise e
 
         return response
+
+    def update(self, data):
+
+        if not isinstance(data, UpdateRQ):
+            raise ValueError(
+                "Não existe dados para o estudante"
+            )
+
+        request = Client(self._login.url)
+
+        array_student_dto = request.get_type('ns5:ArrayOfStudentDTO')
+
+        student_dto = request.get_type('ns5:StudentDTO')
+
+        student = student_dto(
+            Registration=data.registration,
+            Name=data.name,
+            Email=data.email,
+            CPF=data.cpf,
+            Status=data.status,
+            Password=data.password,
+            StudentId=data.student_id
+        )
+
+        student_list = array_student_dto(StudentDTO=student)
+
+        try:
+            response = request.service.Save(
+                passport=self._passport,
+                studentListDTO=student_list
+            )
+
+        except Exception as e:
+            raise e
+
+        return response

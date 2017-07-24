@@ -178,7 +178,7 @@ class StudentTestCase(StudentTestCaseBase):
     def test_busca_estudante_pelo_id(self):
 
         data_rq = GetByIdRQ(
-            lms_student_id=15
+            lms_student_id=7791
         )
 
         res = self.api.get_by_id(data_rq)
@@ -223,6 +223,79 @@ class StudentTestCase(StudentTestCaseBase):
             ),
             student_id=self.fake.random_int(min=0, max=9999)
         )
+
+        res = self.api.save(data)
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertEqual(res.has_error, False)
+
+
+class StudentCustomizedTestCaseBase(unittest.TestCase):
+
+    def setUp(self):
+
+        self.passport = 'c400b95017244830804724aa2c60e000'
+        self.api = API(self.passport)
+        self.fake = Factory.create('pt_BR')
+
+
+class StudentCustomizedTestCase(StudentCustomizedTestCaseBase):
+    """
+    Testes para o serviço Student
+    """
+
+    def test_busca_estudante_pelo_id(self):
+
+        data_rq = GetByIdRQ(
+            lms_student_id=13973
+        )
+
+        res = self.api.get_by_id(data_rq)
+
+        pytest.set_trace()
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        student_test = res.data_list[0]
+
+        self.assertEqual(int(student_test.lms_student_id), 15)
+
+    def test_save(self):
+        """
+        Erro ao salvar um estudante
+        """
+
+        data = SaveRQ(
+            name=u'local4',
+            email=u'local4@teste.com',
+            cpf=u'31149687592',
+            password='21072017',
+            student_id=20102
+        )
+
+        pytest.set_trace()
+
+        res = self.api.save(data)
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertEqual(res.has_error, False)
+
+    def test_atualizar_usuario(self):
+        """
+        Erro ao salvar um estudante
+        """
+
+        data = UpdateRQ(
+            lms_student_id=16754,
+            student_id=12531
+        )
+
+        pytest.set_trace()
 
         res = self.api.save(data)
 

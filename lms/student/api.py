@@ -309,6 +309,66 @@ class API(APIBase):
 
         return data_rs
 
+    def update(self, data_rq):
+        """
+        Atualiza um aluno
+        """
+
+        if not isinstance(data_rq, UpdateRQ):
+            raise ValueError(
+                "Não existe uma instância para os dados do estudante"
+            )
+
+        response = None
+
+        try:
+            response = self.rpc.update(data_rq)
+        except ValueError as e:
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
+        except Exception as e:
+            return ExceptionRS(
+                error=True,
+                msg=e.message,
+            )
+
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
+
+        data = StudentParse.get_all(response)
+
+        data_rs = UpdateRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg'],
+            data=data
+        )
+
+        return data_rs
+
     def bind_branch_manager(self, data_rq):
         """
         Associa um aluno com gerente filial
