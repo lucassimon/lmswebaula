@@ -230,3 +230,38 @@ class StudentTestCase(StudentTestCaseBase):
             raise unittest.SkipTest(res.msg)
 
         self.assertEqual(res.has_error, False)
+
+
+class StudentCustomizedTestCaseBase(unittest.TestCase):
+
+    def setUp(self):
+
+        self.passport = 'c400b95017244830804724aa2c60e000'
+
+        self.api = API(self.passport)
+
+        self.fake = Factory.create('pt_BR')
+
+
+class StudentCustomizedTestCase(StudentCustomizedTestCaseBase):
+    """
+    Testes para o serviço estudantes de uma api customizada
+    """
+
+    def test_get_student_by_id(self):
+        """
+        Testa erro ao chamar um metodo de uma api customizada
+        """
+
+        data_rq = GetByIdRQ(
+            lms_student_id=7790
+        )
+
+        res = self.api.get_by_id(data_rq)
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        student_test = res.data_list[0]
+
+        self.assertEqual(int(student_test.lms_student_id), 15)
