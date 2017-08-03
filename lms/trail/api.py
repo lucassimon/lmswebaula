@@ -20,6 +20,10 @@ from lms.core.containers.error import (
     ErrorRS, ExceptionRS, ConnectionExceptionRS
 )
 
+from lms.core.containers.pagination import (
+    PaginationParse
+)
+
 from lms.trail.containers import *
 
 from lms.trail.rpc import (
@@ -234,6 +238,9 @@ class API(APIBase):
             data=data
         )
 
+        # insere os dados de paginação
+        data_rs.pagination = PaginationParse.parse(response['PaginationInfo'])
+
         return data_rs
 
     def save(self, data_rq):
@@ -286,7 +293,7 @@ class API(APIBase):
                 msg=response['Msg'],
             )
 
-        data = TeacherParse.get_all(response)
+        data = TrailParse.get_all(response)
 
         data_rs = SaveRS(
             error=response['hasError'],
