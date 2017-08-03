@@ -362,4 +362,4 @@ class TrailCustomizedTestCase(TrailCustomizedTestCaseBase):
         if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
 
-        self.assertEqual(res.data_list[0].name, u'Padr\xe3o A')
+        self.assertEqual(res.data_list[0].name, u'teste')
