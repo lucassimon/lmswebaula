@@ -28,6 +28,9 @@ from lms.student.rpc import (
     RPC as StudentRPC
 )
 
+from lms.core.containers.pagination import (
+    PaginationParse
+)
 
 from lms.student.parse import (
     StudentParse
@@ -118,6 +121,9 @@ class API(APIBase):
             msg=response['Msg'],
             data=data
         )
+
+        # insere os dados de paginação
+        data_rs.pagination = PaginationParse.parse(response['PaginationInfo'])
 
         return data_rs
 

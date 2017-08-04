@@ -39,4 +39,13 @@ class GetAllStudentRS(SuccessContainerResponse):
     }
     """
 
-    pass
+    _pagination = None
+
+    @property
+    def pagination(self):
+        return self._pagination
+
+    @pagination.setter
+    def pagination(self, pagination_rs):
+
+        self._pagination = pagination_rs
