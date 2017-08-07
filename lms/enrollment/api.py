@@ -374,7 +374,59 @@ class API(APIBase):
 
         """
 
-        raise NotImplementedError
+        if not isinstance(data_rq, GetTrailsHistoryByClassPeriodRQ):
+            raise ValueError(
+                "Não existe uma instância para os dados da matricula"
+            )
+
+        response = None
+
+        try:
+            response = self.rpc.get_trails_history_by_class_period(data_rq)
+        except ValueError as e:
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
+        except Exception as e:
+            return ExceptionRS(
+                error=True,
+                msg=e.message,
+            )
+
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
+
+        data = GetTrailsHistoryByClassPeriodParse.parse(response)
+
+        res = GetTrailsHistoryByClassPeriodRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg']
+        )
+
+        return res
 
     def updat_term_enroll_by_term_course(self, data_rq):
         """

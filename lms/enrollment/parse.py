@@ -33,3 +33,33 @@ class EnrollmentTrailClassDefaultParse(object):
             )
 
         return data
+
+
+class GetTrailsHistoryByClassPeriodParse(object):
+
+    @staticmethod
+    def parse(response):
+
+        data = []
+
+        try:
+            ws = response[
+                'StudentTrailSituationList'
+            ][
+                'StudentTrailSituationDTO'
+            ]
+
+        except Exception:
+            return data
+
+        for std in ws:
+
+            data.append(
+                StudentTrailSituationDTO(
+                    state=std['EnrollmentState'],
+                    ffrom=std['From'],
+                    to=std['To']
+                )
+            )
+
+        return data
