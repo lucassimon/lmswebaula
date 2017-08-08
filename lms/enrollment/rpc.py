@@ -166,13 +166,19 @@ class RPC(object):
 
         request = Client(self._login.url)
 
+        pytest.set_trace()
+
+        data = {
+            'passport': self._passport,
+            'from': data_rq.ffrom,
+            'to': data_rq.to,
+            'page': data_rq.page,
+            'pageSize': data_rq.page_size
+        }
+
         try:
-            response = request.service.GetAll(
-                passport=self._passport,
-                ffrom=data_rq.ffrom,
-                to=data_rq.to,
-                page=data_rq.page,
-                pageSize=data_rq.page_size
+            response = request.service.GetTrailsHistoryByClassPeriod(
+                **data
             )
         except Exception as e:
             raise e

@@ -445,6 +445,8 @@ class EnrollmentCustomizedTestCase(EnrollmentCustomizedTestCaseBase):
             page_size=1
         )
 
+        pytest.set_trace()
+
         res = self.api.get_trails_history_by_class_period(
             data
         )
