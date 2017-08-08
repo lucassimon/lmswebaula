@@ -418,12 +418,20 @@ class API(APIBase):
                 msg=response['Msg'],
             )
 
-        data = GetTrailsHistoryByClassPeriodParse.parse(response)
+        data = GetTrailsHistoryByClassPeriodParse.parse(
+            response
+        )
 
         res = GetTrailsHistoryByClassPeriodRS(
             error=response['hasError'],
             guid=response['Guid'],
-            msg=response['Msg']
+            msg=response['Msg'],
+            data=data
+        )
+
+        # insere os dados de paginação
+        res.pagination = PaginationParse.parse(
+            response['PaginationInfo']
         )
 
         return res

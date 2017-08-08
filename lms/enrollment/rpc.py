@@ -156,3 +156,25 @@ class RPC(object):
             raise e
 
         return response
+
+    def get_trails_history_by_class_period(self, data_rq):
+
+        if not isinstance(data_rq, GetTrailsHistoryByClassPeriodRQ):
+            raise ValueError(
+                "Não existe uma instancia para os dados da paginação"
+            )
+
+        request = Client(self._login.url)
+
+        try:
+            response = request.service.GetAll(
+                passport=self._passport,
+                ffrom=data_rq.ffrom,
+                to=data_rq.to,
+                page=data_rq.page,
+                pageSize=data_rq.page_size
+            )
+        except Exception as e:
+            raise e
+
+        return response
