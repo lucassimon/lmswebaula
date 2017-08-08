@@ -348,7 +348,7 @@ class TrailCustomizedTestCase(TrailCustomizedTestCaseBase):
 
         data = GetTrailByDateRQ(
             page=1,
-            page_size=1,
+            page_size=400,
             date_begin=initial_access_date,
             date_end=final_access_date
         )

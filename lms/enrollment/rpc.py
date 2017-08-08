@@ -173,7 +173,8 @@ class RPC(object):
             'from': data_rq.ffrom,
             'to': data_rq.to,
             'page': data_rq.page,
-            'pageSize': data_rq.page_size
+            'pageSize': data_rq.page_size,
+            'typeSearch': 'EnrolledInPeriod'
         }
 
         try:
