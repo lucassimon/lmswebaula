@@ -8,6 +8,8 @@ from datetime import datetime
 
 from faker import Factory
 
+from dateutil.relativedelta import relativedelta
+
 from lms.core.containers.error import (
     ErrorRS, ExceptionRS, ConnectionExceptionRS
 )
@@ -420,5 +422,36 @@ class EnrollmentCustomizedTestCase(EnrollmentCustomizedTestCaseBase):
             raise unittest.SkipTest(res.msg)
 
         self.assertIsInstance(res, EnrolledInTrailDefaultClassRS)
+
+        self.assertEqual(res.has_error, False)
+
+    def test_sucesso_get_trails_history_by_class_period(self):
+        """
+        Testa Erro ao matricular o aluno no curso
+        """
+
+        initial_access_date = datetime.date.today() - relativedelta(
+            months=+7
+        )
+
+        final_access_date = initial_access_date + relativedelta(
+            years=+2
+        )
+
+        data = GetTrailsHistoryByClassPeriodRQ(
+            ffrom=initial_access_date,
+            to=final_access_date,
+            page=1,
+            page_size=1
+        )
+
+        res = self.api.checks_student_enrolled_in_trail_default_class(
+            data
+        )
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertIsInstance(res, GetTrailsHistoryByClassPeriodRS)
 
         self.assertEqual(res.has_error, False)
