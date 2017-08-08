@@ -445,7 +445,7 @@ class EnrollmentCustomizedTestCase(EnrollmentCustomizedTestCaseBase):
             page_size=1
         )
 
-        res = self.api.checks_student_enrolled_in_trail_default_class(
+        res = self.api.get_trails_history_by_class_period(
             data
         )
 
