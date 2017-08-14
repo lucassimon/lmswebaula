@@ -18,7 +18,9 @@ from lms.core.containers.login import LoginRQ
 from lms.core.containers.error import (
     ErrorRS, ExceptionRS, ConnectionExceptionRS
 )
-
+from lms.core.containers.pagination import (
+    PaginationParse
+)
 from lms.enrollment.containers import *
 from lms.enrollment.parse import (
     EnrollmentTrailClassDefaultParse, GetTrailsHistoryByClassPeriodParse
