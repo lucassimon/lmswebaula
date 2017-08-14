@@ -441,11 +441,10 @@ class EnrollmentCustomizedTestCase(EnrollmentCustomizedTestCaseBase):
         data = GetTrailsHistoryByClassPeriodRQ(
             ffrom=initial_access_date,
             to=final_access_date,
+            type_search='EnrolledInPeriod',
             page=1,
             page_size=1
         )
-
-        pytest.set_trace()
 
         res = self.api.get_trails_history_by_class_period(
             data
