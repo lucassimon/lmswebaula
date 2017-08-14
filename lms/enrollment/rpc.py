@@ -166,8 +166,6 @@ class RPC(object):
 
         request = Client(self._login.url)
 
-        pytest.set_trace()
-
         data = {
             'passport': self._passport,
             'from': data_rq.ffrom,
