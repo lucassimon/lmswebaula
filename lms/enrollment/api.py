@@ -20,7 +20,9 @@ from lms.core.containers.error import (
 )
 
 from lms.enrollment.containers import *
-from lms.enrollment.parse import EnrollmentTrailClassDefaultParse
+from lms.enrollment.parse import (
+    EnrollmentTrailClassDefaultParse, GetTrailsHistoryByClassPeriodParse
+)
 from lms.enrollment.rpc import RPC
 
 
