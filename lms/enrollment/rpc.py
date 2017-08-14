@@ -174,7 +174,7 @@ class RPC(object):
             'to': data_rq.to,
             'page': data_rq.page,
             'pageSize': data_rq.page_size,
-            'typeSearch': 'EnrolledInPeriod'
+            'typeSearch': data_rq.type_search
         }
 
         try:
