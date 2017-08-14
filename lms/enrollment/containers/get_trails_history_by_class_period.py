@@ -11,15 +11,31 @@ from lms.core.containers.response import (
 
 
 class GetTrailsHistoryByClassPeriodRQ(PaginationMixinRQ):
+    """
+    Paramentro: typeSearch
+
+    Possiveis Valores
+
+    EnrolledInPeriod = Matriculado no periodo
+
+    FinishedOrModifiedInPeriod = Finalizadas ou Modificadas no periodo
+
+    LastAcessInPeriod = Ultimo acesso no periodo
+
+    CompletedInPeriod = Concluidos no periodo
+    """
 
     _ffrom = None
 
     _to = None
 
+    _type_search = None
+
     def __init__(
         self,
         ffrom,
         to,
+        type_search,
         page=1,
         page_size=12
     ):
@@ -55,6 +71,15 @@ class GetTrailsHistoryByClassPeriodRQ(PaginationMixinRQ):
     def to(self, value):
 
         self._to = value
+
+    @property
+    def type_search(self):
+        return self._type_search
+
+    @type_search.setter
+    def type_search(self, value):
+
+        self._type_search = value
 
 
 class GetTrailsHistoryByClassPeriodRS(SuccessContainerResponse):
