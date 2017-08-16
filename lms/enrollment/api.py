@@ -376,6 +376,18 @@ class API(APIBase):
         Retorna os historicos de trilhas de acordo com o tipo de pesquisa
         em um determinado periodo
 
+        Paramentro: typeSearch
+
+        Possiveis Valores
+
+        EnrolledInPeriod = Matriculado no periodo
+
+        FinishedOrModifiedInPeriod = Finalizadas ou Modificadas no periodo
+
+        LastAcessInPeriod = Ultimo acesso no periodo
+
+        CompletedInPeriod = Concluidos no periodo
+
         """
 
         if not isinstance(data_rq, GetTrailsHistoryByClassPeriodRQ):
