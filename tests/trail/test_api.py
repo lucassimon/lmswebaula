@@ -150,7 +150,7 @@ class TrailCustomizedTestCaseBase(unittest.TestCase):
 
     def setUp(self):
 
-        self.passport = 'c400b95017244830804724aa2c60e000'
+        self.passport = '2ec6aa0a526546c8b3e4f68a78cf68ca'
 
         self.endpoint = 'http://apiandrademartins.webaula.com.br/Trail.svc?singleWsdl'
 
@@ -329,14 +329,14 @@ class TrailCustomizedTestCase(TrailCustomizedTestCaseBase):
             received
         )
 
-        self.assertEqual(res.has_error, False)
+        self.assertEqual(res.has_error, True)
 
     def test_get_trail_by_date(self):
         """
         Testa se o retorno da resposta veio com sucesso
         """
 
-        self.api = API('c400b95017244830804724aa2c60e000')
+        self.api = API('2ec6aa0a526546c8b3e4f68a78cf68ca')
 
         initial_access_date = datetime.date.today() - relativedelta(
             months=+4

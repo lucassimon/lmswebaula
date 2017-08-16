@@ -23,7 +23,7 @@ class EnrollmentTestCaseBase(unittest.TestCase):
 
     def setUp(self):
 
-        self.passport = 'adde547e6a7a4ea79741fbee834a07fe'
+        self.passport = '2ec6aa0a526546c8b3e4f68a78cf68ca'
         self.api = API(self.passport)
         self.fake = Factory.create('pt_BR')
 
@@ -304,7 +304,7 @@ class EnrollmentCustomizedTestCaseBase(unittest.TestCase):
 
     def setUp(self):
 
-        self.passport = 'c400b95017244830804724aa2c60e000'
+        self.passport = '2ec6aa0a526546c8b3e4f68a78cf68ca'
 
         self.api = API(self.passport)
 
@@ -438,12 +438,14 @@ class EnrollmentCustomizedTestCase(EnrollmentCustomizedTestCaseBase):
             years=+2
         )
 
+        # 23 paginas ao todo
+
         data = GetTrailsHistoryByClassPeriodRQ(
             ffrom=initial_access_date,
             to=final_access_date,
             type_search='EnrolledInPeriod',
-            page=1,
-            page_size=1
+            page=12,
+            page_size=400
         )
 
         res = self.api.get_trails_history_by_class_period(

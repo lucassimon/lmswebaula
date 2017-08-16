@@ -20,7 +20,7 @@ class StudentTestCaseBase(unittest.TestCase):
 
     def setUp(self):
 
-        self.passport = 'adde547e6a7a4ea79741fbee834a07fe'
+        self.passport = '2ec6aa0a526546c8b3e4f68a78cf68ca'
         self.api = API(self.passport)
         self.fake = Factory.create('pt_BR')
 
@@ -178,7 +178,7 @@ class StudentTestCase(StudentTestCaseBase):
     def test_busca_estudante_pelo_id(self):
 
         data_rq = GetByIdRQ(
-            lms_student_id=15
+            lms_student_id=7792
         )
 
         res = self.api.get_by_id(data_rq)
@@ -236,7 +236,7 @@ class StudentCustomizedTestCaseBase(unittest.TestCase):
 
     def setUp(self):
 
-        self.passport = 'c400b95017244830804724aa2c60e000'
+        self.passport = '2ec6aa0a526546c8b3e4f68a78cf68ca'
 
         self.api = API(self.passport)
 
@@ -254,7 +254,7 @@ class StudentCustomizedTestCase(StudentCustomizedTestCaseBase):
         """
 
         data_rq = GetByIdRQ(
-            lms_student_id=7790
+            lms_student_id=134
         )
 
         res = self.api.get_by_id(data_rq)

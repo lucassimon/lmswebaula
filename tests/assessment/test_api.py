@@ -20,7 +20,7 @@ class AssessmentTestCaseBase(unittest.TestCase):
 
     def setUp(self):
 
-        self.passport = 'adde547e6a7a4ea79741fbee834a07fe'
+        self.passport = '2ec6aa0a526546c8b3e4f68a78cf68ca'
         self.api = API(self.passport)
         self.fake = Factory.create('pt_BR')
 
@@ -53,8 +53,8 @@ class AssessmentTestCase(AssessmentTestCaseBase):
         """
 
         data = GetDeliveredAssessmentTrailRQ(
-            lms_trail_class_id=11,
-            lms_student_id=1
+            lms_trail_class_id=13,
+            lms_student_id=7792
         )
 
         res = self.api.get_delivered_assessment_trail(data)
@@ -69,17 +69,17 @@ class AssessmentTestCase(AssessmentTestCaseBase):
         Testa o retorno de sucesso do metodo get_delivered_assessment_trail
         """
 
-        paginate = GetDeliveredAssessmentTrailRQ(
-            lms_trail_class_id=1,
-            lms_student_id=1
+        data = GetDeliveredAssessmentTrailRQ(
+            page=1,
+            page_size=12,
+            lms_trail_class_id=11,
+            lms_student_id=134
         )
 
-        res = self.api.get_delivered_assessment_trail(paginate)
+        res = self.api.get_delivered_assessment_trail(data)
 
         if isinstance(res, ConnectionExceptionRS):
             raise unittest.SkipTest(res.msg)
-
-        pytest.set_trace()
 
         data = res.data_list
 
