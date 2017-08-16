@@ -29,6 +29,9 @@ from lms.assessment.containers import *
 from lms.assessment.rpc import (
     RPC
 )
+from lms.assessment.parse import (
+    NoteReviewParse
+)
 
 
 class API(APIBase):
