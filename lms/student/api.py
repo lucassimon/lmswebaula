@@ -49,14 +49,31 @@ class API(APIBase):
 
     ENDPOINT = 'http://lmsapi.webaula.com.br/v3/Student.svc?singleWsdl'
 
-    def __init__(self, passport):
+    _debug = False
+
+    def __init__(self, passport, debug=False):
 
         login = LoginRQ(passport, url=self.ENDPOINT)
+
+        self._debug = debug
 
         self.rpc = StudentRPC(
             login=login,
             passport=passport
         )
+
+    @property
+    def debug(self):
+        return self._debug
+
+    @debug.setter
+    def debug(self, value):
+        if not isinstance(value, bool):
+            raise ValueError(
+                'O modo debug precisa ser um booleano'
+            )
+
+        self._debug = value
 
     def get_all(self, paginate_rq):
         """
@@ -267,8 +284,23 @@ class API(APIBase):
 
         response = None
 
+        sent = None
+
+        received = None
+
         try:
-            response = self.rpc.save(student_rq)
+            if self.debug:
+
+                self.rpc.debug = self.debug
+
+                response, sent, received = self.rpc.save(
+                    student_rq
+                )
+
+            else:
+                response = self.rpc.save(
+                    student_rq
+                )
         except ValueError as e:
             return ErrorRS(
                 error=True,
@@ -312,6 +344,10 @@ class API(APIBase):
             msg=response['Msg'],
             data=data
         )
+
+        if self.debug:
+
+            return data_rs, sent, received
 
         return data_rs
 

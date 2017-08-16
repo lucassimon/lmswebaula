@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-
+from lxml import etree
 from zeep import Client
+from zeep.plugins import HistoryPlugin
 from lms.student.containers import *
 
 import logging.config
@@ -35,11 +36,27 @@ class RPC(object):
 
     formato_data = '%Y-%m-%d'
     formato_hora = '%H:%M:%S'
+    _debug = False
 
-    def __init__(self, login, passport):
+    def __init__(self, login, passport, debug=False):
 
         self._login = login
         self._passport = passport
+        self._debug = debug
+
+    @property
+    def debug(self):
+        return self._debug
+
+    @debug.setter
+    def debug(self, value):
+
+        if not isinstance(value, bool):
+            raise ValueError(
+                'O modo debug precisa ser um booleano'
+            )
+
+        self._debug = value
 
     def get_all(self, paginate):
 
@@ -118,7 +135,12 @@ class RPC(object):
                 "Não existe dados para o estudante"
             )
 
-        request = Client(self._login.url)
+        history = HistoryPlugin()
+
+        request = Client(
+            self._login.url,
+            plugins=[history]
+        )
 
         array_student_dto = request.get_type('ns5:ArrayOfStudentDTO')
 
@@ -144,5 +166,23 @@ class RPC(object):
 
         except Exception as e:
             raise e
+
+        if self.debug:
+
+            xml_sent = '{}'.format(
+                etree.tounicode(
+                    history.last_sent['envelope'],
+                    pretty_print=True
+                )
+            )
+
+            xml_received = '{}'.format(
+                etree.tounicode(
+                    history.last_received['envelope'],
+                    pretty_print=True
+                )
+            )
+
+            return response, xml_sent, xml_received
 
         return response

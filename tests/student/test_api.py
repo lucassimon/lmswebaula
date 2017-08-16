@@ -236,7 +236,7 @@ class StudentCustomizedTestCaseBase(unittest.TestCase):
 
     def setUp(self):
 
-        self.passport = '2ec6aa0a526546c8b3e4f68a78cf68ca'
+        self.passport = 'c400b95017244830804724aa2c60e000'
 
         self.api = API(self.passport)
 
@@ -265,3 +265,41 @@ class StudentCustomizedTestCase(StudentCustomizedTestCaseBase):
         student_test = res.data_list[0]
 
         self.assertEqual(int(student_test.lms_student_id), 15)
+
+    def test_save_debug(self):
+        """
+        Erro ao salvar um estudante
+        """
+
+        self.api.debug = True
+
+        data = SaveRQ(
+            name=u'Teste {}'.format(self.fake.name()),
+            email=self.fake.email(),
+            cpf=self.fake.cpf(),
+            password=self.fake.password(
+                length=10,
+                special_chars=True,
+                digits=True,
+                upper_case=True,
+                lower_case=True
+            ),
+            student_id=self.fake.random_int(min=0, max=9999)
+        )
+
+        res, sent, received = self.api.save(data)
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        self.assertIn(
+            '<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">',
+            sent
+        )
+
+        self.assertIn(
+            '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">',
+            received
+        )
+
+        self.assertEqual(res.has_error, True)
