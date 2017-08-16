@@ -384,7 +384,66 @@ class API(APIBase):
         Recupera um aluno pelo login no LMS
         """
 
-        raise NotImplementedError
+        if not isinstance(data_rq, GetByLoginRQ):
+            raise ValueError(
+                "Não existe uma instancia para os dados de estudante"
+            )
+
+        response = None
+
+        try:
+            response = self.rpc.get_by_login(data_rq)
+        except ValueError as e:
+            return ErrorRS(
+                error=True,
+                msg=e.message,
+            )
+        except (
+            Timeout, HTTPError, ConnectionError,
+            ProxyError, SSLError, ConnectTimeout,
+            ReadTimeout, TooManyRedirects, RetryError
+        ) as e:
+            return ConnectionExceptionRS(
+                error=True,
+                msg=e.message,
+                exception=e
+            )
+        except Exception as e:
+            return ExceptionRS(
+                error=True,
+                msg=e.message,
+            )
+
+        # Verificar se tem erro na resposta
+
+        if self._verifica_response_none(response):
+            return ErrorRS(
+                error=True,
+                msg='Resposta nula ou vazia.'
+            )
+
+        if self._verifica_response_has_error(response):
+
+            return ErrorRS(
+                error=response['hasError'],
+                guid=response['Guid'],
+                msg=response['Msg'],
+            )
+
+        # tratar os dados
+
+        data = StudentParse.get_all(response)
+
+        # Retornar o student response
+
+        data_rs = GetAllStudentRS(
+            error=response['hasError'],
+            guid=response['Guid'],
+            msg=response['Msg'],
+            data=data
+        )
+
+        return data_rs
 
     def get_login_integred_by_user(self, data_rq):
         """

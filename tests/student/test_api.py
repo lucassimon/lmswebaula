@@ -303,3 +303,21 @@ class StudentCustomizedTestCase(StudentCustomizedTestCaseBase):
         )
 
         self.assertEqual(res.has_error, True)
+
+    def test_get_student_by_login(self):
+        """
+        Executa a busca pelo estudante pelo login/cpf
+        """
+
+        data_rq = GetByLoginRQ(
+            login=14857783100
+        )
+
+        res = self.api.get_by_login(data_rq)
+
+        if isinstance(res, ConnectionExceptionRS):
+            raise unittest.SkipTest(res.msg)
+
+        student_test = res.data_list[0]
+
+        self.assertEqual(student_test.email, u'lucassrod@yahooo.com')

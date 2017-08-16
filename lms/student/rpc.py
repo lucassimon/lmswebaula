@@ -186,3 +186,24 @@ class RPC(object):
             return response, xml_sent, xml_received
 
         return response
+
+    def get_by_login(self, data):
+
+        if not isinstance(data, GetByLoginRQ):
+            raise ValueError(
+                "Não existe uma instancia para os dados de estudante"
+            )
+
+        request = Client(self._login.url)
+
+        try:
+
+            response = request.service.GetByLogin(
+                passport=self._passport,
+                login=data.login,
+            )
+
+        except Exception as e:
+            raise e
+
+        return response
