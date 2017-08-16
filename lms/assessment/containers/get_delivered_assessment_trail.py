@@ -10,13 +10,23 @@ from lms.core.containers.response import (
 )
 
 
-class GetDeliveredAssessmentTrailRQ(object):
+class GetDeliveredAssessmentTrailRQ(PaginationMixinRQ):
 
     _trail_class_id = None
     _lms_student_id = None
     _category = None
 
-    def __init__(self, lms_trail_class_id, lms_student_id):
+    def __init__(
+        self,
+        lms_trail_class_id,
+        lms_student_id,
+        page=1,
+        page_size=10
+    ):
+
+        self._page = page
+
+        self._page_size = page_size
 
         if lms_student_id:
 
